@@ -1,6 +1,6 @@
 # ☀️ LinMo Blog
 
-  一个正在开发的React+TypeScript+Vite+SpringBoot博客
+  一个正在开发的React+TypeScript+SpringBoot博客
 
 ## ✨ 功能特性
 
@@ -16,6 +16,7 @@
 - React Reducer
 - Sass预编译器
 - Axios
+- Vite
 
 ### 后端
 - json-servre模拟接口（暂时）
