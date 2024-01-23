@@ -21,6 +21,22 @@
 ### 后端
 - json-servre模拟接口（暂时）
 
+## 项目结构
+```bash
+Blog/
+|-- server/
+|   |-- db.json    //json-server启动文件
+|-- src/
+|   |-- apis         //封装接口api
+|   |-- assets       //静态资源
+|   |-- conponents   //可复用组件
+|   |-- pages        //页面组件
+|   |-- router       //路由
+|   |-- store        //Redux状态管理库
+|-- package.json
+|-- README.md
+```
+
 ## 😉 预览
 
 ### Login页面
@@ -48,5 +64,3 @@
    //启动后端
    cd server
    json-server --watch db.json --port 3000   
-
-   //启动后端
