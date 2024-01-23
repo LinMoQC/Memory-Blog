@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+# ☀️ LinMo Blog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  一个正在开发的React+TypeScript+Vite+SpringBoot博客
 
-Currently, two official plugins are available:
+## ✨ 功能特性
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Login+后台页面UI
+- 登录逻辑+token持久化
+- Axios封装
 
-## Expanding the ESLint configuration
+## 👌 技术栈
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 前端
+- React + TypeScript
+- React Router
+- React Reducer
+- Axios
 
-- Configure the top-level `parserOptions` property like this:
+### 后端
+- json-servre模拟接口（暂时）
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 😉 预览
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Login页面
+![](./预览图/login.png)
+
+### 后台
+![](./预览图/admin1.png)
+![](./预览图/admin2.png)
+
+### 暗黑模式
+![](./预览图/admin3.png)
+![](./预览图/admin4.png)
+
+## 👉 安装
+
+1. 克隆项目到本地：
+
+   ```bash
+   git clone https://github.com/your-username/react-blog.git
+
+   //启动前端
+   cd LinMo
+   npm run dev
+
+   //启动后端
+   cd server
+   json-server --watch db.json --port 3000   
+
+   //启动后端
