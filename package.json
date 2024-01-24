@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@react-buddy/palette-antd": "^5.3.0",
     "@reduxjs/toolkit": "^2.0.1",
     "antd": "^5.13.2",
     "axios": "^1.6.5",
@@ -18,8 +20,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.21.3",
-    "@react-buddy/ide-toolbox": "^2.4.0",
-    "@react-buddy/palette-antd": "^5.3.0"
+    "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

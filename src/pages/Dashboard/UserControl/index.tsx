@@ -132,18 +132,17 @@ const UserControl = () => {
     ]
 
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: FieldType) => {
         console.log('Success:', values);
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
+    // const onFinishFailed = (errorInfo: FieldType) => {
+    //     console.log('Failed:', errorInfo);
+    // };
 
     type FieldType = {
         username?: string;
         password?: string;
-        remember?: string;
     };
 
     const isDark = JSON.parse(useContext(MainContext))
@@ -175,7 +174,7 @@ const UserControl = () => {
                     style={{ maxWidth: 600}}
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
+                    // onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
                     {ListTemp.filter(item => item.id === ListKey).map(item => item.content)}
