@@ -39,6 +39,8 @@ const Login: React.FC = () => {
         };
 
         try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             const result = await dispatch(fetchToken(data))
             console.log(result);
 
