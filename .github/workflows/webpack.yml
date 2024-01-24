@@ -18,7 +18,13 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Build
+    - name: Install Dependencies
       run: |
+        npm install -D webpack-cli
         npm install
-        npx webpack
+
+    - name: Audit and Fix Vulnerabilities
+      run: npm audit fix
+
+    - name: Build
+      run: npx webpack
