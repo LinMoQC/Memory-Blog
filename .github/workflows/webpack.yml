@@ -28,9 +28,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Run tests
-        run: npm run test  # 如果没有测试脚本，请将这行删除
-
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
         with:
