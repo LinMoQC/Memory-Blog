@@ -17,7 +17,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # 请确保选择适用于 Vite 的 Node.js 版本
+        node-version: '18'
 
     - name: Install Dependencies
       run: npm install
@@ -26,4 +26,4 @@ jobs:
       run: npm audit fix
 
     - name: Build with Vite
-      run: npm run build  # 假设你在 package.json 中有一个 "build" 脚本，用于构建 Vite 项目
+      run: npm run build 
