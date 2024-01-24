@@ -3,14 +3,133 @@ import { LockOutlined, UserOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from "antd/es/input/TextArea";
 import './index.sass'
 import MainContext from "../../../components/conText.tsx";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 const UserControl = () => {
-    const normFile = (e) => {
-        if (Array.isArray(e)) {
-            return e.slice(-1); // 返回数组中的最后一个元素，即上传的最后一个文件
+    const userControlList = [
+        {
+            id: 1,
+            name: '修改密码',
+        },
+        {
+            id: 2,
+            name: '修改账号',
+        },
+        {
+            id: 3,
+            name: '修改头像',
+        },
+        {
+            id: 4,
+            name: '修改签名',
         }
-        return e && e.fileList.slice(-1); // 返回文件列表中的最后一个文件
-    };
+
+    ]
+    const [ListKey,setListKey] = useState(1)
+    const ListTemp = [
+        {
+            id: 1,
+            content: <div>
+                <Form.Item
+                    name="oldPassword"
+                    label="原密码"
+                    rules={[{ required: true, message: '请输入原密码' }]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="原密码"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="newPassword"
+                    label="新密码"
+                    rules={[{ required: true, message: '请输入新密码' }]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="新密码"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="confirmPassword"
+                    label="确认密码"
+                    dependencies={['newPassword']}
+                    rules={[
+                        { required: true, message: '请确认新密码' },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('newPassword') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject('两次输入的密码不一致');
+                            },
+                        }),
+                    ]}
+                >
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="确认密码"
+                    />
+                </Form.Item>
+            </div>
+        },
+        {
+            id: 2,
+            content: <div>
+                <Form.Item
+                    name="name"
+                    label="昵称"
+                    className='FormDark'
+                >
+                    <Input  placeholder="Name" />
+                </Form.Item>
+
+                <Form.Item
+                    name="username"
+                    label="账号"
+                    rules={[{message: 'Please input your Username!' }]}
+
+                >
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                </Form.Item>
+            </div>
+        },
+        {
+            id: 3,
+            content: <div>
+                <Form.Item label="头像" name="avatar" valuePropName="fileList" getValueFromEvent={(e) => {
+                    if (Array.isArray(e)) {
+                        return e.slice(-1); // 返回数组中的最后一个元素，即上传的最后一个文件
+                    }
+                    return e && e.fileList.slice(-1);
+                }}>
+                    <Upload action="/upload.do" listType="picture-card">
+                        <button style={{ border: 0, background: 'none' }} type="button">
+                            <PlusOutlined />
+                            <div style={{ marginTop: 8 }}>Upload</div>
+                        </button>
+                    </Upload>
+                </Form.Item>
+            </div>
+        },
+        {
+            id: 4,
+            content: <div>
+                <Form.Item label="个性签名" name="remark">
+                    <TextArea
+                        showCount
+                        maxLength={100}
+                        placeholder="talk something..."
+                        style={{ height: 120, resize: 'none' }}
+                    />
+                </Form.Item>
+            </div>
+        }
+    ]
 
 
     const onFinish = (values: any) => {
@@ -39,6 +158,16 @@ const UserControl = () => {
                     },
                 }}
             >
+                <div className="mydict">
+                    <div>
+                        {userControlList.map(item => (
+                            <label key={item.id}>
+                                <input type="radio" name="radio" defaultChecked={item.id === 1} onClick={() => setListKey(item.id)}/>
+                                <span>{item.name}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
                 <Form
                     name="basic"
                     labelCol={{ span: 6 }}
@@ -49,54 +178,10 @@ const UserControl = () => {
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                 >
-                    <Form.Item
-                        name="name"
-                        label="昵称"
-                        className='FormDark'
-                    >
-                        <Input  placeholder="Name" />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="username"
-                        label="账号"
-                        rules={[{message: 'Please input your Username!' }]}
-
-                    >
-                        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-                    </Form.Item>
-                    <Form.Item
-                        name="password"
-                        label="密码"
-                        rules={[{ required: true, message: 'Please input your Password!' }]}
-                    >
-                        <Input
-                            prefix={<LockOutlined className="site-form-item-icon" />}
-                            type="password"
-                            placeholder="Password"
-                        />
-                    </Form.Item>
-                    <Form.Item label="头像" name="avatar" valuePropName="fileList" getValueFromEvent={normFile}>
-                        <Upload action="/upload.do" listType="picture-card">
-                            <button style={{ border: 0, background: 'none' }} type="button">
-                                <PlusOutlined />
-                                <div style={{ marginTop: 8 }}>Upload</div>
-                            </button>
-                        </Upload>
-                    </Form.Item>
-
-                    <Form.Item label="个性签名" name="remark">
-                        <TextArea
-                            showCount
-                            maxLength={100}
-                            placeholder="talk something..."
-                            style={{ height: 120, resize: 'none' }}
-                        />
-                    </Form.Item>
-
+                    {ListTemp.filter(item => item.id === ListKey).map(item => item.content)}
                     <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
                         <Button type="primary" htmlType="submit">
-                            提交
+                            保存
                         </Button>
                     </Form.Item>
                 </Form>

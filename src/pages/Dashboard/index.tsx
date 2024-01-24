@@ -104,11 +104,6 @@ const Dashboard = () => {
             {!loading ? (
                 <div className="loading-overlay">
                     <Spin tip="Loading..." className="loading">
-                        {/*<Alert*/}
-                        {/*    message="正在加载中..."*/}
-                        {/*    description="Further details about the context of this alert."*/}
-                        {/*    type="info"*/}
-                        {/*/>*/}
                     </Spin>
                 </div>
             ) : (
@@ -126,7 +121,7 @@ const Dashboard = () => {
                                 <p className="onesay">"渺沧海之一粟"</p>
                             </div>
                         </div>
-                        <i className="iconfont icon-iconfonticonfontarrowright toggle" onClick={handleToggleClick}></i>
+                        <i className="iconfont icon-iconfonticonfontarrowright toggle" onClick={handleToggleClick} style={{fontSize: 20}}></i>
                     </header>
 
                     <div className="menu-bar">

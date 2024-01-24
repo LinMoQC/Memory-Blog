@@ -95,7 +95,6 @@ body {
 }
 
 .text{
-    font: 500 17px;
     white-space: nowrap;
     opacity: 1;
 }
@@ -159,10 +158,10 @@ header{
     border-radius: 50%;
     display: flex;
     justify-content: center;
-    font-size: 15px;
+    padding: 1px;
+    font-size: 17px;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 20px;
     text-align: center;
 }
 
@@ -350,3 +349,5 @@ li.search-box input {
 .ant-card .ant-card-body{
     padding: 0;
 }
+
+
