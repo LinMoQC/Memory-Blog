@@ -33,18 +33,14 @@ const fetchToken = (data: UserData) => {
     return async (dispatch: Dispatch<PayloadAction<{ token: string }>>) => {
         try {
             const res = await http({
-                url: '/user',
-                method: 'GET',
+                url: '/api/login',
+                method: 'POST',
+                data: data
             });
 
-            if (data.account === res.data[0].account && data.password === res.data[0].password) {
-                dispatch(setToken({ token: res.data[0].token }));
-                return res.request;
-            } else {
-                return {
-                    status: 401,
-                };
-            }
+            const token = res.data.token;
+            dispatch(setToken({ token: token}));
+            return res.status;
         } catch (error) {
             // 处理错误
             console.error('Failed to fetch token:', error);

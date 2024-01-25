@@ -41,10 +41,8 @@ const Login: React.FC = () => {
         try {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            const result = await dispatch(fetchToken(data))
-            console.log(result);
-
-            if (result.status === 200) {
+            const status:number = await dispatch(fetchToken(data))
+            if (status === 200) {
                 message.success('登录成功');
                 navigate('/dashboard');
             } else {
