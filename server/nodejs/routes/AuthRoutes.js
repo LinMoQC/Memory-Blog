@@ -19,7 +19,7 @@ router.post('/login', (req, res) => {
         return res.status(401).json({ error: '账号或密码错误' });
     } else {
         // 生成 JWT 令牌
-        const token = jwt.sign({ account: user.account }, secretKey, { expiresIn: '30s' });
+        const token = jwt.sign({ account: user.account }, secretKey, { expiresIn: '1h' });
 
         // 将令牌作为响应发送
         res.json({ token });

@@ -1,8 +1,9 @@
 {
-  "name": "untitled",
+  "name": "linmoBlog",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "./",
   "scripts": {
     "dev": "vite",
     "test": "jest",
