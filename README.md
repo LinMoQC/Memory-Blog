@@ -20,7 +20,7 @@
 
 ### 后端
 - json-servre模拟接口（暂时）
-- Express框架的nodejs接口（暂时）
+- Express框架的nodejs接口（部署在了vercel上，可以本地运行）
 
 ## 项目结构
 ```bash
