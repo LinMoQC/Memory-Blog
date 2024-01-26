@@ -5,7 +5,7 @@
 ## ✨ 功能特性
 
 - Login+后台页面UI
-- 登录逻辑+token持久化
+- 登录逻辑+token持久化与过期处理
 - Axios封装
 
 ## 👌 技术栈
@@ -61,6 +61,10 @@ Blog/
    cd LinMo
    npm run dev
 
-   //启动后端
+   //启动后端--json-server
    cd server
-   json-server --watch db.json --port 3000   
+   json-server --watch db.json --port 3000
+
+   //启动后端--Express框架的nodejs接口
+   cd server/nodejs
+   nodemon app.js   
