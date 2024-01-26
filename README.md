@@ -65,6 +65,6 @@ Blog/
    cd server
    json-server --watch db.json --port 3000
 
-   //启动后端--Express框架的nodejs接口
+   //启动后端--Express框架的nodejs接口(二选一）
    cd server/nodejs
    nodemon app.js   
