@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import {AuthRouter} from "../components/AuthRouter.tsx";
@@ -10,7 +10,7 @@ import Friends from "../pages/Dashboard/Friends";
 import Analytics from "../pages/Dashboard/Analytics";
 import UserControl from "../pages/Dashboard/UserControl";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         index: true,
         element: <Login />
