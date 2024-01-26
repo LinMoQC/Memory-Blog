@@ -1,5 +1,4 @@
 const express = require('express');
-const getInfo = require('./middlewares/getInfo.js');
 const AuthRoutes = require('./routes/AuthRoutes.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');

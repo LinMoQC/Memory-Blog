@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: 'http://localhost:28',
+    baseURL: 'https://nodejs-liard.vercel.app/',
     timeout: 5000
 })
 
