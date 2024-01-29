@@ -2,19 +2,21 @@ import './index.sass'
 import dayjs from "dayjs";
 const TheYearPass = () => {
     const today = dayjs(new Date()).format('YYYY年HH月DD日')
-    const calculateYearProgress = () => {
-        const today = new Date();
-        const startOfYear = new Date(today.getFullYear(), 0, 1); // January 1st of the current year
-        const endOfYear = new Date(today.getFullYear() + 1, 0, 1); // January 1st of the next year
+    const calculateYearProgress = (): string => {
+        const today: Date = new Date();
+        const startOfYear: Date = new Date(today.getFullYear(), 0, 1); // January 1st of the current year
+        const endOfYear: Date = new Date(today.getFullYear() + 1, 0, 1); // January 1st of the next year
 
-        const totalDaysInYear = (endOfYear - startOfYear) / (24 * 60 * 60 * 1000); // milliseconds to days
-        const daysPassed = (today - startOfYear) / (24 * 60 * 60 * 1000); // milliseconds to days
+        const totalDaysInYear: number = (endOfYear.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000); // milliseconds to days
+        const daysPassed: number = (today.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000); // milliseconds to days
 
-        const percentage = (daysPassed / totalDaysInYear) * 100;
+        const percentage: number = (daysPassed / totalDaysInYear) * 100;
 
-        return percentage.toFixed(1); // 返回百分比并保留两位小数
-    }
-    const yearProgress = calculateYearProgress();
+        return percentage.toFixed(1); // Return the percentage as a string with one decimal place
+    };
+
+    const yearProgress: string = calculateYearProgress();
+
 
 
     return <div className="process_container">

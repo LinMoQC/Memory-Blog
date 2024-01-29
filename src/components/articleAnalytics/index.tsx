@@ -1,6 +1,7 @@
 import {Card, Col, Row, Statistic} from "antd";
 import CountUp from "react-countup";
 import './index.sass'
+import {FormatConfig} from "antd/es/statistic/utils";
 const ArticleAnalytics = () => {
     const list = [
         {
@@ -19,7 +20,10 @@ const ArticleAnalytics = () => {
             value: 22
         },
     ]
-    const formatter = (value: number) => <CountUp end={value} separator="," />
+    const formatter = (value: React.ReactText): React.ReactNode => (
+        <CountUp end={Number(value)} separator="," />
+    );
+
     return <>
         <div className="analyticsCard">
             {list.map(item => (
