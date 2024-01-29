@@ -1,4 +1,4 @@
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/faec8a12-a3d5-49b7-9c6b-031220624b3c)# ☀️ LinMo Blog
+# ☀️ LinMo Blog
 
   一个正在开发的React+TypeScript+SpringBoot博客
 
