@@ -1,4 +1,4 @@
-# ☀️ LinMo Blog
+![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/faec8a12-a3d5-49b7-9c6b-031220624b3c)# ☀️ LinMo Blog
 
   一个正在开发的React+TypeScript+SpringBoot博客
 
@@ -48,8 +48,8 @@ Blog/
 ![](./预览图/admin2.png)
 
 ### 暗黑模式
-![](./预览图/admin3.png)
-![](./预览图/admin4.png)
+![](./预览图/47aadcd93b0000114fdca80498faa6f.png)
+![](./预览图/7b3dc77d98748797b62b2d716c9037f.png)
 
 ## 👉 食用方法
 
