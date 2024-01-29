@@ -23,7 +23,7 @@ jobs:
           node-version: '18'  # 使用合适的 Node.js 版本，这里是 14.x，你也可以根据项目需要修改
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --force
 
       - name: Build project
         run: npm run build
