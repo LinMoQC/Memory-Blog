@@ -1,7 +1,7 @@
 import {Card, Col, Row, Statistic} from "antd";
 import CountUp from "react-countup";
 import './index.sass'
-import {FormatConfig} from "antd/es/statistic/utils";
+
 const ArticleAnalytics = () => {
     const list = [
         {
