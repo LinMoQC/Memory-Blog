@@ -15,7 +15,7 @@ const Dashboard = () => {
     const [api, contextHolder] = notification.useNotification();
     const [loading, setLoading] = useState(false);
     const openNotification = () => {
-        const key = `open${Date.now()}`;
+        const key = `open${Date.now()}`
         const btn = (
             <Space>
                 <Button type="link" size="small" onClick={() => api.destroy()}>
@@ -42,37 +42,43 @@ const Dashboard = () => {
             index: 1,
             name: '主页',
             icon: 'icon-shouyefill',
-            to: ''
+            to: '',
+            active: false
         },
         {
             index: 2,
             name: '笔记',
             icon: 'icon-yongyan',
-            to: 'notes'
+            to: 'notes',
+            active: false
         },
         {
             index: 3,
             name: '评论',
             icon: 'icon-pinglun4',
-            to: 'comments'
+            to: 'comments',
+            active: false
         },
         {
             index: 4,
             name: '图库',
             icon: 'icon-xiangce',
-            to: 'albums'
+            to: 'albums',
+            active: false
         },
         {
             index: 5,
             name: '友链圈',
             icon: 'icon-youlianguanli',
-            to: 'friends'
+            to: 'friends',
+            active: false
         },
         {
             index: 6,
             name: '数据板',
             icon: 'icon-zhexiantu',
-            to: 'analytics'
+            to: 'analytics',
+            active: false
         }
     ]
 
@@ -167,14 +173,14 @@ const Dashboard = () => {
                     </div>
                 </nav>
             </div>
+                    <div className={`content ${isDarkMode ? 'contentDark' : ''}`}>
+                        <Card style={{ width: 1400,height: 740 }} className={`Card ${isDarkMode ? 'CardDark' : ''}`}>
+                            <MainContext.Provider value={isDarkMode.toString()}>
+                                <Outlet />
+                            </MainContext.Provider>
+                        </Card>
+                    </div>
 
-            <div className={`content ${isDarkMode ? 'contentDark' : ''}`}>
-                <Card style={{ width: 1400,height: 740 }} className={`Card ${isDarkMode ? 'CardDark' : ''}`}>
-                    <MainContext.Provider value={isDarkMode.toString()}>
-                        <Outlet />
-                    </MainContext.Provider>
-                </Card>
-            </div>
             {contextHolder}
                 </>
                 )}
