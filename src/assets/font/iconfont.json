@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5387665",
+      "name": "闹钟",
+      "font_class": "naozhong",
+      "unicode": "eb29",
+      "unicode_decimal": 60201
+    },
+    {
+      "icon_id": "5896811",
+      "name": "地图-图钉",
+      "font_class": "ditu-tuding",
+      "unicode": "ec41",
+      "unicode_decimal": 60481
+    },
+    {
+      "icon_id": "10726014",
+      "name": "图钉",
+      "font_class": "tuding",
+      "unicode": "e909",
+      "unicode_decimal": 59657
+    },
+    {
+      "icon_id": "6527351",
+      "name": "stickup",
+      "font_class": "stickup",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "6717344",
+      "name": "sticky",
+      "font_class": "sticky",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "7478617",
+      "name": "stickup",
+      "font_class": "stickup1",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
       "icon_id": "1309",
       "name": "退出",
       "font_class": "tuichu",

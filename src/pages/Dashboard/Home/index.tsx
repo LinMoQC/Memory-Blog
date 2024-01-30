@@ -1,6 +1,6 @@
 import {Calendar, CalendarProps, Card, ConfigProvider, Progress, Space, theme} from "antd";
 import './index.sass';
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import dayjs, {Dayjs} from "dayjs";
 import 'dayjs/locale/zh-cn';
@@ -11,7 +11,9 @@ import ArticleAnalytics from "../../../components/articleAnalytics";
 import WordCloud from "../../../components/wordCloud";
 import avator from '../../../assets/avator.jpg'
 import Typed from 'typed.js';
+import MainContext from "../../../components/conText.tsx";
 const Home = () => {
+    const [ip,setIp] = useState('')
     const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
@@ -34,12 +36,16 @@ const Home = () => {
     useEffect(() => {
         const getSay = async () => {
             const res = await axios.get('https://zj.v.api.aa1.cn/api/wenan-zl/?type=json');
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            const myIP = data.ip;
+            setIp(myIP)
             setOneSay(res.data.msg);
         };
         getSay();
 
         const options = {
-            strings: ['"2024,继续加油!“'],  // 使用获取到的数据作为字符串
+            strings: ['"遇事不决，可问春风“'],  // 使用获取到的数据作为字符串
             typeSpeed: 50,
             backSpeed: 30,
         };
@@ -50,6 +56,7 @@ const Home = () => {
         };
     }, []);
 
+    const isDark = JSON.parse(useContext(MainContext))
         return (
         <div className="home">
             <div className="about_logo">
@@ -58,13 +65,13 @@ const Home = () => {
                     <div ref={typedRef} className="typed"></div>
                 </div>
                 <Space wrap style={{marginTop: 20}}>
-                    <Progress type="circle" percent={70} size={65} format={() => 'React'} />
-                    <Progress type="circle" percent={50} size={65} format={() => 'Vue'} />
-                    <Progress type="circle" percent={70} size={65} format={() => 'Nodejs'} />
+                    <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>CPU</span>}/>
+                    <Progress type="circle" percent={50} size={65} format={() => <span style={{color:isDark?"white":'black'}}>内存</span>} />
+                    <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>磁盘</span>} />
                 </Space>
             </div>
             <ArticleAnalytics />
-            <ArticleRecord/>
+            <ArticleRecord isDark={isDark}/>
             <WordCloud />
             <Card size="small" title={
                 <div className="custom-card-header">
@@ -86,8 +93,15 @@ const Home = () => {
                     <Calendar fullscreen={false} onPanelChange={onPanelChange}/>
                 </div>
             </ConfigProvider>
+
+            <Card className="cardInfo">
+                <h3>信息</h3>
+                <p>ip: {ip}</p>
+                <p>已不间断运行： 320小时</p>
+            </Card>
         </div>
     );
+
 };
 
 export default Home;
