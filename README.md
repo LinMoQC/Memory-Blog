@@ -30,7 +30,7 @@ Blog/
 |-- src/
 |   |-- apis         //封装接口api
 |   |-- assets       //静态资源
-|   |-- conponents   //可复用组件
+|   |-- components   //可复用组件
 |   |-- pages        //页面组件
 |   |-- router       //路由
 |   |-- store        //Redux状态管理库
