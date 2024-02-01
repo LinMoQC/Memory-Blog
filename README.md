@@ -64,6 +64,7 @@ Blog/
 
    //启动前端
    cd LinMo
+   npm install
    npm run dev
 
    //启动后端--json-server
