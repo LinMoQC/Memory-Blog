@@ -5,9 +5,10 @@ import '../../assets/font/iconfont.css';
 import avator from '../../assets/avator.jpg'
 import {Outlet, useNavigate} from "react-router-dom";
 import deleteToken from "../../apis/deleteToken.tsx";
-import {Button, Space, notification, message, Card,Spin} from "antd";
+import {Button, Space, notification, message, Card, Spin} from "antd";
 import MainContext from "../../components/conText.tsx";
 import Switch from "../../components/Switch";
+
 const Dashboard = () => {
     const navigate = useNavigate();
     const [isShellClosed, setShellClosed] = useState(true);
@@ -50,7 +51,27 @@ const Dashboard = () => {
             name: '笔记',
             icon: 'icon-yongyan',
             to: 'notes',
-            active: false
+            active: false,
+            children: [
+                {
+                    index: 201,
+                    name: '全部文章',
+                    to: 'allnotes',
+                },
+                {
+                    index: 202,
+                    name: '编辑文章',
+                    to: 'newnote',
+                },{
+                    index: 203,
+                    name: '全部分类',
+                    to: 'allcategorize',
+                },{
+                    index: 204,
+                    name: '全部标签',
+                    to: 'alltags',
+                },
+            ]
         },
         {
             index: 3,
@@ -105,6 +126,7 @@ const Dashboard = () => {
         localStorage.setItem("isDarkMode",String(!isDarkMode))
     };
 
+
     return (
         <div className={`contain ${isDarkMode ? 'dark' : ''}`}>
             {!loading ? (
@@ -139,7 +161,9 @@ const Dashboard = () => {
 
                             <ul className="menu-links">
                                 {sidebar.map(item => (
-                                    <li className="nav-links" key={item.index} onClick={() => navigate(item.to)}>
+                                    <li className="nav-links" key={item.index} onClick={() => {
+                                        navigate(item.to)
+                                    }}>
                                         <i className={`iconfont ${item.icon} icon`}></i>
                                         <span className="text nac-text">{item.name}</span>
                                     </li>

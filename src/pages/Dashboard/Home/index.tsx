@@ -1,4 +1,4 @@
-import {Calendar, CalendarProps, Card, ConfigProvider, Progress, Space, theme} from "antd";
+import {Calendar, CalendarProps, Card, ConfigProvider, Progress, Space, Steps, theme} from "antd";
 import './index.sass';
 import {useContext, useEffect, useRef, useState} from "react";
 import axios from "axios";
@@ -13,12 +13,11 @@ import avator from '../../../assets/avator.jpg'
 import Typed from 'typed.js';
 import MainContext from "../../../components/conText.tsx";
 const Home = () => {
-    const [ip,setIp] = useState('')
+    const [oneSay, setOneSay] = useState('');
     const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
     dayjs.locale('zh-cn');
-    const [oneSay, setOneSay] = useState('');
     const { token } = theme.useToken();
 
     const wrapperStyle: React.CSSProperties = {
@@ -35,17 +34,13 @@ const Home = () => {
 
     useEffect(() => {
         const getSay = async () => {
-            const res = await axios.get('https://zj.v.api.aa1.cn/api/wenan-zl/?type=json');
-            const response = await fetch('https://api.ipify.org?format=json');
-            const data = await response.json();
-            const myIP = data.ip;
-            setIp(myIP)
-            setOneSay(res.data.msg);
+            const res = await axios.get('https://api.xygeng.cn/one');
+            setOneSay(res.data.data.content);
         };
         getSay();
 
         const options = {
-            strings: ['"遇事不决，可问春风“'],  // 使用获取到的数据作为字符串
+            strings: ['"遇事不决,<br>&nbsp;可问春风“'],
             typeSpeed: 50,
             backSpeed: 30,
         };
@@ -95,9 +90,22 @@ const Home = () => {
             </ConfigProvider>
 
             <Card className="cardInfo">
-                <h3>信息</h3>
-                <p>ip: {ip}</p>
-                <p>已不间断运行： 320小时</p>
+                <h3 style={{marginLeft: 10,marginBottom:10,marginTop:5}}>开发进度</h3>
+                <Steps
+                    direction="vertical"
+                    current={1}
+                    items={[
+                        {
+                            title: '登录逻辑和后台页面UI',
+                        },
+                        {
+                            title: '静态数据完成后台功能逻辑',
+                        },
+                        {
+                            title: '后端接口开发',
+                        },
+                    ]}
+                />
             </Card>
         </div>
     );

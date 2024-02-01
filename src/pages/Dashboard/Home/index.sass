@@ -16,6 +16,7 @@
     margin-top: 0px
     margin-left: 30px
     margin-right: 30px
+    overflow: hidden
 
   .stick
     margin-left: -1px
@@ -41,7 +42,8 @@
       align-items: center
       .typed
         font-weight: 600
-        font-size: 15px
+        font-size: 20px
+        margin-left: 10px
 
 
   .ant-picker-calendar-mini
@@ -105,4 +107,12 @@
     height: 100px
     padding: 10px
     font-weight: 600
+    overflow-y: scroll
 
+    &::-webkit-scrollbar
+      width: 5px
+      height: 10px
+
+    &::-webkit-scrollbar-thumb
+      background: linear-gradient(to bottom right, #4d7fff 0%, #1a56ff 100%)
+      border-radius: 5px

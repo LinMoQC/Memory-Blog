@@ -20,6 +20,9 @@ body
     box-sizing: border-box
     overflow: hidden
     box-shadow: 3px 3px 5px 5px #dce6e9
+    @media only screen and (max-width: 768px)
+      width: 500px
+
 
     .back
       float: left
@@ -134,3 +137,10 @@ body
     background-position: 50% 50%
   100%
     background-position: 0 50%
+
+@media only screen and (max-width: 768px)
+  .container
+    .back
+      display: none
+    .LoginForm
+      width: 100%

@@ -1,8 +1,8 @@
 import './index.sass'
+import {Space, Tag} from "antd";
 interface ArticleRecordProps {
     isDark: string
 }
-
 const ArticleRecord = ({isDark}: ArticleRecordProps) => {
     const articleList = [
         {
@@ -50,11 +50,15 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
                     </div>
                     <div className="article_cord">
                         <h3>" {item.name} "</h3>
-                        <p style={{textAlign: "left" ,marginLeft: 25,marginTop: 10,marginRight: 60,color: 'color:' +
+                        <p style={{textAlign: "left" ,marginLeft: 25,marginTop: 8,marginRight: 60,color: 'color:' +
                                 ' rgba(0,0,0,.66)',textIndent: '2em'}}>{item.content}</p>
                         <div className="tags">
-                            {item.tags.map(tag => (
-                                <span key={tag} className="tag">{tag}</span>
+                            {item.tags.map((tag,index) => (
+                                <Space size={[0, 8]} wrap key={index}>
+                                    <Tag color="#55acee" style={{color: 'black'}}>
+                                        {tag}
+                                    </Tag>
+                                </Space>
                             ))}
                         </div>
                     </div>

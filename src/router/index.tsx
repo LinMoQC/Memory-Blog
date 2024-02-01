@@ -9,6 +9,10 @@ import Albums from "../pages/Dashboard/Albums";
 import Friends from "../pages/Dashboard/Friends";
 import Analytics from "../pages/Dashboard/Analytics";
 import UserControl from "../pages/Dashboard/UserControl";
+import AllNotes from "../pages/Dashboard/Notes/AllNotes";
+import NewNotes from "../pages/Dashboard/Notes/NewNotes";
+import AllCategorize from "../pages/Dashboard/Notes/AllCategorize";
+import AllTag from "../pages/Dashboard/Notes/AllTag";
 
 const router = createHashRouter([
     {
@@ -25,7 +29,25 @@ const router = createHashRouter([
             },
             {
                 path: 'notes',
-                element: <Notes />
+                element: <Notes />,
+                children: [
+                    {
+                        index: true,
+                        element: <AllNotes />
+                    },
+                    {
+                        path: 'newnote',
+                        element: <NewNotes />,
+                    },
+                    {
+                        path: 'allcategorize',
+                        element: <AllCategorize />
+                    },
+                    {
+                        path: 'alltags',
+                        element: <AllTag />
+                    }
+                ]
             },
             {
                 path: 'comments',
