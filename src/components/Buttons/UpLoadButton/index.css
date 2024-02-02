@@ -1,0 +1,60 @@
+.select {
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: #1554ad;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #3c89e8;
+}
+
+.select, .select span {
+    transition: 200ms;
+}
+
+.select .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+}
+
+.select .icon {
+    position: absolute;
+    border-left: 1px solid #2277ed;
+    transform: translateX(100px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.select svg {
+    width: 15px;
+    fill: #eee;
+}
+
+.select:hover {
+    background: #3c89e8;
+}
+
+.select:hover .text {
+    color: transparent;
+}
+
+.select:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(0);
+}
+
+.select:focus {
+    outline: none;
+}
+
+.select:active .icon svg {
+    transform: scale(0.8);
+}
