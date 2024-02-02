@@ -1,3 +1,7 @@
+//禁用状态伪元素去除
+.ant-picker-calendar .ant-picker-cell::before
+  display: none
+
 .oneSay
   width: 95%
   height: 70%
@@ -59,8 +63,13 @@
     &::before
       border: none
 
-  .ant-picker-calendar .ant-picker-panel .ant-picker-body
-    background-color: #fff1eb
+  .ant-picker-calendar
+    .ant-picker-cell-disabled
+      color: black
+      background-color: transparent
+    .ant-picker-panel
+      .ant-picker-body
+        background-color: #fff1eb
 
   .ant-card
     float: right

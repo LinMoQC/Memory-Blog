@@ -1,7 +1,9 @@
 import './index.sass'
 import dayjs from "dayjs";
 const TheYearPass = () => {
-    const today = dayjs(new Date()).format('YYYY年HH月DD日')
+    const today = dayjs(new Date()).format('YYYY年MM月DD日');
+
+    console.log(today)
     const calculateYearProgress = (): string => {
         const today: Date = new Date();
         const startOfYear: Date = new Date(today.getFullYear(), 0, 1); // January 1st of the current year

@@ -1,3 +1,10 @@
+//过度
+.in
+  opacity: 0
+  transform: translateY(-25px)
+  animation: fadeIn 1s forwards
+
+
 .articleRecord
   position: absolute
   left: 265px
@@ -54,6 +61,8 @@
         position: absolute
         left: -5px
         border-radius: 10px
+        transform: translateX(-5px)
+
 
       h3
         display: inline
@@ -69,3 +78,12 @@
         white-space: nowrap
         transition: all 0.8s ease!important
         line-height: 20px
+
+
+@keyframes fadeIn
+  from
+    opacity: 0
+    transform: translateY(-25px)
+  to
+    opacity: 1
+    transform: translateY(0)

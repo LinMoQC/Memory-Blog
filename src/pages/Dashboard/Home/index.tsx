@@ -2,7 +2,7 @@ import {Calendar, CalendarProps, Card, ConfigProvider, Progress, Space, Steps, t
 import './index.sass';
 import {useContext, useEffect, useRef, useState} from "react";
 import axios from "axios";
-import dayjs, {Dayjs} from "dayjs";
+import {Dayjs} from "dayjs";
 import 'dayjs/locale/zh-cn';
 import zhCN from "antd/lib/locale/zh_CN";
 import ArticleRecord from "../../../components/articleRecord";
@@ -14,11 +14,19 @@ import Typed from 'typed.js';
 import MainContext from "../../../components/conText.tsx";
 const Home = () => {
     const [oneSay, setOneSay] = useState('');
+    const { token } = theme.useToken();
+
+    //日历处理
     const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
-    dayjs.locale('zh-cn');
-    const { token } = theme.useToken();
+    const disabledDate = (current: Dayjs) => {
+        // 将current转换为JavaScript的Date对象
+        const currentDate = current.toDate();
+        // 返回true表示禁用当前日期
+        return currentDate && currentDate.getTime() !== new Date().getTime();
+    };
+
 
     const wrapperStyle: React.CSSProperties = {
         width: 350,
@@ -40,9 +48,12 @@ const Home = () => {
         getSay();
 
         const options = {
-            strings: ['"遇事不决,<br>&nbsp;可问春风“'],
+            strings: ['"遇事不决,<br>&nbsp;可问春风“','"春风不语,<br>&nbsp;即随本心“'],
             typeSpeed: 50,
-            backSpeed: 30,
+            backSpeed: 50,
+            showCursor: false, // Ensure that the cursor is visible
+            cursorChar: '|', // You can customize the cursor character
+            contentType: 'html', // Specify that the input strings contain HTML markup
         };
 
         const typedInstance = new Typed(typedRef.current, options);
@@ -85,7 +96,7 @@ const Home = () => {
             <ConfigProvider locale={zhCN}>
                 <div style={wrapperStyle}>
                     <TheYearPass/>
-                    <Calendar fullscreen={false} onPanelChange={onPanelChange}/>
+                    <Calendar fullscreen={false} onPanelChange={onPanelChange} disabledDate={disabledDate}/>
                 </div>
             </ConfigProvider>
 

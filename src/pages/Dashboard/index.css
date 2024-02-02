@@ -2,6 +2,17 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+}
+
+*::-webkit-scrollbar{
+    width: 5px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-thumb{
+    background: linear-gradient(to bottom right, #4d7fff 0%, #1a56ff 100%);
+    border-radius: 5px;
 }
 
 .contain{

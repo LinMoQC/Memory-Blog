@@ -1,13 +1,17 @@
 import './index.sass'
-import {Breadcrumb, Menu, MenuProps} from "antd";
+import {Breadcrumb, ConfigProvider, Menu, MenuProps} from "antd";
 import {AppstoreOutlined} from "@ant-design/icons";
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
-import {Outlet, useNavigate} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import MainContext from "../../../components/conText.tsx";
 
 
 const Notes = () => {
     const navigate = useNavigate()
     type MenuItem = Required<MenuProps>['items'][number];
+    //夜间模式判断
+    const isDark = JSON.parse(useContext(MainContext))
     function getItem(
         label: React.ReactNode,
         key?: React.Key | null,
@@ -40,34 +44,56 @@ const Notes = () => {
     // 获取当前路由的 title
     const currentHash = window.location.hash;
     return <>
-        <div className="header">
-            <Menu style={{ width: 125 }} mode="vertical" items={items} className="twoMenu" onClick={ClickMenu} defaultSelectedKeys={['1']}  theme={"light"}/>
-            <Breadcrumb
-                items={[
-                    {
-                        href: '',
-                        title: <HomeOutlined />,
+        <ConfigProvider
+            theme={{
+                components: {
+                    Menu: {
+                        itemSelectedColor: isDark?'rgba(243,243,243,0.88)':'rgba(0,0,0,0.88)',
+                        itemSelectedBg: isDark?'rgba(0,0,0,0.58)':'#e6f4ff'
                     },
-                    {
-                        title: (
-                            <>
-                                <UserOutlined />
-                                <span>笔记</span>
-                            </>
-                        ),
-                    },
-                    {
-                        title: currentHash === '#/dashboard/notes' ? '全部文章' :
-                            currentHash === '#/dashboard/notes/' ? '全部文章' :
-                            currentHash === '#/dashboard/notes/newnote' ? '编辑文章' :
-                                currentHash === '#/dashboard/notes/allcategorize' ? '全部分类' :
-                                    currentHash === '#/dashboard/notes/alltags' ? '全部标签' :
-                                        '未知页面',
-                    },
-                ]}
-                style={{marginLeft:10}}
-            />
-        </div>
+                    Breadcrumb: {
+                        itemColor: isDark?'rgba(243,243,243,0.88)':'rgba(0,0,0,0.88)',
+                        lastItemColor: isDark?'rgba(243,243,243,0.88)':'rgba(0,0,0,0.88)',
+                        linkColor: isDark?'rgba(243,243,243,0.88)':'rgba(0,0,0,0.88)',
+                        separatorColor: isDark?'rgba(243,243,243,0.45)':'rgba(0,0,0,0.45)',
+                    }
+                },
+            }}
+        >
+            <div className="header">
+
+                <Menu style={{ width: 125}} mode="vertical" items={items} className="twoMenu" onClick={ClickMenu} defaultSelectedKeys={['1']}  theme={"light"}/>
+                <Breadcrumb style={{ marginLeft: 10 }}>
+                    <Breadcrumb.Item>
+                        <Link to="/dashboard">
+                            <HomeOutlined />
+                        </Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <Link to="/dashboard/notes">
+                            <UserOutlined />
+                            <span>笔记</span>
+                        </Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        {currentHash === '#/dashboard/notes' ? (
+                            '全部文章'
+                        ) : currentHash === '#/dashboard/notes/' ? (
+                            '全部文章'
+                        ) : currentHash === '#/dashboard/notes/newnote' ? (
+                            '编辑文章'
+                        ) : currentHash === '#/dashboard/notes/allcategorize' ? (
+                            '全部分类'
+                        ) : currentHash === '#/dashboard/notes/alltags' ? (
+                            '全部标签'
+                        ) : (
+                            '未知页面'
+                        )}
+                    </Breadcrumb.Item>
+                </Breadcrumb>
+            </div>
+        </ConfigProvider>
+
         <Outlet />
     </>
 }

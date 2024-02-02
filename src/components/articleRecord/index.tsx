@@ -43,7 +43,7 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
         <div className="articleRecordBox">
             <h3>最新文章</h3>
             {articleList.map(item => (
-                <div className="articleRecordCard" key={item.index} style={{background: isDark ? 'rgba(0,0,0,0.33)' : 'rgba(255,255,255,0.33)',}}>
+                <div className="articleRecordCard in" key={item.index} style={{background: isDark ? 'rgba(0,0,0,0.33)' : 'rgba(255,255,255,0.33)'}}>
                     <div className="post-date">
                         <span><i className="iconfont icon-naozhong icon" style={{ fontSize: 22, display: 'inline',verticalAlign: 'middle' }}></i>
     发布于6天前</span>

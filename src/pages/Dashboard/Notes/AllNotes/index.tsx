@@ -405,7 +405,17 @@ const AllNotes = () => {
                 <div style={listStyle} className="searchRes">
                     <Menu mode="horizontal" items={items} defaultSelectedKeys={['All']}/>
                     <div style={{ overflowX: 'auto' }}>
-                        <Table columns={columns} dataSource={Notesdata} pagination={{ pageSize: 4 }} rowSelection={rowSelection} />
+                        <ConfigProvider
+                            theme={{
+                                components: {
+                                    Table: {
+                                       // headerBg: '#8dc5f8'
+                                    },
+                                },
+                            }}
+                        >
+                            <Table columns={columns} dataSource={Notesdata} pagination={{ pageSize: 4 }} rowSelection={rowSelection} />
+                        </ConfigProvider>
                     </div>
                 </div>
             </div>

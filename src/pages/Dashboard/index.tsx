@@ -75,7 +75,7 @@ const Dashboard = () => {
         },
         {
             index: 3,
-            name: '评论',
+            name: '说说',
             icon: 'icon-pinglun4',
             to: 'comments',
             active: false
