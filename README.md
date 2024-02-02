@@ -55,6 +55,10 @@ Blog/
 ![](./预览图/ca47cdbe89724673ce6d729b9c96d15.png)
 ![](./预览图/8aa529549653d4ba2651ba6d0e3bb1c.png)
 
+### 说说
+![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/2ef3a816-6aa3-43dd-860d-6e014a4de4c7)
+
+
 ## 👉 食用方法
 
 1. 克隆项目到本地：
