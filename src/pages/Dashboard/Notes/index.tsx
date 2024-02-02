@@ -33,6 +33,7 @@ const Notes = () => {
     ];
 
     const ClickMenu: MenuProps['onClick'] = (e) => {
+        // @ts-ignore
         navigate(e.item.props.to)
     };
 

@@ -22,6 +22,7 @@ const plugins = [
 
 const Editor_ = () => {
     const [value, setValue] = useState('')
+    // @ts-ignore
     const handleImageUpload = async (file) => {
         try {
             // Implement your image upload logic here, for example using FormData and fetch
@@ -52,6 +53,7 @@ const Editor_ = () => {
                 onChange={(v) => {
                     setValue(v)
                 }}
+                // @ts-ignore
                 uploadImages={(e) => handleImageUpload(e)}
             />
 

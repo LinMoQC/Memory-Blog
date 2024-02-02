@@ -107,7 +107,7 @@ const TagsData: myTreeNode[] = [
 const AllTag = () => {
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
     const [level,setLevel] = useState('level_1')
-    const onSelect = (selectedKeysValue: React.Key[], info: any) => {
+    const onSelect = (selectedKeysValue: React.Key[]) => {
         setSelectedKeys(selectedKeysValue);
     };
 
