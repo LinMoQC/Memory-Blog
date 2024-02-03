@@ -9,16 +9,9 @@ import {Button, Space, notification, message, Card, Spin} from "antd";
 import MainContext from "../../components/conText.tsx";
 import Switch from "../../components/Switch";
 
-const currentHashCode =
-    location.hash === '#/dashboard'?1:
-        location.hash === '#/dashboard/notes'?2:
-            location.hash==='#/dashboard/comments'?3:
-                location.hash==='#/dashboard/albums'?4:
-                    location.hash==='#/dashboard/analytics'?5:1
-
 const Dashboard = () => {
     const navigate = useNavigate();
-    const [SelectCurrent,setSelectCurrent] = useState(currentHashCode)
+    const [SelectCurrent,setSelectCurrent] = useState(1)
     const [isShellClosed, setShellClosed] = useState(true);
     const [isDarkMode, setDarkMode] = useState(false);
     const [api, contextHolder] = notification.useNotification();
@@ -114,6 +107,16 @@ const Dashboard = () => {
     //初始渲染
     useEffect(() => {
         const DarkSwitch = localStorage.getItem('isDarkMode')
+        const currentHashCode =
+            location.hash === '#/dashboard' ? 1 :
+                location.hash === '#/dashboard/notes' ? 2 :
+                    location.hash === '#/dashboard/comments' ? 3 :
+                        location.hash === '#/dashboard/albums' ? 4 :
+                            location.hash === '#/dashboard/friends' ? 5 :
+                                location.hash === '#/dashboard/analytics' ? 6 :
+                                    location.hash.startsWith('#/dashboard/notes') ? 2 : 1;
+
+        setSelectCurrent(currentHashCode)
         setLoading(true);
         if(DarkSwitch!==null){
             setDarkMode(JSON.parse(DarkSwitch));

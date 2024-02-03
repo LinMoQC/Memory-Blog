@@ -21,13 +21,15 @@
     font-weight: bold;
 }
 
-.select .icon {
+.select .iconNew {
     position: relative;
     border-left: 1px solid #2277ed;
+    padding-left: 20px;
+    padding-top: 5px;
     transform: translateX(70px);
     height: 40px;
     width: 40px;
-    /*display: flex;*/
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -45,16 +47,16 @@
     color: transparent;
 }
 
-.select:hover .icon {
+.select:hover .iconNew {
     width: 150px;
     border-left: none;
-    transform: translateX(-10px);
+    transform: translateX(-20px);
 }
 
 .select:focus {
     outline: none;
 }
 
-.select:active .icon svg {
+.select:active .iconNew svg {
     transform: scale(0.8);
 }

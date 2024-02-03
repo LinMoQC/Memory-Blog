@@ -1,48 +1,53 @@
+
 import './index.sass'
 import {Breadcrumb, ConfigProvider, Menu, MenuProps} from "antd";
 import {AppstoreOutlined} from "@ant-design/icons";
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import {Link, Outlet, useNavigate} from "react-router-dom";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import MainContext from "../../../components/conText.tsx";
 
+//Menu数据
+type MenuItem = Required<MenuProps>['items'][number];
+function getItem(
+    label: React.ReactNode,
+    key?: React.Key | null,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+    to?: string
+): MenuItem {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        to
+    } as MenuItem;
+}
+const items: MenuItem[] = [
+    getItem('导航', 'sub2', <AppstoreOutlined />, [
+        getItem('全部文章', '1','',undefined,' '),
+        getItem('编辑文章', '2','',undefined,'newnote'),
+        getItem('全部分类', '3','',undefined,'allcategorize'),
+        getItem('全部标签', '4','',undefined,'alltags'),
+    ]),
+];
 
 const Notes = () => {
     const navigate = useNavigate()
-    type MenuItem = Required<MenuProps>['items'][number];
+    const [currentHashCode,setCurrentHashCode] = useState('')
     //夜间模式判断
     const isDark = JSON.parse(useContext(MainContext))
-    function getItem(
-        label: React.ReactNode,
-        key?: React.Key | null,
-        icon?: React.ReactNode,
-        children?: MenuItem[],
-        to?: string
-    ): MenuItem {
-        return {
-            key,
-            icon,
-            children,
-            label,
-            to
-        } as MenuItem;
-    }
-    const items: MenuItem[] = [
-        getItem('导航', 'sub2', <AppstoreOutlined />, [
-            getItem('全部文章', '1','',undefined,' '),
-            getItem('编辑文章', '2','',undefined,'newnote'),
-            getItem('全部分类', '3','',undefined,'allcategorize'),
-            getItem('全部标签', '4','',undefined,'alltags'),
-        ]),
-    ];
+
+    useEffect(() => {
+       setCurrentHashCode(location.hash)
+    },[])
 
     const ClickMenu: MenuProps['onClick'] = (e) => {
         // @ts-ignore
         navigate(e.item.props.to)
     };
 
-    // 获取当前路由的 title
-    const currentHash = window.location.hash;
     return <>
         <ConfigProvider
             theme={{
@@ -62,7 +67,15 @@ const Notes = () => {
         >
             <div className="header">
 
-                <Menu style={{ width: 125}} mode="vertical" items={items} className="twoMenu" onClick={ClickMenu} defaultSelectedKeys={['1']}  theme={"light"}/>
+                <Menu
+                    style={{ width: 125 }}
+                    mode="vertical"
+                    items={items}
+                    className="twoMenu"
+                    onClick={ClickMenu}
+                    defaultSelectedKeys={['1']}
+                    theme="light"
+                />
                 <Breadcrumb style={{ marginLeft: 10 }}>
                     <Breadcrumb.Item>
                         <Link to="/dashboard">
@@ -76,15 +89,15 @@ const Notes = () => {
                         </Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        {currentHash === '#/dashboard/notes' ? (
+                        {currentHashCode === '#/dashboard/notes' ? (
                             '全部文章'
-                        ) : currentHash === '#/dashboard/notes/' ? (
+                        ) : currentHashCode === '#/dashboard/notes/' ? (
                             '全部文章'
-                        ) : currentHash === '#/dashboard/notes/newnote' ? (
+                        ) : currentHashCode === '#/dashboard/notes/newnote' ? (
                             '编辑文章'
-                        ) : currentHash === '#/dashboard/notes/allcategorize' ? (
+                        ) : currentHashCode === '#/dashboard/notes/allcategorize' ? (
                             '全部分类'
-                        ) : currentHash === '#/dashboard/notes/alltags' ? (
+                        ) : currentHashCode === '#/dashboard/notes/alltags' ? (
                             '全部标签'
                         ) : (
                             '未知页面'

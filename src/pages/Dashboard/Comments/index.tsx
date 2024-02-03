@@ -1,5 +1,5 @@
 import './index.sass'
-import {Avatar, Card, Col, Form, Input, Modal, Popconfirm, Row} from "antd";
+import {Avatar, Card, Col, Form, Input, message, Modal, Popconfirm, Row} from "antd";
 import { EditOutlined,DeleteOutlined  } from '@ant-design/icons';
 // import Meta from "antd/es/card/Meta";
 import avator from '../../../assets/avator.jpg'
@@ -90,19 +90,23 @@ const talks :Talk[] = [
 
 const Comments = () => {
     //修改弹出窗口
+    const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
+    const [staticDate,setStaticDate] = useState(talks)
 
     const showModal = () => {
         setOpen(true);
     };
 
     const handleOk = () => {
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-        }, 2000);
+        form.validateFields().then(() => {
+            setConfirmLoading(true);
+            // 这里替换成你的提交逻辑
+            onFinish();
+            message.success('发布成功')
+            setOpen(false)
+        });
     };
 
     const handleCancel = () => {
@@ -121,6 +125,26 @@ const Comments = () => {
         },
     };
 
+    //确认逻辑
+    const confirm = (key:number) => {
+        console.log(key)
+        setStaticDate(staticDate.filter(item => item.key!==key))
+    }
+
+    //表单提交
+    const onFinish = () => {
+        // 获取整个表单的值
+        const formValues = form.getFieldsValue();
+        const key = staticDate.length+1
+        const date = {
+            ...formValues,
+            key: key
+        }
+        setStaticDate([
+            ...staticDate,
+            date
+        ])
+    };
 
 
     return <div className='Comments_Body'>
@@ -142,7 +166,7 @@ const Comments = () => {
                 <DeleteButton />
             </div>
             <Row gutter={16} style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
-                {talks.map(talk => (
+                {staticDate.map(talk => (
                     <Col key={talk.key}>
                         <Card
                             hoverable
@@ -153,7 +177,7 @@ const Comments = () => {
                                 <Popconfirm
                                     title="删除确认"
                                     description="确定删除此说说?"
-                                    // onConfirm={confirm}
+                                    onConfirm={()=>confirm(talk.key)}
                                     // onCancel={cancel}
                                     okText="Yes"
                                     cancelText="No"
@@ -182,7 +206,7 @@ const Comments = () => {
                 okText='提交'
                 cancelText='取消'
             >
-                <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }}>
+                <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }} onFinish={onFinish} form={form}>
                     <Form.Item label="标题" name="title">
                         <Input />
                     </Form.Item>
