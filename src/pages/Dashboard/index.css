@@ -364,3 +364,9 @@ li.search-box input {
 }
 
 
+/*选中状态*/
+.nav_select{
+    background-color: #b7dcfa;
+    border-radius: 6px;
+    transition: 0.5s;
+}

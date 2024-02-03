@@ -9,8 +9,16 @@ import {Button, Space, notification, message, Card, Spin} from "antd";
 import MainContext from "../../components/conText.tsx";
 import Switch from "../../components/Switch";
 
+const currentHashCode =
+    location.hash === '#/dashboard'?1:
+        location.hash === '#/dashboard/notes'?2:
+            location.hash==='#/dashboard/comments'?3:
+                location.hash==='#/dashboard/albums'?4:
+                    location.hash==='#/dashboard/analytics'?5:1
+
 const Dashboard = () => {
     const navigate = useNavigate();
+    const [SelectCurrent,setSelectCurrent] = useState(currentHashCode)
     const [isShellClosed, setShellClosed] = useState(true);
     const [isDarkMode, setDarkMode] = useState(false);
     const [api, contextHolder] = notification.useNotification();
@@ -161,8 +169,10 @@ const Dashboard = () => {
 
                             <ul className="menu-links">
                                 {sidebar.map(item => (
-                                    <li className="nav-links" key={item.index} onClick={() => {
+                                    <li className={`nav-links ${SelectCurrent === item.index ? 'nav_select' : ''}`}
+                                        onClick={() => {
                                         navigate(item.to)
+                                        setSelectCurrent(item.index)
                                     }}>
                                         <i className={`iconfont ${item.icon} icon`}></i>
                                         <span className="text nac-text">{item.name}</span>

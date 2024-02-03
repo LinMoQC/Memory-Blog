@@ -1,12 +1,16 @@
 import './index.css'
 import {useState} from "react";
 
-const SearchButton = () => {
+interface SearchButtonProps {
+    style: { marginLeft: string }
+}
+
+const SearchButton = ({style}: SearchButtonProps) => {
     const [isChecked, setChecked] = useState(true);
 
 
 
-    return <div className="search_container">
+    return <div className="search_container" style={{marginLeft: style.marginLeft}}>
         <input className="checkbox" type="checkbox" checked={isChecked} onChange={() => setChecked(!isChecked)}/>
             <div className="mainbox">
                 <div className="iconContainer">

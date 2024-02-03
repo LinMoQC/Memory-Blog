@@ -22,12 +22,12 @@
 }
 
 .select .icon {
-    position: absolute;
+    position: relative;
     border-left: 1px solid #2277ed;
-    transform: translateX(100px);
+    transform: translateX(70px);
     height: 40px;
     width: 40px;
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     justify-content: center;
 }
@@ -48,7 +48,7 @@
 .select:hover .icon {
     width: 150px;
     border-left: none;
-    transform: translateX(0);
+    transform: translateX(-10px);
 }
 
 .select:focus {

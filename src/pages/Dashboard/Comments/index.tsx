@@ -137,11 +137,11 @@ const Comments = () => {
                 <NewButton onClick={showModal}/>
                 <div style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}>
                     <h2> <i className="iconfont icon-pinglun4" style={{ fontWeight: '100', fontSize: 50, color: '#13a8a8' }} /> 说说  </h2>
-                    <SearchButton />
+                    <SearchButton style={{marginLeft: '50px'}}/>
                 </div>
                 <DeleteButton />
             </div>
-            <Row gutter={16} style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-around' }}>
+            <Row gutter={16} style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
                 {talks.map(talk => (
                     <Col key={talk.key}>
                         <Card
@@ -157,6 +157,7 @@ const Comments = () => {
                                     // onCancel={cancel}
                                     okText="Yes"
                                     cancelText="No"
+                                    style={{position: 'absolute'}}
                                 >
                                     <DeleteOutlined key="delete" />
                                 </Popconfirm>

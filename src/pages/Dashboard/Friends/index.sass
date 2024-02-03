@@ -1,0 +1,111 @@
+.link-title
+  text-decoration: underline wavy #ce7397
+  display: inline
+.link-items
+  margin-top: 20px
+  height: 100%
+  display: flex
+  flex-direction: row
+  justify-content: space-around
+  .link-item
+    width: 13%
+    height: 30%
+    float: left
+    box-shadow: 0 1px 30px -4px #727272
+    background: rgba(255, 255, 255, 0.5)
+    padding: 12px 12px
+    margin: 12px 12px
+    position: relative
+    overflow: hidden
+    -webkit-transition: all .8s
+    transition: all .8s
+    border-radius: 10px
+    border: 1.5px solid #FFFFFF
+
+    &:hover
+      float: left
+      box-shadow: 0 1px 20px 10px #727272
+      background: rgba(255, 255, 255, 0.8)
+      padding: 12px 12px
+      margin: 12px 12px
+      position: relative
+      overflow: hidden
+      -webkit-transition: all .8s
+      transition: all .8s
+      border-radius: 10px
+
+    .link-item-inner
+      background-color: transparent
+      text-decoration: none
+      outline: 0
+      -webkit-transition: color .2s ease-out, border .2s ease-out, opacity .2s ease-out
+      -moz-transition: color .2s ease-out, border .2s ease-out, opacity .2s ease-out
+      transition: color .2s ease-out, border .2s ease-out, opacity .2s ease-out
+      word-break: break-word
+
+    .sitename
+      font-size: 20px
+      margin-top: 84px
+      margin-left: 8px
+      margin-right: 8px
+      color: #505050
+      padding-bottom: 10px
+      display: block
+      -webkit-transition: all .3s
+      transition: all .3s
+      overflow: hidden
+      text-overflow: ellipsis
+      -o-text-overflow: ellipsis
+      white-space: nowrap
+      font-weight: 300
+      text-underline-offset: 10px
+      text-decoration: underline wavy #795da3
+
+    .linkdes
+      font-size: 14px
+      margin-left: 8px
+      margin-right: 8px
+      text-overflow: ellipsis
+      color: #505050
+      overflow: hidden
+      white-space: nowrap
+      line-height: 30px
+      -webkit-transition: all .5s
+      transition: all .5s
+
+    .lazyload
+      float: left
+      padding: 1px
+      opacity: 1
+      transform: rotate(0)
+      -webkit-transform: rotate(0)
+      -moz-transform: rotate(0)
+      -o-transform: rotate(0)
+      -ms-transform: rotate(0)
+      transition: all ease 1s
+      -webkit-transition: all ease 1s
+      -moz-transition: all ease 1s
+      -o-transition: all ease 1s
+      margin-top: 3px
+      margin-left: 3px
+      margin-right: 3px
+      width: 90px
+      height: 90px
+      border-radius: 100%
+
+
+.resCard
+  background-color: rgba(255,255,255,0.66)
+  transition: 0.3s
+  &:hover
+    transform: scale(1.1)
+
+  .ant-card-meta-title
+    font-size: 22px
+  .ant-card-body
+    padding: 10px
+    .ant-avatar-image
+      height: 80px
+      width: 80px
+
+

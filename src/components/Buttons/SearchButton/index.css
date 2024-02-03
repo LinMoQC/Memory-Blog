@@ -2,7 +2,6 @@
     position: relative;
     box-sizing: border-box;
     width: fit-content;
-    margin-left: 10px;
 }
 
 .mainbox {
@@ -15,7 +14,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 160px;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(19, 168, 168);
     transition: all 0.3s ease;
 }
 

@@ -22,9 +22,9 @@
 }
 
 .noselect .icon {
-    position: absolute;
+    position: relative;
     border-left: 1px solid #c41b1b;
-    transform: translateX(100px);
+    transform: translateX(70px);
     height: 40px;
     width: 40px;
     display: flex;
@@ -48,7 +48,7 @@
 .noselect:hover .icon {
     width: 150px;
     border-left: none;
-    transform: translateX(0);
+    transform: translateX(-10px);
 }
 
 .noselect:focus {
