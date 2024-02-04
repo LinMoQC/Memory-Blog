@@ -139,11 +139,11 @@ const Comments = () => {
                 }
             });
             setStaticDate(updatedData);
+            message.success('修改成功')
             setEdit(0);
             form.resetFields();
             setOpen(false);
         } else {
-            console.log('发布');
             form.validateFields().then(() => {
                 setConfirmLoading(true);
                 // 这里替换成你的提交逻辑
@@ -175,8 +175,8 @@ const Comments = () => {
 
     //确认逻辑
     const confirm = (key:number) => {
-        console.log(key)
         setStaticDate(staticDate.filter(item => item.key!==key))
+        message.success('删除成功')
     }
 
     //表单提交

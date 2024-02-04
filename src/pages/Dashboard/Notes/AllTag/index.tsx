@@ -8,7 +8,7 @@ import {
     Tag,
     Tree,
     TreeDataNode,
-    Alert,
+    Alert, message,
 } from "antd";
 import React, {useRef, useState} from "react";
 import {TagsOutlined} from '@ant-design/icons'
@@ -145,11 +145,13 @@ const AllTag = () => {
         setStaticDate(staticDate.filter(tag => {
             // 如果当前标签被选中，直接过滤掉
             if (selectedKeys.includes(tag.key)) {
+                message.success('删除成功')
                 return false;
             }
             // 如果当前标签是一个父标签，并且其下有子标签被选中，则过滤掉
             if (tag.children && tag.children.some(child => selectedKeys.includes(child.key))) {
                 tag.children = tag.children.filter(child => !selectedKeys.includes(child.key));
+                message.success('删除成功')
             }
             return true;
         }));
@@ -172,6 +174,7 @@ const AllTag = () => {
                 ...staticDate,
                 newTag
             ])
+            message.success('添加成功')
         } else {
             const fatherTag = staticDate.find(item => item.key === values.parentTag);
             if (fatherTag) {
@@ -183,7 +186,7 @@ const AllTag = () => {
                 }
                 // @ts-ignore
                 fatherTag.children.push(newTag); // 将新标签添加到父标签的 children 数组中
-                console.log(fatherTag.children)
+                message.success('添加成功')
                 setStaticDate([...staticDate]); // 更新 staticDate 状态
             }
         }

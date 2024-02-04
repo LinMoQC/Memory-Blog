@@ -89,13 +89,15 @@ const  AllCategorize = () => {
     const [isEdit,setEdit] = useState('0')
     const [form] = Form.useForm();
     //删除逻辑
-    const Delte = (key:number) => {
+    const Delete = (key:number) => {
         setStaticDate(staticDate.filter(item => item.key!==key.toString()))
+        message.success('删除成功')
     }
 
     const DeleteAll = () => {
         setStaticDate(staticDate.filter(item => !selectedRowKeys.includes(item.key)))
         setSelectedRowKeys([])
+        message.success('删除成功')
     }
 
     //编辑逻辑
@@ -113,7 +115,6 @@ const  AllCategorize = () => {
     //表单提交
     const onfinish = () => {
         // 获取整个表单的值
-
         const {categorie,introduce,categorie_icon,categorie_color} = form.getFieldsValue();
         const key = staticDate.length+1
         const date:CategorieType = {
@@ -177,7 +178,7 @@ const  AllCategorize = () => {
             render: (item) => (
                 <Space size="middle">
                     <Button type='primary' onClick={() => Change_Categorie(item)}>编辑</Button>
-                    <Button type='primary' style={{background: '#f5222d'}} onClick={() => Delte(item.key)}>删除</Button>
+                    <Button type='primary' style={{background: '#f5222d'}} onClick={() => Delete(item.key)}>删除</Button>
                 </Space>
             ),
         },
@@ -237,6 +238,7 @@ const  AllCategorize = () => {
                 }
             });
             setStaticDate(updatedData);
+            message.success('修改成功')
             setEdit('0');
             form.resetFields();
             setOpen(false);

@@ -95,6 +95,8 @@ const Albums = () => {
             prevStaticDate.filter(item => !keysToDelete.includes(item.key.toString()))
         ));
 
+        message.success('删除成功')
+
         // 删除完毕后清空 checkStatus
         setCheckStatus({});
         setSelectDelete(0)

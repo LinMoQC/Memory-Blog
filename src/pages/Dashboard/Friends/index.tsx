@@ -1,5 +1,5 @@
 import './index.sass';
-import { Avatar, Card, Tabs } from "antd";
+import {Avatar, Card, message, Tabs} from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import avator from "../../../assets/avator.jpg";
 import CheckButton from "../../../components/Buttons/CheckButton";
@@ -102,6 +102,7 @@ const Friends = () => {
         ));
 
         // 删除完毕后清空 checkStatus
+        message.success('删除成功')
         setCheckStatus({});
         setSelectDelete(0)
     }
@@ -177,11 +178,13 @@ const Friends = () => {
             // @ts-ignore
             setStaticDate(updatedStaticDate)
         }
+        message.success('已添加')
     }
 
     const refused = (key:number) => {
         const updatedStaticReq = staticReq.filter(item => item.key !== key);
         setStaticReq(updatedStaticReq);
+        message.success('已拒绝')
     }
     return (
         <div style={{ height: '100%', padding: 20, overflowY: 'scroll' }} className='link'>

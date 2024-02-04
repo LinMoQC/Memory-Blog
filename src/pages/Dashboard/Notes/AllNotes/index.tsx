@@ -4,7 +4,7 @@ import {
     Col,
     ConfigProvider,
     Form,
-    Input,
+    Input, message,
     Modal,
     Radio,
     Row,
@@ -376,6 +376,7 @@ const AllNotes = () => {
 
     const DeleteNote = (key:string) => {
         setStaticDate(staticDate.filter(item => item.key!== key))
+        message.success('删除成功')
     }
 
     const showModal = (value:DataType) => {
@@ -396,7 +397,7 @@ const AllNotes = () => {
         });
         Notesdata = updatedData
         setStaticDate(updatedData);
-        console.log(updatedData)
+        message.success('状态变更成功')
         setEdit('0');
         form.resetFields();
         setOpen(false)
