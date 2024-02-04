@@ -6,6 +6,111 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "490511",
+      "name": "public",
+      "font_class": "public",
+      "unicode": "ecbc",
+      "unicode_decimal": 60604
+    },
+    {
+      "icon_id": "736991",
+      "name": "public",
+      "font_class": "public1",
+      "unicode": "e736",
+      "unicode_decimal": 59190
+    },
+    {
+      "icon_id": "1410483",
+      "name": "public",
+      "font_class": "public2",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "1964097",
+      "name": "草稿箱",
+      "font_class": "caogaoxiang",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "2087546",
+      "name": "草稿",
+      "font_class": "caogao",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "6540379",
+      "name": "草稿箱",
+      "font_class": "caogaoxiang1",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "7393813",
+      "name": "private",
+      "font_class": "private",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "8501311",
+      "name": "private",
+      "font_class": "private1",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "10503869",
+      "name": "private",
+      "font_class": "private2",
+      "unicode": "eee9",
+      "unicode_decimal": 61161
+    },
+    {
+      "icon_id": "12995881",
+      "name": "private",
+      "font_class": "private3",
+      "unicode": "eb30",
+      "unicode_decimal": 60208
+    },
+    {
+      "icon_id": "13552900",
+      "name": "git-repository-private-fill",
+      "font_class": "git-repository-private-fill",
+      "unicode": "ee21",
+      "unicode_decimal": 60961
+    },
+    {
+      "icon_id": "22040437",
+      "name": "private",
+      "font_class": "private4",
+      "unicode": "e753",
+      "unicode_decimal": 59219
+    },
+    {
+      "icon_id": "35094436",
+      "name": "密码",
+      "font_class": "git-repository-private-fill1",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    },
+    {
+      "icon_id": "35489821",
+      "name": "草稿05",
+      "font_class": "caogao05",
+      "unicode": "eb31",
+      "unicode_decimal": 60209
+    },
+    {
+      "icon_id": "37512170",
+      "name": "文档-草稿-L",
+      "font_class": "wendang-caogao-L",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
       "icon_id": "755586",
       "name": "音乐",
       "font_class": "music",

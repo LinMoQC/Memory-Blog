@@ -1,12 +1,24 @@
 import './index.sass'
-import {Button, Col, ConfigProvider, Form, Input, Menu, MenuProps, Row, Select, Space, theme, TreeSelect} from 'antd';
+import {
+    Button,
+    Col,
+    ConfigProvider,
+    Form,
+    Input,
+    Modal,
+    Radio,
+    Row,
+    Select,
+    Space, Tabs,
+    theme,
+    TreeSelect
+} from 'antd';
 import { DatePicker} from 'antd';
-// import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import React, {useState} from "react";
 import zhCN from "antd/lib/locale/zh_CN";
 import {useNavigate} from "react-router-dom";
 import { Table, Tag } from 'antd';
-import type { TableProps } from 'antd';
+import type { TableProps, TabsProps } from 'antd';
 
 //图片引入
 import img1 from '../../../../assets/formImg/img.webp'
@@ -27,116 +39,161 @@ interface DataType {
 
 const tags = [
     {
-        id: 1,
-        value: '前端开发',
         title: '前端开发',
+        key: '1',
+        color: 'geekblue',
         children: [
             {
-                id: 101,
-                value: 'React',
                 title: 'React',
+                key: '101',
+                color: 'geekblue',
             },
             {
-                id: 102,
-                value: 'Vue.js',
                 title: 'Vue.js',
+                key: '102',
+                color: 'geekblue',
             },
             {
-                id: 103,
-                value: 'Angular',
                 title: 'Angular',
+                key: '103',
+                color: 'geekblue',
             },
         ],
     },
     {
-        id: 2,
-        value: '后端开发',
         title: '后端开发',
+        color: 'lime',
+        key: '2',
         children: [
             {
-                id: 201,
-                value: 'Node.js',
                 title: 'Node.js',
+                key: '201',
+                color: 'lime',
             },
             {
-                id: 202,
-                value: 'Django',
                 title: 'Django',
+                key: '202',
+                color: 'lime',
             },
             {
-                id: 203,
-                value: 'Spring Boot',
                 title: 'Spring Boot',
+                key: '203',
+                color: 'lime',
             },
         ],
     },
     {
-        id: 3,
-        value: '移动端开发',
         title: '移动端开发',
+        color: 'gold',
+        key: '3',
         children: [
             {
-                id: 301,
-                value: 'React Native',
                 title: 'React Native',
+                key: '301',
+                color: 'gold',
             },
             {
-                id: 302,
-                value: 'Flutter',
                 title: 'Flutter',
+                key: '302',
+                color: 'gold',
             },
             {
-                id: 303,
-                value: 'Swift',
                 title: 'Swift',
+                key: '303',
+                color: 'gold',
             },
         ],
     },
     {
-        id: 4,
-        value: '数据科学',
         title: '数据科学',
+        key: '4',
+        color: 'cyan',
         children: [
             {
-                id: 401,
-                value: '机器学习',
                 title: '机器学习',
+                key: '401',
+                color: 'cyan',
             },
             {
-                id: 402,
-                value: '数据分析',
                 title: '数据分析',
+                key: '402',
+                color: 'cyan',
             },
             {
-                id: 403,
-                value: '人工智能',
                 title: '人工智能',
+                key: '403',
+                color: 'cyan',
             },
         ],
     },
-    // 添加更多一级标签和二级标签...
 ];
-const items: MenuProps['items'] = [
+
+const catetoriesDate = [
     {
-        label: '全部文章',
-        key: 'All',
+        key: '1',
+        categorie_title: '技术',
+        introduce: '关于编程、开发、技术趋势等的博客文章',
+        icon: 'icon-code1',
+        note_count: 2,
+        color: '#3498db',
     },
     {
-        label: '私密文章',
-        key: 'private',
+        key: '2',
+        categorie_title: '设计',
+        introduce: '设计原理、用户界面设计、用户体验等方面的博客文章',
+        icon: 'icon-sheji1',
+        note_count: 10,
+        color: '#2ecc71',
     },
     {
-        label: '草稿箱',
-        key: 'drafs',
+        key: '3',
+        categorie_title: '生活',
+        introduce: '个人生活、日常琐事、旅行日记等的博客文章',
+        icon: 'icon-icon',
+        note_count: 12,
+        color: '#e74c3c',
     },
+    {
+        key: '4',
+        categorie_title: '健康',
+        introduce: '健康生活、运动、饮食等方面的博客文章',
+        icon: 'icon-jiankang',
+        note_count: 21,
+        color: '#f39c12',
+    },
+    {
+        key: '5',
+        categorie_title: '文学',
+        introduce: '文学创作、书评、阅读感想等的博客文章',
+        icon: 'icon-wenxue2',
+        note_count: 7,
+        color: '#9b59b6',
+    },
+    {
+        key: '6',
+        categorie_title: '学术',
+        introduce: '学术研究、学科探讨等的博客文章',
+        icon: 'icon-xueshuquan',
+        note_count: 19,
+        color: '#34495e',
+    },
+    {
+        key: '7',
+        categorie_title: '音乐',
+        introduce: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
+        icon: 'icon-yinle',
+        note_count: 4,
+        color: '#e67e22',
+    }
 ];
-const Notesdata: DataType[] = [
+
+let Notesdata: DataType[] = [
     {
         key: '1',
         cover: img1,
         title: '深入理解神经网络',
-        categories: '人工智能',
-        tags: ["神经网络", "机器学习", "人工智能"],
+        categories: '技术',
+        tags: ["数据分析", "机器学习", "人工智能"],
         isTop: true,
         time: new Date('2022-01-01'),
         status: 1
@@ -145,28 +202,28 @@ const Notesdata: DataType[] = [
         key: '2',
         cover: img2,
         title: '构建高性能的Web应用',
-        categories: '前端',
-        tags: ["Web开发", "性能优化", "前端", "后端"],
+        categories: '设计',
+        tags: ["React", "Vue.js", "React Native"],
         isTop: false,
         time: new Date('2022-02-15'),
-        status: 1
+        status: 2
     },
     {
         key: '3',
         cover: img3,
         title: "掌握数据结构与算法",
-        categories: '算法',
-        tags: ["数据结构", "算法", "编程"],
+        categories: '技术',
+        tags: ["Flutter", "Django", "Node.js"],
         isTop: true,
         time: new Date('2022-03-20'),
-        status: 1
+        status: 2
     },
     {
         key: '4',
         cover: img4,
         title: '容器化应用与Docker"',
-        categories: '容器',
-        tags: ["Docker", "容器化", "DevOps"],
+        categories: '文学',
+        tags: ["Docker", "Vue.js", "DevOps"],
         isTop: true,
         time: new Date('2022-01-01'),
         status: 1
@@ -175,21 +232,21 @@ const Notesdata: DataType[] = [
         key: '5',
         cover: img3,
         title: "掌握数据结构与算法",
-        categories: '算法',
+        categories: '学术',
         tags: ["数据结构", "算法", "编程"],
         isTop: true,
         time: new Date('2022-03-20'),
-        status: 1
+        status: 3
     },
     {
         key: '6',
         cover: img4,
         title: '容器化应用与Docker"',
-        categories: '容器',
+        categories: '技术',
         tags: ["Docker", "容器化", "DevOps"],
         isTop: true,
         time: new Date('2022-01-01'),
-        status: 1
+        status: 3
     },
 ];
 
@@ -239,7 +296,11 @@ const AdvancedSearchForm = () => {
                         label='文章分类'
                     >
                         <Select placeholder="请选择文章分类">
-                            {/* Select Options */}
+                            {catetoriesDate.map(category => (
+                                <Select.Option key={category.key} value={category.categorie_title}>
+                                    {category.categorie_title}
+                                </Select.Option>
+                            ))}
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -254,19 +315,22 @@ const AdvancedSearchForm = () => {
                 </Col>
                 <Col span={8}>
                     <Form.Item
-                        name='tags'
+                        name='tagsLab'
                         label='文章标签'
                     >
-                            <TreeSelect placeholder="请选择文章标签"
-                                showSearch
-                                style={{ width: '100%' }}
-                                // value={value}
-                                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                                allowClear
-                                multiple
-                                treeDefaultExpandAll
-                                treeData={tags}
-                            />
+                        <TreeSelect
+                            placeholder="请选择文章标签"
+                            showSearch
+                            style={{ width: '100%' }}
+                            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                            allowClear
+                            multiple
+                            treeDefaultExpandAll
+                            treeData={tags.map(tag => ({
+                                ...tag,
+                                value: tag.key
+                            }))}
+                        />
                     </Form.Item>
                 </Col>
             </Row>
@@ -293,6 +357,10 @@ const AllNotes = () => {
     const { token } = theme.useToken();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const navigate = useNavigate()
+    const [staticDate,setStaticDate] = useState(Notesdata)
+    const [open, setOpen] = useState(false);
+    const [isEdit,setEdit] = useState('')
+    const [form] = Form.useForm();
 
     const listStyle: React.CSSProperties = {
         lineHeight: '200px',
@@ -306,6 +374,42 @@ const AllNotes = () => {
         overflowY: 'auto'
     };
 
+    const DeleteNote = (key:string) => {
+        setStaticDate(staticDate.filter(item => item.key!== key))
+    }
+
+    const showModal = (value:DataType) => {
+        setOpen(true)
+        setEdit(value.key)
+    }
+
+    const onOk = () => {
+        const updatedData = Notesdata.map(item => {
+            if (item.key === isEdit) {
+                return {
+                    ...item,
+                    status: parseInt(form.getFieldsValue().status)
+                };
+            } else {
+                return item;
+            }
+        });
+        Notesdata = updatedData
+        setStaticDate(updatedData);
+        console.log(updatedData)
+        setEdit('0');
+        form.resetFields();
+        setOpen(false)
+    }
+
+    const onCancel = () => {
+        setOpen(false)
+    }
+
+    const onfinish = () => {
+
+    }
+
 
     const columns: TableProps<DataType>['columns'] = [
         {
@@ -313,7 +417,7 @@ const AllNotes = () => {
             dataIndex: 'cover',
             key: 'cover',
             align: "center",
-            render: (cover) => <img src={cover} alt="封面缩略图" style={{ maxWidth: '100px'}} />
+            render: (cover) => <img src={cover} alt="封面缩略图" style={{ maxWidth: '100px',borderRadius: 5}} />
         },
         {
             title: '文章标题',
@@ -326,7 +430,22 @@ const AllNotes = () => {
             dataIndex: 'categories',
             key: 'categories',
             align: "center",
-            render: (categories) => <Tag color="#108ee9">{categories}</Tag>
+            render: (item) => (
+                <>
+                    {catetoriesDate
+                        .filter(category => category.categorie_title === item)
+                        .map(category => (
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <Tag color={category.color} key={category.key}>
+                                    <i className={`iconfont ${category.icon}`} style={{ display: 'inline', fontSize: 20,marginTop:1 }}></i>
+                                    <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categorie_title}</span>
+                                </Tag>
+                            </div>
+
+                        ))
+                    }
+                </>
+            )
         },
         {
             title: '文章标签',
@@ -336,18 +455,27 @@ const AllNotes = () => {
             render: (_, record) => (
                 <>
                     {record.tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
+                        let color = 'green'; // 默认颜色
+
+                        // 遍历所有分类项
+                        tags.forEach((category) => {
+                            // 如果标签存在于当前分类项中，则将颜色设置为当前分类项的颜色
+                            if (category.title === tag) {
+                                color = category.color;
+                            } else if (category.children && category.children.some(child => child.title === tag)) {
+                                color = category.color;
+                            }
+                        });
+
                         return (
                             <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
+                                {tag}
                             </Tag>
                         );
                     })}
                 </>
-            ),
+            )
+
         },
         {
             title: '是否置顶',
@@ -368,17 +496,17 @@ const AllNotes = () => {
             key: 'status',
             dataIndex: 'status',
             align: "center",
-            render: (status) => (status === 1 ? '公开' : status === 2 ? '私密' : status === 3 ? '草稿箱' : '未知状态'),
+            render: (status) => (status === 1 ?  <i className={`iconfont icon-public1`}></i> : status === 2 ? <i className={`iconfont icon-private4`}></i>: status === 3 ? <i className={`iconfont icon-caogaoxiang1`}></i>: '未知状态'),
         },
         {
             title: '操作',
             key: 'action',
             align: "center",
-            render: (_, ) => (
+            render: (item) => (
                 <Space size="middle">
                     <Button type='primary'>编辑</Button>
-                    <Button type='primary' style={{background: '#f5222d'}}>删除</Button>
-                    <Button type='primary' style={{background: '#13c2c2'}}>状态变更</Button>
+                    <Button type='primary' style={{background: '#f5222d'}} onClick={() => DeleteNote(item.key)}>删除</Button>
+                    <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}>状态变更</Button>
                 </Space>
             ),
         },
@@ -393,7 +521,32 @@ const AllNotes = () => {
         onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
-    console.log(hasSelected)
+
+    const items: TabsProps['items'] = [
+        {
+            label: '全部文章',
+            key: '1',
+        },
+        {
+            label: '私密文章',
+            key: '2',
+        },
+        {
+            label: '草稿箱',
+            key: '3',
+        },
+    ];
+
+
+    const onChange = (value:string) => {
+        if (parseInt(value) === 1){
+            setStaticDate(Notesdata)
+        }else if (parseInt(value) === 2){
+            setStaticDate(Notesdata.filter(item => item.status===2))
+        }else {
+            setStaticDate(Notesdata.filter(item => item.status=== 3))
+        }
+    }
     return <>
             <div className="AllCard">
                 <AdvancedSearchForm />
@@ -403,22 +556,49 @@ const AllNotes = () => {
                 {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
                 </span>
                 <div style={listStyle} className="searchRes">
-                    <Menu mode="horizontal" items={items} defaultSelectedKeys={['All']}/>
+
+                    <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange}/>
                     <div style={{ overflowX: 'auto' }}>
                         <ConfigProvider
                             theme={{
                                 components: {
                                     Table: {
-                                       // headerBg: '#8dc5f8'
+                                        // headerBg: '#8dc5f8'
                                     },
                                 },
                             }}
                         >
-                            <Table columns={columns} dataSource={Notesdata} pagination={{ pageSize: 4 }} rowSelection={rowSelection} />
+                            <Table columns={columns} dataSource={staticDate} pagination={{ pageSize: 4 }} rowSelection={rowSelection} />
                         </ConfigProvider>
                     </div>
                 </div>
             </div>
+
+        <Modal
+            open={open}
+            title="文章状态变更"
+            okText="保存"
+            cancelText="取消"
+            onCancel={onCancel}
+            onOk={onOk}
+        >
+            <Form
+                form={form}
+                layout="vertical"
+                name="changeStatue"
+                initialValues={{ modifier: 'public' }}
+                onFinish={onfinish}
+            >
+
+                <Form.Item name="status" className="collection-create-form_last-form-item">
+                    <Radio.Group>
+                        <Radio value="1">公开</Radio>
+                        <Radio value="2">私密</Radio>
+                        <Radio value="3">草稿</Radio>
+                    </Radio.Group>
+                </Form.Item>
+            </Form>
+        </Modal>
     </>
 }
 

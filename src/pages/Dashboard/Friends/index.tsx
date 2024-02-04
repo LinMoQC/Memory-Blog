@@ -172,8 +172,10 @@ const Friends = () => {
             staticReq.find(item => item.key === key)
         ];
         if (Array.isArray(updatedStaticDate)) {
+
+            setStaticReq(staticReq.filter(item => item.key!==key));
             // @ts-ignore
-            setStaticDate(updatedStaticDate);
+            setStaticDate(updatedStaticDate)
         }
     }
 

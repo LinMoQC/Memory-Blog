@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4335817 */
-  src: url('iconfont.woff2?t=1706815078830') format('woff2'),
-       url('iconfont.woff?t=1706815078830') format('woff'),
-       url('iconfont.ttf?t=1706815078830') format('truetype');
+  src: url('iconfont.woff2?t=1707086706897') format('woff2'),
+       url('iconfont.woff?t=1707086706897') format('woff'),
+       url('iconfont.ttf?t=1707086706897') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,66 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-public:before {
+  content: "\ecbc";
+}
+
+.icon-public1:before {
+  content: "\e736";
+}
+
+.icon-public2:before {
+  content: "\e6b8";
+}
+
+.icon-caogaoxiang:before {
+  content: "\e619";
+}
+
+.icon-caogao:before {
+  content: "\e61a";
+}
+
+.icon-caogaoxiang1:before {
+  content: "\e61b";
+}
+
+.icon-private:before {
+  content: "\e64c";
+}
+
+.icon-private1:before {
+  content: "\e633";
+}
+
+.icon-private2:before {
+  content: "\eee9";
+}
+
+.icon-private3:before {
+  content: "\eb30";
+}
+
+.icon-git-repository-private-fill:before {
+  content: "\ee21";
+}
+
+.icon-private4:before {
+  content: "\e753";
+}
+
+.icon-git-repository-private-fill1:before {
+  content: "\e6fe";
+}
+
+.icon-caogao05:before {
+  content: "\eb31";
+}
+
+.icon-wendang-caogao-L:before {
+  content: "\e620";
 }
 
 .icon-music:before {

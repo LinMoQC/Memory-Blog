@@ -1,17 +1,41 @@
 import './inedx.sass'
-import {Button, ColorPicker, Form, Input, Select, Tag, Tree, TreeDataNode,Alert} from "antd";
-import React, {useState} from "react";
+import {
+    Button,
+    ColorPicker,
+    Form,
+    Input,
+    Select,
+    Tag,
+    Tree,
+    TreeDataNode,
+    Alert,
+} from "antd";
+import React, {useRef, useState} from "react";
 import {TagsOutlined} from '@ant-design/icons'
+
+
+type Color = {
+    toHexString: () => string
+}
 
 interface myTreeNode extends TreeDataNode{
     color: string
-    children: myFieldDataNode[]
+    children?: myFieldDataNode[]
 }
 
 interface myFieldDataNode {
     title: string;
     color: string;
     key: string;
+}
+
+interface newTag {
+    level?: string
+    title: string;
+    key: string;
+    color: Color;
+    children?: myFieldDataNode[]
+    parentTag?: string
 }
 
 const TagsData: myTreeNode[] = [
@@ -105,16 +129,65 @@ const TagsData: myTreeNode[] = [
     },
 ];
 const AllTag = () => {
+    const tree = useRef(null)
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
     const [level,setLevel] = useState('level_1')
+    const [staticDate,setStaticDate] = useState(TagsData)
     const onSelect = (selectedKeysValue: React.Key[]) => {
         setSelectedKeys(selectedKeysValue);
     };
 
     const handleTagTypeChange = (value:string) => {
         setLevel(value);
-        console.log(value)
     };
+
+    const Delete = () => {
+        setStaticDate(staticDate.filter(tag => {
+            // 如果当前标签被选中，直接过滤掉
+            if (selectedKeys.includes(tag.key)) {
+                return false;
+            }
+            // 如果当前标签是一个父标签，并且其下有子标签被选中，则过滤掉
+            if (tag.children && tag.children.some(child => selectedKeys.includes(child.key))) {
+                tag.children = tag.children.filter(child => !selectedKeys.includes(child.key));
+            }
+            return true;
+        }));
+        setSelectedKeys([]); // 清空选中的标签
+        if(tree.current)
+            { // @ts-ignore
+                tree.current.state.selectedKeys = []
+            }
+    };
+    const onfinish = (values: newTag) => {
+        console.log(values.color.toHexString())
+        if (values.level === 'level_1') {
+            const newTag: myTreeNode = {
+                title: values.title,
+                key: staticDate.length + 1,
+                color: values.color.toHexString(),
+                children: []
+            }
+            setStaticDate([
+                ...staticDate,
+                newTag
+            ])
+        } else {
+            const fatherTag = staticDate.find(item => item.key === values.parentTag);
+            if (fatherTag) {
+                const newTag: myFieldDataNode = {
+                    title: values.title,
+                    // @ts-ignore
+                    key: (fatherTag.children.length + 1).toString(),
+                    color: values.color.toHexString()
+                }
+                // @ts-ignore
+                fatherTag.children.push(newTag); // 将新标签添加到父标签的 children 数组中
+                console.log(fatherTag.children)
+                setStaticDate([...staticDate]); // 更新 staticDate 状态
+            }
+        }
+    }
 
     return <>
         <div className="tag_card">
@@ -124,17 +197,19 @@ const AllTag = () => {
                     initialValues={{ tagType: '一级标签' }}
                     style={{ maxWidth: '400px' }}
                     name="标签管理"
+                    onFinish={onfinish}
                 >
                     <h2 style={{ marginBottom: '20px' }}><TagsOutlined /> 标签管理</h2>
                     <Form.Item
-                        name="tagName"
+                        name="title"
                         label="标签名称"
+                        rules={[{ required: true ,message: '必填项' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item
-                        name="tagType"
+                        name="level"
                         label="标签等级"
                     >
                         <Select options={[
@@ -148,42 +223,45 @@ const AllTag = () => {
                         label="父标签"
                         shouldUpdate
                     >
-                        <Select options={TagsData.map(({ children, ...rest }) => ({ ...rest })).map(tag => ({
+                        <Select options={staticDate.map(({ children, ...rest }) => ({ ...rest })).map(tag => ({
                             value: tag.key,
                             label: tag.title
                         }))} />
                     </Form.Item>}
 
                     {level==='level_1'&& <Form.Item
-                        name="tagColor"
+                        name="color"
                         label="标签颜色"
                     >
-                        <ColorPicker defaultValue="#fff" showText />
+                        <ColorPicker defaultValue="#fff" showText format={"hex"}/>
                     </Form.Item>}
 
                     <Form.Item>
                         <Button type="primary"  htmlType="submit">
                             添加
                         </Button>
-                        <Button type="primary" style={{marginLeft: 20,backgroundColor: '#f5222d'}}>
+                        <Button type="primary" style={{marginLeft: 20,backgroundColor: '#f5222d'}} onClick={Delete}>
                             删除
                         </Button>
 
                     </Form.Item>
-                    {selectedKeys.length!==0&& <Alert message={`选中删除标签：${selectedKeys.length} 个`} type="warning" showIcon />}
+                    <Alert message={`选中删除标签：${selectedKeys.length} 个`} type="warning" showIcon style={{position: 'absolute',transition: '0.3s',opacity: selectedKeys.length===0?0:1}}/>
                 </Form>
             </div>
-            <Tree
-                showLine
-                multiple
-                defaultExpandAll
-                onSelect={onSelect}
-                treeData={TagsData}
-                titleRender={(node) => (
-                    // @ts-ignore
-                    <Tag color={node.color}>{node.title}</Tag>
-                )}
-            />
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+                <Tree
+                    showLine
+                    multiple
+                    defaultExpandAll
+                    onSelect={onSelect}
+                    treeData={staticDate}
+                    titleRender={(node) => (
+                        // @ts-ignore
+                        <Tag color={node.color}>{node.title}</Tag>
+                    )}
+                    ref={tree}
+                />
+            </div>
 
         </div>
     </>

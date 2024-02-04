@@ -176,7 +176,7 @@ const Dashboard = () => {
                                         onClick={() => {
                                         navigate(item.to)
                                         setSelectCurrent(item.index)
-                                    }}>
+                                    }} key={item.index}>
                                         <i className={`iconfont ${item.icon} icon`}></i>
                                         <span className="text nac-text">{item.name}</span>
                                     </li>

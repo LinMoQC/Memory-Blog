@@ -2,7 +2,7 @@ import './index.sass'
 import {
     Button, ColorPicker,
     Form,
-    Input,
+    Input, message,
     Modal,
     Space,
     Table,
@@ -22,7 +22,7 @@ interface CategorieType {
     color: string;
 }
 
-const CategoriesData = [
+const CategoriesData:CategorieType[] = [
     {
         key: '1',
         categorie_title: '技术',
@@ -85,6 +85,52 @@ const CategoriesData = [
 const  AllCategorize = () => {
     const { token } = theme.useToken();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const [staticDate,setStaticDate] = useState(CategoriesData)
+    const [isEdit,setEdit] = useState('0')
+    const [form] = Form.useForm();
+    //删除逻辑
+    const Delte = (key:number) => {
+        setStaticDate(staticDate.filter(item => item.key!==key.toString()))
+    }
+
+    const DeleteAll = () => {
+        setStaticDate(staticDate.filter(item => !selectedRowKeys.includes(item.key)))
+        setSelectedRowKeys([])
+    }
+
+    //编辑逻辑
+    const Change_Categorie = (value:CategorieType) => {
+        setEdit(value.key)
+        showModal()
+        form.setFieldsValue({
+            categorie: value.categorie_title,
+            introduce: value.introduce,
+            categorie_icon: value.icon,
+            categorie_color: value.color
+        });
+    }
+
+    //表单提交
+    const onfinish = () => {
+        // 获取整个表单的值
+
+        const {categorie,introduce,categorie_icon,categorie_color} = form.getFieldsValue();
+        const key = staticDate.length+1
+        const date:CategorieType = {
+            categorie_title: categorie,
+            icon:categorie_icon,
+            color:categorie_color.toHexString(),
+            introduce:introduce,
+            key: key.toString(),
+            note_count: 0
+        }
+        console.log(date)
+        setStaticDate([
+            ...staticDate,
+            date
+        ])
+    }
+
     const columns: TableProps<CategorieType>['columns'] = [
         {
           title: '序列',
@@ -128,10 +174,10 @@ const  AllCategorize = () => {
             title: '操作',
             key: 'action',
             align: "center",
-            render: (_, ) => (
+            render: (item) => (
                 <Space size="middle">
-                    <Button type='primary'>编辑</Button>
-                    <Button type='primary' style={{background: '#f5222d'}}>删除</Button>
+                    <Button type='primary' onClick={() => Change_Categorie(item)}>编辑</Button>
+                    <Button type='primary' style={{background: '#f5222d'}} onClick={() => Delte(item.key)}>删除</Button>
                 </Space>
             ),
         },
@@ -176,30 +222,54 @@ const  AllCategorize = () => {
         setOpen(true);
     };
     const handleOk = () => {
-        setConfirmLoading(true);
-        setTimeout(() => {
+        if (isEdit !== '0') {
+            const updatedData = staticDate.map(item => {
+                if (item.key === isEdit) {
+                    return {
+                        ...item,
+                        categorie_title: form.getFieldsValue().categorie,
+                        introduce: form.getFieldsValue().introduce,
+                        icon: form.getFieldsValue().categorie_icon,
+                        color: form.getFieldsValue().categorie_color
+                    };
+                } else {
+                    return item;
+                }
+            });
+            setStaticDate(updatedData);
+            setEdit('0');
+            form.resetFields();
             setOpen(false);
-            setConfirmLoading(false);
-        }, 2000);
+        } else {
+            form.validateFields().then(() => {
+                setConfirmLoading(true);
+                onfinish();
+                message.success('发布成功');
+                setConfirmLoading(false);
+                form.resetFields();
+                setOpen(false);
+            });
+        }
     };
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
+        form.resetFields()
+        setEdit('0')
         setOpen(false);
     };
 
     return <>
         <div style={listStyle} className="searchRes">
-            <Table columns={columns} dataSource={CategoriesData} pagination={{pageSize: 6}}
+            <Table columns={columns} dataSource={staticDate} pagination={{pageSize: 6}}
                    title={() => <>
                            <div style={{float: 'left'}}>
                                <Button type="primary" style={{ background: '#389e0d'}} onClick={showModal}>
                                    新增
                                </Button>
-                               <Button type="primary" style={{ marginLeft: 10,background: '#f5222d'}}>
+                               <Button type="primary" style={{ marginLeft: 10,background: '#f5222d'}} onClick={DeleteAll}>
                                    批量删除
                                </Button>
-                               <span style={{ marginLeft: 8 }}>
+                               <span style={{ marginLeft: 8 ,position: 'absolute',fontSize: 20,fontWeight: 600}}>
                 {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
         </span>
                            </div>
@@ -217,10 +287,10 @@ const  AllCategorize = () => {
             onOk={handleOk}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
-            okText='添加'
+            okText={isEdit==='0'? '添加' : '保存'}
             cancelText='取消'
         >
-            <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }}>
+            <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }} form={form} onFinish={onfinish}>
                 <Form.Item label="分类名称" name="categorie" >
                     <Input/>
                 </Form.Item>
@@ -240,7 +310,7 @@ const  AllCategorize = () => {
                 </Form.Item>
 
                 <Form.Item label="颜色" name="categorie_color" >
-                    <ColorPicker defaultValue="#fff" showText />
+                    <ColorPicker defaultValue="#fff" showText format={'hex'}/>
                 </Form.Item>
             </Form>
         </Modal>
