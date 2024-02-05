@@ -10,12 +10,34 @@ import MainContext from "../../components/conText.tsx";
 import Switch from "../../components/Switch";
 
 const Dashboard = () => {
+    //hooks区域
     const navigate = useNavigate();
     const [SelectCurrent,setSelectCurrent] = useState(1)
     const [isShellClosed, setShellClosed] = useState(true);
     const [isDarkMode, setDarkMode] = useState(false);
     const [api, contextHolder] = notification.useNotification();
     const [loading, setLoading] = useState(false);
+
+    //初始渲染
+    useEffect(() => {
+        const DarkSwitch = localStorage.getItem('isDarkMode')
+        const currentHashCode =
+            location.hash === '#/dashboard' ? 1 :
+                location.hash === '#/dashboard/notes' ? 2 :
+                    location.hash === '#/dashboard/comments' ? 3 :
+                        location.hash === '#/dashboard/albums' ? 4 :
+                            location.hash === '#/dashboard/friends' ? 5 :
+                                location.hash === '#/dashboard/analytics' ? 6 :
+                                    location.hash.startsWith('#/dashboard/notes') ? 2 : 1;
+
+        setSelectCurrent(currentHashCode)
+        setLoading(true);
+        if(DarkSwitch!==null){
+            setDarkMode(JSON.parse(DarkSwitch));
+        }
+    },[])
+
+    //回调函数区域
     const openNotification = () => {
         const key = `open${Date.now()}`
         const btn = (
@@ -39,6 +61,21 @@ const Dashboard = () => {
         });
     };
 
+    const handleToggleClick = () => {
+        setShellClosed(!isShellClosed);
+    };
+
+    const handleSearchClick = () => {
+        setShellClosed(false);
+    };
+
+    const handleModeSwitch = () => {
+        console.log(1)
+        setDarkMode(!isDarkMode);
+        localStorage.setItem("isDarkMode",String(!isDarkMode))
+    };
+
+    // 导航栏数据
     const sidebar = [
         {
             index: 1,
@@ -104,38 +141,6 @@ const Dashboard = () => {
         }
     ]
 
-    //初始渲染
-    useEffect(() => {
-        const DarkSwitch = localStorage.getItem('isDarkMode')
-        const currentHashCode =
-            location.hash === '#/dashboard' ? 1 :
-                location.hash === '#/dashboard/notes' ? 2 :
-                    location.hash === '#/dashboard/comments' ? 3 :
-                        location.hash === '#/dashboard/albums' ? 4 :
-                            location.hash === '#/dashboard/friends' ? 5 :
-                                location.hash === '#/dashboard/analytics' ? 6 :
-                                    location.hash.startsWith('#/dashboard/notes') ? 2 : 1;
-
-        setSelectCurrent(currentHashCode)
-        setLoading(true);
-        if(DarkSwitch!==null){
-            setDarkMode(JSON.parse(DarkSwitch));
-        }
-    },[])
-
-    const handleToggleClick = () => {
-        setShellClosed(!isShellClosed);
-    };
-
-    const handleSearchClick = () => {
-        setShellClosed(false);
-    };
-
-    const handleModeSwitch = () => {
-        console.log(1)
-        setDarkMode(!isDarkMode);
-        localStorage.setItem("isDarkMode",String(!isDarkMode))
-    };
 
 
     return (

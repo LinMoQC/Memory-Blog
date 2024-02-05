@@ -1,6 +1,7 @@
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 
+//Tabs数据
 const items: TabsProps['items'] = [
     {
         key: '1',
@@ -33,6 +34,7 @@ const items: TabsProps['items'] = [
 ];
 
 const UserControl = () => {
+    //回调函数区域
     const onChange = (key: string) => {
         console.log(key);
     };

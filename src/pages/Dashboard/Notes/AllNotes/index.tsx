@@ -19,25 +19,27 @@ import zhCN from "antd/lib/locale/zh_CN";
 import {useNavigate} from "react-router-dom";
 import { Table, Tag } from 'antd';
 import type { TableProps, TabsProps } from 'antd';
-
+import {NoteType} from "../../../../interface/NoteType";
+import {CategoriesType} from "../../../../interface/CategoriesType";
+import {myTreeNode} from "../../../../interface/TagType";
 //图片引入
 import img1 from '../../../../assets/formImg/img.webp'
 import img2 from '../../../../assets/formImg/img1.webp'
 import img3 from '../../../../assets/formImg/img2.jpg'
 import img4 from '../../../../assets/formImg/img4.jpg'
 
-interface DataType {
-    key: string;
-    cover: string;
-    title: string;
-    categories: string;
-    tags: string[];
-    isTop: boolean;
-    time: Date;
-    status: number
-}
+// interface NoteType {
+//     key: string;
+//     cover: string;
+//     title: string;
+//     categories: string;
+//     tags: string[];
+//     isTop: boolean;
+//     time: Date;
+//     status: number
+// }
 
-const tags = [
+const tags:myTreeNode[] = [
     {
         title: '前端开发',
         key: '1',
@@ -128,10 +130,10 @@ const tags = [
     },
 ];
 
-const catetoriesDate = [
+const categoriesDate:CategoriesType[] = [
     {
         key: '1',
-        categorie_title: '技术',
+        categories_title: '技术',
         introduce: '关于编程、开发、技术趋势等的博客文章',
         icon: 'icon-code1',
         note_count: 2,
@@ -139,7 +141,7 @@ const catetoriesDate = [
     },
     {
         key: '2',
-        categorie_title: '设计',
+        categories_title: '设计',
         introduce: '设计原理、用户界面设计、用户体验等方面的博客文章',
         icon: 'icon-sheji1',
         note_count: 10,
@@ -147,7 +149,7 @@ const catetoriesDate = [
     },
     {
         key: '3',
-        categorie_title: '生活',
+        categories_title: '生活',
         introduce: '个人生活、日常琐事、旅行日记等的博客文章',
         icon: 'icon-icon',
         note_count: 12,
@@ -155,7 +157,7 @@ const catetoriesDate = [
     },
     {
         key: '4',
-        categorie_title: '健康',
+        categories_title: '健康',
         introduce: '健康生活、运动、饮食等方面的博客文章',
         icon: 'icon-jiankang',
         note_count: 21,
@@ -163,7 +165,7 @@ const catetoriesDate = [
     },
     {
         key: '5',
-        categorie_title: '文学',
+        categories_title: '文学',
         introduce: '文学创作、书评、阅读感想等的博客文章',
         icon: 'icon-wenxue2',
         note_count: 7,
@@ -171,7 +173,7 @@ const catetoriesDate = [
     },
     {
         key: '6',
-        categorie_title: '学术',
+        categories_title: '学术',
         introduce: '学术研究、学科探讨等的博客文章',
         icon: 'icon-xueshuquan',
         note_count: 19,
@@ -179,7 +181,7 @@ const catetoriesDate = [
     },
     {
         key: '7',
-        categorie_title: '音乐',
+        categories_title: '音乐',
         introduce: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
         icon: 'icon-yinle',
         note_count: 4,
@@ -187,7 +189,7 @@ const catetoriesDate = [
     }
 ];
 
-let Notesdata: DataType[] = [
+let Notesdata: NoteType[] = [
     {
         key: '1',
         cover: img1,
@@ -250,11 +252,19 @@ let Notesdata: DataType[] = [
     },
 ];
 
-
 const AdvancedSearchForm = () => {
+    //hooks区域
     const { RangePicker } = DatePicker;
     const { token } = theme.useToken();
     const [form] = Form.useForm();
+
+
+    //回调函数区域
+    const onFinish = (values: any) => {
+        console.log('Received values of form: ', values);
+    };
+
+    //表单样式
     const formStyle: React.CSSProperties = {
         maxWidth: '98%',
         borderRadius: token.borderRadiusLG,
@@ -262,11 +272,6 @@ const AdvancedSearchForm = () => {
         margin: 'auto',
         background: 'white',
         height: '140px'
-    };
-
-
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
     };
 
     return (
@@ -296,9 +301,9 @@ const AdvancedSearchForm = () => {
                         label='文章分类'
                     >
                         <Select placeholder="请选择文章分类">
-                            {catetoriesDate.map(category => (
-                                <Select.Option key={category.key} value={category.categorie_title}>
-                                    {category.categorie_title}
+                            {categoriesDate.map(category => (
+                                <Select.Option key={category.key} value={category.categories_title}>
+                                    {category.categories_title}
                                 </Select.Option>
                             ))}
                         </Select>
@@ -380,7 +385,7 @@ const AllNotes = () => {
         message.success('删除成功')
     }
 
-    const showModal = (value:DataType) => {
+    const showModal = (value:NoteType) => {
         setOpen(true)
         setEdit(value.key)
     }
@@ -413,7 +418,7 @@ const AllNotes = () => {
     }
 
 
-    const columns: TableProps<DataType>['columns'] = [
+    const columns: TableProps<NoteType>['columns'] = [
         {
             title: '封面缩略图',
             dataIndex: 'cover',
@@ -434,13 +439,13 @@ const AllNotes = () => {
             align: "center",
             render: (item) => (
                 <>
-                    {catetoriesDate
-                        .filter(category => category.categorie_title === item)
+                    {categoriesDate
+                        .filter(category => category.categories_title === item)
                         .map(category => (
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <Tag color={category.color} key={category.key}>
                                     <i className={`iconfont ${category.icon}`} style={{ display: 'inline', fontSize: 20,marginTop:1 }}></i>
-                                    <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categorie_title}</span>
+                                    <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categories_title}</span>
                                 </Tag>
                             </div>
 

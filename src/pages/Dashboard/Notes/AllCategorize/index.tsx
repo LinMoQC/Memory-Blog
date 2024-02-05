@@ -11,20 +11,22 @@ import {
 } from "antd";
 import React, {useState} from "react";
 import {FolderOpenOutlined} from '@ant-design/icons';
+import {CategoriesType} from "../../../../interface/CategoriesType";
 
-interface CategorieType {
-    key: string;
-    categorie_title: string;
-    introduce: string;
-    icon: string;
-    note_count: number;
-    color: string;
-}
+// interface CategoriesType {
+//     key: string;
+//     categories_title: string;
+//     introduce: string;
+//     icon: string;
+//     note_count: number;
+//     color: string;
+// }
 
-const CategoriesData:CategorieType[] = [
+//静态数据
+const CategoriesData:CategoriesType[] = [
     {
         key: '1',
-        categorie_title: '技术',
+        categories_title: '技术',
         introduce: '关于编程、开发、技术趋势等的博客文章',
         icon: 'icon-code1',
         note_count: 2,
@@ -32,7 +34,7 @@ const CategoriesData:CategorieType[] = [
     },
     {
         key: '2',
-        categorie_title: '设计',
+        categories_title: '设计',
         introduce: '设计原理、用户界面设计、用户体验等方面的博客文章',
         icon: 'icon-sheji1',
         note_count: 10,
@@ -40,7 +42,7 @@ const CategoriesData:CategorieType[] = [
     },
     {
         key: '3',
-        categorie_title: '生活',
+        categories_title: '生活',
         introduce: '个人生活、日常琐事、旅行日记等的博客文章',
         icon: 'icon-icon',
         note_count: 12,
@@ -48,7 +50,7 @@ const CategoriesData:CategorieType[] = [
     },
     {
         key: '4',
-        categorie_title: '健康',
+        categories_title: '健康',
         introduce: '健康生活、运动、饮食等方面的博客文章',
         icon: 'icon-jiankang',
         note_count: 21,
@@ -56,7 +58,7 @@ const CategoriesData:CategorieType[] = [
     },
     {
         key: '5',
-        categorie_title: '文学',
+        categories_title: '文学',
         introduce: '文学创作、书评、阅读感想等的博客文章',
         icon: 'icon-wenxue2',
         note_count: 7,
@@ -64,7 +66,7 @@ const CategoriesData:CategorieType[] = [
     },
     {
         key: '6',
-        categorie_title: '学术',
+        categories_title: '学术',
         introduce: '学术研究、学科探讨等的博客文章',
         icon: 'icon-xueshuquan',
         note_count: 19,
@@ -72,7 +74,7 @@ const CategoriesData:CategorieType[] = [
     },
     {
         key: '7',
-        categorie_title: '音乐',
+        categories_title: '音乐',
         introduce: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
         icon: 'icon-yinle',
         note_count: 4,
@@ -82,10 +84,15 @@ const CategoriesData:CategorieType[] = [
 
 
 const  AllCategorize = () => {
+    //hooks区域
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [staticDate,setStaticDate] = useState(CategoriesData)
+    const [open, setOpen] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
     const [isEdit,setEdit] = useState('0')
     const [form] = Form.useForm();
+
+    //回调函数区域
     //删除逻辑
     const Delete = (key:number) => {
         setStaticDate(staticDate.filter(item => item.key!==key.toString()))
@@ -99,11 +106,11 @@ const  AllCategorize = () => {
     }
 
     //编辑逻辑
-    const Change_Categorie = (value:CategorieType) => {
+    const Change_Categories = (value:CategoriesType) => {
         setEdit(value.key)
         showModal()
         form.setFieldsValue({
-            categorie: value.categorie_title,
+            categorie: value.categories_title,
             introduce: value.introduce,
             categorie_icon: value.icon,
             categorie_color: value.color
@@ -115,8 +122,8 @@ const  AllCategorize = () => {
         // 获取整个表单的值
         const {categorie,introduce,categorie_icon,categorie_color} = form.getFieldsValue();
         const key = staticDate.length+1
-        const date:CategorieType = {
-            categorie_title: categorie,
+        const date:CategoriesType = {
+            categories_title: categorie,
             icon:categorie_icon,
             color:categorie_color.toHexString(),
             introduce:introduce,
@@ -130,7 +137,61 @@ const  AllCategorize = () => {
         ])
     }
 
-    const columns: TableProps<CategorieType>['columns'] = [
+    const handleOk = () => {
+        if (isEdit !== '0') {
+            const updatedData = staticDate.map(item => {
+                if (item.key === isEdit) {
+                    return {
+                        ...item,
+                        categorie_title: form.getFieldsValue().categorie,
+                        introduce: form.getFieldsValue().introduce,
+                        icon: form.getFieldsValue().categorie_icon,
+                        color: form.getFieldsValue().categorie_color
+                    };
+                } else {
+                    return item;
+                }
+            });
+            setStaticDate(updatedData);
+            message.success('修改成功')
+            setEdit('0');
+            form.resetFields();
+            setOpen(false);
+        } else {
+            form.validateFields().then(() => {
+                setConfirmLoading(true);
+                onfinish();
+                message.success('发布成功');
+                setConfirmLoading(false);
+                form.resetFields();
+                setOpen(false);
+            });
+        }
+    };
+
+    const handleCancel = () => {
+        form.resetFields()
+        setEdit('0')
+        setOpen(false);
+    };
+
+    //表单选中
+    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+    //添加框打开
+    const showModal = () => {
+        setOpen(true);
+    };
+
+    //Tab数据
+    const columns: TableProps<CategoriesType>['columns'] = [
         {
           title: '序列',
           dataIndex: 'key',
@@ -175,12 +236,14 @@ const  AllCategorize = () => {
             align: "center",
             render: (item) => (
                 <Space size="middle">
-                    <Button type='primary' onClick={() => Change_Categorie(item)}>编辑</Button>
+                    <Button type='primary' onClick={() => Change_Categories(item)}>编辑</Button>
                     <Button type='primary' style={{background: '#f5222d'}} onClick={() => Delete(item.key)}>删除</Button>
                 </Space>
             ),
         },
     ];
+
+    //列表样式
     const listStyle: React.CSSProperties = {
         lineHeight: '200px',
         textAlign: 'center',
@@ -203,60 +266,6 @@ const  AllCategorize = () => {
         },
     };
 
-    //表单选中
-    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedRowKeys(newSelectedRowKeys);
-    };
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
-    };
-    const hasSelected = selectedRowKeys.length > 0;
-
-    //添加框打开
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const showModal = () => {
-        setOpen(true);
-    };
-    const handleOk = () => {
-        if (isEdit !== '0') {
-            const updatedData = staticDate.map(item => {
-                if (item.key === isEdit) {
-                    return {
-                        ...item,
-                        categorie_title: form.getFieldsValue().categorie,
-                        introduce: form.getFieldsValue().introduce,
-                        icon: form.getFieldsValue().categorie_icon,
-                        color: form.getFieldsValue().categorie_color
-                    };
-                } else {
-                    return item;
-                }
-            });
-            setStaticDate(updatedData);
-            message.success('修改成功')
-            setEdit('0');
-            form.resetFields();
-            setOpen(false);
-        } else {
-            form.validateFields().then(() => {
-                setConfirmLoading(true);
-                onfinish();
-                message.success('发布成功');
-                setConfirmLoading(false);
-                form.resetFields();
-                setOpen(false);
-            });
-        }
-    };
-
-    const handleCancel = () => {
-        form.resetFields()
-        setEdit('0')
-        setOpen(false);
-    };
 
     return <>
         <div style={listStyle} className="searchRes">

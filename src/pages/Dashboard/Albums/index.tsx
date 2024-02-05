@@ -8,11 +8,13 @@ import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import CheckButton from "../../../components/Buttons/CheckButton";
-interface ImgUrl {
-    title?:string
-    key: number
-    url: string
-}
+import {ImgUrl} from "../../../interface/ImgTypes";
+
+// interface ImgUrl {
+//     title?:string
+//     key: number
+//     url: string
+// }
 
 //图库静态模拟数据
 const source: ImgUrl[] = [
@@ -74,13 +76,16 @@ const source: ImgUrl[] = [
     },
 ];
 
-
 const Albums = () => {
     //状态变量区
     const [uploadedFiles, setUploadedFiles] = useState<UploadFile<any>[]>([]);
     const [SelectDelete,setSelectDelete] = useState(0)
     const [checkStatus, setCheckStatus] = useState<Record<number, boolean>>({});
     const [staticDate,setStaticDate] = useState(source)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+    //回调函数区域
     const fetchData = () => {
         // Implement your logic to fetch more data
     };
@@ -102,7 +107,6 @@ const Albums = () => {
         setSelectDelete(0)
     }
 
-
     // 触发选择框和图片点击
     const handleItemClick = (key:number) => {
         // 检查当前图片对应的复选框状态
@@ -117,12 +121,7 @@ const Albums = () => {
         // 更新选择的数量
         setSelectDelete(prevCount => isChecked ? prevCount - 1 : prevCount + 1);
     };
-
-
-
     //上传悬浮框
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
     const showModal = () => {
         setIsModalOpen(true);
     };

@@ -1,20 +1,20 @@
 import './index.sass'
 import {Avatar, Card, Col, Form, Input, message, Modal, Popconfirm, Row} from "antd";
 import { EditOutlined,DeleteOutlined  } from '@ant-design/icons';
-// import Meta from "antd/es/card/Meta";
-import avator from '../../../assets/avator.jpg'
+import avatar from '../../../assets/avator.jpg'
 import { ConfigProvider } from 'antd/lib';
 import DeleteButton from "../../../components/Buttons/DeleteButton";
 import NewButton from "../../../components/Buttons/NewButton";
 import SearchButton from "../../../components/Buttons/SearchButton";
 import {useState} from "react";
+import {Talk} from "../../../interface/TalkType";
 
-interface Talk{
-    key: number;
-    title: string,
-    content: string,
-    time: Date
-}
+// interface Talk{
+//     key: number;
+//     title: string,
+//     content: string,
+//     time: Date
+// }
 
 const talks: Talk[] = [
     {
@@ -105,7 +105,8 @@ const talks: Talk[] = [
 
 
 const Comments = () => {
-    //修改弹出窗口
+    //hooks区域
+        //修改弹出窗口
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -161,24 +162,12 @@ const Comments = () => {
         form.resetFields()
         setOpen(false);
     };
-    //弹窗表单
-    const formItemLayout = {
-        labelCol: {
-            xs: { span: 24 },
-            sm: { span: 6 },
-        },
-        wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 14 },
-        },
-    };
 
     //确认逻辑
     const confirm = (key:number) => {
         setStaticDate(staticDate.filter(item => item.key!==key))
         message.success('删除成功')
     }
-
     //表单提交
     const onFinish = () => {
         // 获取整个表单的值
@@ -193,6 +182,19 @@ const Comments = () => {
             date
         ])
     };
+
+    //弹窗表单
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 24 },
+            sm: { span: 6 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 14 },
+        },
+    };
+
 
 
     return <div className='Comments_Body'>
@@ -234,7 +236,7 @@ const Comments = () => {
                             ]}
                         >
                             <Card.Meta
-                                avatar={<Avatar src={avator} />}
+                                avatar={<Avatar src={avatar} />}
                                 title={talk.title}
                                 description={talk.content}
                             />

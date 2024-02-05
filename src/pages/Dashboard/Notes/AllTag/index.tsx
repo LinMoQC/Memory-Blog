@@ -7,37 +7,34 @@ import {
     Select,
     Tag,
     Tree,
-    TreeDataNode,
     Alert, message,
 } from "antd";
 import React, {useRef, useState} from "react";
 import {TagsOutlined} from '@ant-design/icons'
+import {myTreeNode,myFieldDataNode,newTag} from "../../../../interface/TagType";
 
 
-type Color = {
-    toHexString: () => string
-}
+// interface myTreeNode extends TreeDataNode{
+//     color: string
+//     children?: myFieldDataNode[]
+// }
+//
+// interface myFieldDataNode {
+//     title: string;
+//     color: string;
+//     key: string;
+// }
+//
+// interface newTag {
+//     level?: string
+//     title: string;
+//     key: string;
+//     color: Color;
+//     children?: myFieldDataNode[]
+//     parentTag?: string
+// }
 
-interface myTreeNode extends TreeDataNode{
-    color: string
-    children?: myFieldDataNode[]
-}
-
-interface myFieldDataNode {
-    title: string;
-    color: string;
-    key: string;
-}
-
-interface newTag {
-    level?: string
-    title: string;
-    key: string;
-    color: Color;
-    children?: myFieldDataNode[]
-    parentTag?: string
-}
-
+//静态数据
 const TagsData: myTreeNode[] = [
     {
         title: '前端开发',
@@ -129,10 +126,13 @@ const TagsData: myTreeNode[] = [
     },
 ];
 const AllTag = () => {
+    // hooks区域
     const tree = useRef(null)
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
     const [level,setLevel] = useState('level_1')
     const [staticDate,setStaticDate] = useState(TagsData)
+
+    //回调函数
     const onSelect = (selectedKeysValue: React.Key[]) => {
         setSelectedKeys(selectedKeysValue);
     };

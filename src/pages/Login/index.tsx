@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import getToken from '../../apis/getToken';
 
 const Login: React.FC = () => {
+    //hooks区域
     const [account, setAccount] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Login: React.FC = () => {
         }
     }, [navigate]);
 
+    //回调函数区域
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         if (name === 'account') {

@@ -11,7 +11,139 @@ import {
 import {PlusOutlined} from "@ant-design/icons";
 import {useState} from "react";
 
+//静态数据
+const categorize = [
+    {
+        id: 1,
+        name: '技术',
+        description: '关于编程、开发、技术趋势等的博客文章',
+    },
+    {
+        id: 2,
+        name: '设计',
+        description: '设计原理、用户界面设计、用户体验等方面的博客文章',
+    },
+    {
+        id: 3,
+        name: '生活',
+        description: '个人生活、日常琐事、旅行日记等的博客文章',
+    },
+    {
+        id: 4,
+        name: '健康',
+        description: '健康生活、运动、饮食等方面的博客文章',
+    },
+    {
+        id: 5,
+        name: '文学',
+        description: '文学创作、书评、阅读感想等的博客文章',
+    },
+    {
+        id: 6,
+        name: '学术',
+        description: '学术研究、学科探讨等的博客文章',
+    },
+    {
+        id: 7,
+        name: '音乐',
+        description: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
+    },
+    // 添加更多分类...
+];
+
+const tags = [
+    {
+        id: 1,
+        value: '前端开发',
+        title: '前端开发',
+        children: [
+            {
+                id: 101,
+                value: 'React',
+                title: 'React',
+            },
+            {
+                id: 102,
+                value: 'Vue.js',
+                title: 'Vue.js',
+            },
+            {
+                id: 103,
+                value: 'Angular',
+                title: 'Angular',
+            },
+        ],
+    },
+    {
+        id: 2,
+        value: '后端开发',
+        title: '后端开发',
+        children: [
+            {
+                id: 201,
+                value: 'Node.js',
+                title: 'Node.js',
+            },
+            {
+                id: 202,
+                value: 'Django',
+                title: 'Django',
+            },
+            {
+                id: 203,
+                value: 'Spring Boot',
+                title: 'Spring Boot',
+            },
+        ],
+    },
+    {
+        id: 3,
+        value: '移动端开发',
+        title: '移动端开发',
+        children: [
+            {
+                id: 301,
+                value: 'React Native',
+                title: 'React Native',
+            },
+            {
+                id: 302,
+                value: 'Flutter',
+                title: 'Flutter',
+            },
+            {
+                id: 303,
+                value: 'Swift',
+                title: 'Swift',
+            },
+        ],
+    },
+    {
+        id: 4,
+        value: '数据科学',
+        title: '数据科学',
+        children: [
+            {
+                id: 401,
+                value: '机器学习',
+                title: '机器学习',
+            },
+            {
+                id: 402,
+                value: '数据分析',
+                title: '数据分析',
+            },
+            {
+                id: 403,
+                value: '人工智能',
+                title: '人工智能',
+            },
+        ],
+    },
+    // 添加更多一级标签和二级标签...
+];
 const NewNotes = () => {
+    //hooks区域
     //文章提交表单
     const [open, setOpen] = useState(false);
     const [title_vlaue,setTitle] = useState('')
@@ -28,138 +160,7 @@ const NewNotes = () => {
         },
     };
 
-
-    const categorize = [
-        {
-            id: 1,
-            name: '技术',
-            description: '关于编程、开发、技术趋势等的博客文章',
-        },
-        {
-            id: 2,
-            name: '设计',
-            description: '设计原理、用户界面设计、用户体验等方面的博客文章',
-        },
-        {
-            id: 3,
-            name: '生活',
-            description: '个人生活、日常琐事、旅行日记等的博客文章',
-        },
-        {
-            id: 4,
-            name: '健康',
-            description: '健康生活、运动、饮食等方面的博客文章',
-        },
-        {
-            id: 5,
-            name: '文学',
-            description: '文学创作、书评、阅读感想等的博客文章',
-        },
-        {
-            id: 6,
-            name: '学术',
-            description: '学术研究、学科探讨等的博客文章',
-        },
-        {
-            id: 7,
-            name: '音乐',
-            description: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
-        },
-        // 添加更多分类...
-    ];
-
-    const tags = [
-        {
-            id: 1,
-            value: '前端开发',
-            title: '前端开发',
-            children: [
-                {
-                    id: 101,
-                    value: 'React',
-                    title: 'React',
-                },
-                {
-                    id: 102,
-                    value: 'Vue.js',
-                    title: 'Vue.js',
-                },
-                {
-                    id: 103,
-                    value: 'Angular',
-                    title: 'Angular',
-                },
-            ],
-        },
-        {
-            id: 2,
-            value: '后端开发',
-            title: '后端开发',
-            children: [
-                {
-                    id: 201,
-                    value: 'Node.js',
-                    title: 'Node.js',
-                },
-                {
-                    id: 202,
-                    value: 'Django',
-                    title: 'Django',
-                },
-                {
-                    id: 203,
-                    value: 'Spring Boot',
-                    title: 'Spring Boot',
-                },
-            ],
-        },
-        {
-            id: 3,
-            value: '移动端开发',
-            title: '移动端开发',
-            children: [
-                {
-                    id: 301,
-                    value: 'React Native',
-                    title: 'React Native',
-                },
-                {
-                    id: 302,
-                    value: 'Flutter',
-                    title: 'Flutter',
-                },
-                {
-                    id: 303,
-                    value: 'Swift',
-                    title: 'Swift',
-                },
-            ],
-        },
-        {
-            id: 4,
-            value: '数据科学',
-            title: '数据科学',
-            children: [
-                {
-                    id: 401,
-                    value: '机器学习',
-                    title: '机器学习',
-                },
-                {
-                    id: 402,
-                    value: '数据分析',
-                    title: '数据分析',
-                },
-                {
-                    id: 403,
-                    value: '人工智能',
-                    title: '人工智能',
-                },
-            ],
-        },
-        // 添加更多一级标签和二级标签...
-    ];
-
+    //回调函数区域
     const showModal = () => {
         setOpen(true);
         form.setFieldsValue({ Input: title_vlaue });
@@ -176,6 +177,7 @@ const NewNotes = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     };
+
     // const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     //     setFileList(newFileList);
     // };

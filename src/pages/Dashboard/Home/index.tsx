@@ -9,14 +9,17 @@ import ArticleRecord from "../../../components/articleRecord";
 import TheYearPass from "../../../components/theYearPass";
 import ArticleAnalytics from "../../../components/articleAnalytics";
 import WordCloud from "../../../components/wordCloud";
-import avator from '../../../assets/avator.jpg'
+import avatar from '../../../assets/avator.jpg'
 import Typed from 'typed.js';
 import MainContext from "../../../components/conText.tsx";
 const Home = () => {
+    //hooks区域
     const [oneSay, setOneSay] = useState('');
+    const typedRef = useRef(null);
     const { token } = theme.useToken();
 
-    //日历处理
+    //回调函数区域
+        //日历处理
     const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
         console.log(value.format('YYYY-MM-DD'), mode);
     };
@@ -38,8 +41,7 @@ const Home = () => {
         borderRadius: token.borderRadiusLG,
     };
 
-    const typedRef = useRef(null);
-
+    //初次渲染
     useEffect(() => {
         const getSay = async () => {
             const res = await axios.get('https://api.xygeng.cn/one');
@@ -67,7 +69,7 @@ const Home = () => {
         <div className="home">
             <div className="about_logo">
                 <div className="about_me">
-                    <img src={avator} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
+                    <img src={avatar} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
                     <div ref={typedRef} className="typed"></div>
                 </div>
                 <Space wrap style={{marginTop: 20}}>

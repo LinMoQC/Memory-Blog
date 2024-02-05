@@ -5,15 +5,17 @@ import avator from "../../../assets/avator.jpg";
 import CheckButton from "../../../components/Buttons/CheckButton";
 import DeleteButton from "../../../components/Buttons/DeleteButton";
 import { useState } from "react";
+import {Friend} from "../../../interface/FriendType";
 
-interface Friend {
-    key: number,
-    sitename: string;
-    avator: string;
-    siteurl: string;
-    desciption: string;
-}
+// interface Friend {
+//     key: number,
+//     sitename: string;
+//     avator: string;
+//     siteurl: string;
+//     desciption: string;
+// }
 
+//静态数据
 const friendsData: Friend[] = [
     {
         key: 1,
@@ -85,13 +87,15 @@ const req: Friend[] = [
 
 const Friends = () => {
     //状态变量区域
-    //选中个数
+        //选中个数
     const [SelectDelete, setSelectDelete] = useState(0)
-    //触发选择框
+        //触发选择框
     const [checkStatus, setCheckStatus] = useState<Record<number, boolean>>({});
     const [staticDate, setStaticDate] = useState<Friend[]>(friendsData); // 假设 Friend 是你的类型
     const [staticReq, setStaticReq] = useState<Friend[]>(req);
-    //删除
+
+    //回调函数区域
+        //删除
     const Delete = () => {
         // @ts-ignore
         const keysToDelete = Object.keys(checkStatus).filter(key => checkStatus[key]);

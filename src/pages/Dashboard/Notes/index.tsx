@@ -34,6 +34,7 @@ const items: MenuItem[] = [
 ];
 
 const Notes = () => {
+    //hooks区域
     const navigate = useNavigate()
     const [currentHashCode,setCurrentHashCode] = useState('')
     //夜间模式判断
@@ -43,6 +44,7 @@ const Notes = () => {
        setCurrentHashCode(location.hash)
     },[])
 
+    // 回调函数区域
     const ClickMenu: MenuProps['onClick'] = (e) => {
         // @ts-ignore
         navigate(e.item.props.to)
