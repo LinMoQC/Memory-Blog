@@ -1,10 +1,10 @@
 import './index.sass';
-import {Avatar, Card, message, Tabs} from "antd";
+import { Avatar, Card, message, Tabs } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import avator from "../../../assets/avator.jpg";
 import CheckButton from "../../../components/Buttons/CheckButton";
 import DeleteButton from "../../../components/Buttons/DeleteButton";
-import {useState} from "react";
+import { useState } from "react";
 
 interface Friend {
     key: number,
@@ -86,7 +86,7 @@ const req: Friend[] = [
 const Friends = () => {
     //状态变量区域
     //选中个数
-    const [SelectDelete,setSelectDelete] = useState(0)
+    const [SelectDelete, setSelectDelete] = useState(0)
     //触发选择框
     const [checkStatus, setCheckStatus] = useState<Record<number, boolean>>({});
     const [staticDate, setStaticDate] = useState<Friend[]>(friendsData); // 假设 Friend 是你的类型
@@ -108,7 +108,7 @@ const Friends = () => {
     }
 
     // 触发选择框和图片点击
-    const handleItemClick = (key:number) => {
+    const handleItemClick = (key: number) => {
         // 检查当前图片对应的复选框状态
         const isChecked = checkStatus[key] || false;
 
@@ -121,7 +121,6 @@ const Friends = () => {
         // 更新选择的数量
         setSelectDelete(prevCount => isChecked ? prevCount - 1 : prevCount + 1);
     };
-
 
     const renderFriendList = () => {
         const friendsChunks = staticDate.reduce((result, friend, index) => {
@@ -142,10 +141,13 @@ const Friends = () => {
                 {/*// @ts-ignore*/}
                 {friends.map((item, friendIndex) => (
                     <li className='link-item' key={friendIndex} onClick={() => handleItemClick(item.key)}>
-                        <div style={{position: 'absolute',right: 5,top: 5}}>
+                        <div style={{ position: 'absolute', right: 5, top: 5 }}>
                             <CheckButton
                                 checked={checkStatus[item.key] || false}
-                                handleCheckBoxChange={() => handleItemClick(item.key)}
+                                handleCheckBoxChange={(e) => {
+                                    e.stopPropagation();
+                                    handleItemClick(item.key);
+                                }}
                             />
                         </div>
                         <a
@@ -167,21 +169,21 @@ const Friends = () => {
     };
 
     //申请处理函数
-    const agree = (key:number) => {
+    const agree = (key: number) => {
         const updatedStaticDate = [
             ...staticDate,
             staticReq.find(item => item.key === key)
         ];
         if (Array.isArray(updatedStaticDate)) {
 
-            setStaticReq(staticReq.filter(item => item.key!==key));
+            setStaticReq(staticReq.filter(item => item.key !== key));
             // @ts-ignore
             setStaticDate(updatedStaticDate)
         }
         message.success('已添加')
     }
 
-    const refused = (key:number) => {
+    const refused = (key: number) => {
         const updatedStaticReq = staticReq.filter(item => item.key !== key);
         setStaticReq(updatedStaticReq);
         message.success('已拒绝')
@@ -202,10 +204,10 @@ const Friends = () => {
                                 <h3 className="link-title">
                                     <span className="link-fix">Friends</span>
                                 </h3>
-                                <div style={{float: 'right'}}>
-                                    <div style={{display: 'flex',alignItems: "center"}}>
-                                        <h3 style={{position: "absolute", right: 180, opacity: SelectDelete !== 0 ? 1 : 0, transition: '0.3s'}}>已选中{SelectDelete}条友链</h3>
-                                        <div style={{transform: 'scale(0.8)'}} onClick={Delete}>
+                                <div style={{ float: 'right' }}>
+                                    <div style={{ display: 'flex', alignItems: "center" }}>
+                                        <h3 style={{ position: "absolute", right: 180, opacity: SelectDelete !== 0 ? 1 : 0, transition: '0.3s' }}>已选中{SelectDelete}条友链</h3>
+                                        <div style={{ transform: 'scale(0.8)' }} onClick={Delete}>
                                             <DeleteButton />
                                         </div>
                                     </div>
@@ -217,7 +219,7 @@ const Friends = () => {
                                 <h3 className="link-title">
                                     <span className="link-fix">友链申请</span>
                                 </h3>
-                                <div style={{display: 'flex',alignItems: 'center',justifyContent:'space-between'}}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     {
                                         staticReq.map(item => (
                                             <Card
@@ -225,8 +227,8 @@ const Friends = () => {
                                                 style={{ width: 300, marginTop: 25 }}
                                                 className='resCard'
                                                 actions={[
-                                                    <CheckOutlined key="agree" onClick={() => agree(item.key)}/>,
-                                                    <CloseOutlined key="refused" onClick={() => refused(item.key)}/>
+                                                    <CheckOutlined key="agree" onClick={() => agree(item.key)} />,
+                                                    <CloseOutlined key="refused" onClick={() => refused(item.key)} />
                                                 ]}
                                                 key={item.key}>
                                                 <Card.Meta

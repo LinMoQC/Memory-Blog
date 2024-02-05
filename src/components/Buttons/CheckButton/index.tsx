@@ -1,8 +1,9 @@
 import './index.css';
+import React from "react";
 
 interface CheckButtonProps {
     checked: boolean;
-    handleCheckBoxChange: () => void;
+    handleCheckBoxChange: (e:React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CheckButton = ({ checked, handleCheckBoxChange }: CheckButtonProps) => {

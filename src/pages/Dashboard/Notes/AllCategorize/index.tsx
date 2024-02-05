@@ -8,7 +8,6 @@ import {
     Table,
     TableProps,
     Tag,
-    theme,
 } from "antd";
 import React, {useState} from "react";
 import {FolderOpenOutlined} from '@ant-design/icons';
@@ -83,7 +82,6 @@ const CategoriesData:CategorieType[] = [
 
 
 const  AllCategorize = () => {
-    const { token } = theme.useToken();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [staticDate,setStaticDate] = useState(CategoriesData)
     const [isEdit,setEdit] = useState('0')
@@ -187,10 +185,10 @@ const  AllCategorize = () => {
         lineHeight: '200px',
         textAlign: 'center',
         background: 'white',
-        borderRadius: token.borderRadiusLG,
-        marginTop: 30,
+        borderRadius: '10px',
+        marginTop: 10,
         maxWidth: '98%',
-        height: '75vh',
+        height: '86%',
         marginLeft: '1%',
         overflowY: 'hidden'
     };
@@ -262,7 +260,7 @@ const  AllCategorize = () => {
 
     return <>
         <div style={listStyle} className="searchRes">
-            <Table columns={columns} dataSource={staticDate} pagination={{pageSize: 6}}
+            <Table columns={columns} dataSource={staticDate} pagination={{pageSize: 8}}
                    title={() => <>
                            <div style={{float: 'left'}}>
                                <Button type="primary" style={{ background: '#389e0d'}} onClick={showModal}>

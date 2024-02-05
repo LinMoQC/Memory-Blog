@@ -38,7 +38,7 @@ const UserControl = () => {
     };
 
     return <div style={{padding: 20}}>
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs defaultActiveKey="1" items={items} onChange={onChange} centered={true}/>
     </div>
 }
 

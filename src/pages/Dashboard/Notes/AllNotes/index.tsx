@@ -257,11 +257,11 @@ const AdvancedSearchForm = () => {
     const [form] = Form.useForm();
     const formStyle: React.CSSProperties = {
         maxWidth: '98%',
-        // background: token.colorFillAlter,
         borderRadius: token.borderRadiusLG,
         padding: 24,
         margin: 'auto',
-        background: 'white'
+        background: 'white',
+        height: '140px'
     };
 
 
@@ -332,23 +332,24 @@ const AdvancedSearchForm = () => {
                             }))}
                         />
                     </Form.Item>
+                    <div style={{ textAlign: 'right' }}>
+                        <Space size="small">
+                            <Button type="primary" htmlType="submit">
+                                搜索
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    form.resetFields();
+                                }}
+                            >
+                                重置
+                            </Button>
+                        </Space>
+                    </div>
                 </Col>
             </Row>
 
-            <div style={{ textAlign: 'right' }}>
-                <Space size="small">
-                    <Button type="primary" htmlType="submit">
-                        搜索
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            form.resetFields();
-                        }}
-                    >
-                        重置
-                    </Button>
-                </Space>
-            </div>
+
         </Form>
     );
 };
@@ -369,7 +370,7 @@ const AllNotes = () => {
         borderRadius: token.borderRadiusLG,
         marginTop: 16,
         maxWidth: '98%',
-        height: '420px',
+        height: '460px',
         marginLeft: '1%',
         overflowY: 'auto'
     };
