@@ -20,7 +20,7 @@
 
 ### 后端
 - json-servre模拟接口（暂时）
-- Express框架的nodejs接口（部署在了vercel上，可以本地运行）
+- Express框架的nodejs接口（部署在了vercel上但是需要翻墙，也可以本地运行）
 
 ## 项目结构
 ```bash
@@ -31,6 +31,7 @@ Blog/
 |   |-- apis         //封装接口api
 |   |-- assets       //静态资源
 |   |-- components   //可复用组件
+|   |-- interface    //类型约束
 |   |-- pages        //页面组件
 |   |-- router       //路由
 |   |-- store        //Redux状态管理库
