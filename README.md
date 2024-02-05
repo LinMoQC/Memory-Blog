@@ -1,6 +1,10 @@
 # ☀️ LinMo Blog
 
   一个正在开发的React+TypeScript+SpringBoot博客
+  
+  - 后台UI ✔
+  - 接口开发
+  - 前台UI
 
 ## ✨ 功能特性
 
