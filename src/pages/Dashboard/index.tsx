@@ -148,70 +148,71 @@ const Dashboard = () => {
             ) : (
                 // 渲染实际的组件
                 <>
-            <div className={`shell ${isShellClosed ? 'close' : ''} ${isDarkMode ? 'dark' : ''} slider`}>
-                <nav className={`shell ${isShellClosed ? 'close' : ''} ${isDarkMode ? 'dark' : '' }`}>
-                    <header>
-                        <div className="image-text">
+
+                    <div className={`content ${isDarkMode ? 'contentDark' : ''}`}>
+                        <div className={`shell ${isShellClosed ? 'close' : ''} ${isDarkMode ? 'dark' : ''} slider`}>
+                            <nav className={`shell ${isShellClosed ? 'close' : ''} ${isDarkMode ? 'dark' : '' }`}>
+                                <header>
+                                    <div className="image-text">
                         <span className="image">
                             <img src={avator} alt="" />
                         </span>
-                            <div className="text logo-text">
-                                <span className="name">林陌青川</span>
-                                <p className="onesay">"渺沧海之一粟"</p>
-                            </div>
-                        </div>
-                        <i className="iconfont icon-iconfonticonfontarrowright toggle" onClick={handleToggleClick} style={{fontSize: 20}}></i>
-                    </header>
+                                        <div className="text logo-text">
+                                            <span className="name">林陌青川</span>
+                                            <p className="onesay">"渺沧海之一粟"</p>
+                                        </div>
+                                    </div>
+                                    <i className="iconfont icon-iconfonticonfontarrowright toggle" onClick={handleToggleClick} style={{fontSize: 20}}></i>
+                                </header>
 
-                    <div className="menu-bar">
-                        <div className="menu">
-                            <li className="search-box" onClick={handleSearchClick}>
-                                <i className="iconfont icon-sousuo1 icon"></i>
-                                <input type="text" placeholder="search..." />
-                            </li>
+                                <div className="menu-bar">
+                                    <div className="menu">
+                                        <li className="search-box" onClick={handleSearchClick}>
+                                            <i className="iconfont icon-sousuo1 icon"></i>
+                                            <input type="text" placeholder="search..." />
+                                        </li>
 
-                            <ul className="menu-links">
-                                {sidebar.map(item => (
-                                    <li className={`nav-links ${SelectCurrent === item.index ? 'nav_select' : ''}`}
-                                        onClick={() => {
-                                        navigate(item.to)
-                                        setSelectCurrent(item.index)
-                                    }} key={item.index}>
-                                        <i className={`iconfont ${item.icon} icon`}></i>
-                                        <span className="text nac-text">{item.name}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                                        <ul className="menu-links">
+                                            {sidebar.map(item => (
+                                                <li className={`nav-links ${SelectCurrent === item.index ? 'nav_select' : ''}`}
+                                                    onClick={() => {
+                                                        navigate(item.to)
+                                                        setSelectCurrent(item.index)
+                                                    }} key={item.index}>
+                                                    <i className={`iconfont ${item.icon} icon`}></i>
+                                                    <span className="text nac-text">{item.name}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
 
-                        <div className="bottom-content">
-                            <li className="nav-links" onClick={() => navigate('usercontrol')}>
-                                    <i className="iconfont icon-iconfontcog icon"></i>
-                                    <span className="text nac-text">用户管理</span>
-                            </li>
+                                    <div className="bottom-content">
+                                        <li className="nav-links" onClick={() => navigate('usercontrol')}>
+                                            <i className="iconfont icon-iconfontcog icon"></i>
+                                            <span className="text nac-text">用户管理</span>
+                                        </li>
 
-                            <li className="nav-links" onClick={openNotification}>
-                                <i className="iconfont icon-tuichu icon"></i>
-                                <span className="text nac-text">退出登录</span>
-                            </li>
+                                        <li className="nav-links" onClick={openNotification}>
+                                            <i className="iconfont icon-tuichu icon"></i>
+                                            <span className="text nac-text">退出登录</span>
+                                        </li>
 
-                            <li className="mode">
-                                <div className="sun-moon">
-                                    {isDarkMode?<i className={`iconfont icon-taiyang1 icon ${isDarkMode ? 'moon' : 'sun'}`}></i>:
-                                        <i className={`iconfont icon-moonyueliang icon ${isDarkMode ? 'sun' : 'moon'}`}></i>}
+                                        <li className="mode">
+                                            <div className="sun-moon">
+                                                {isDarkMode?<i className={`iconfont icon-taiyang1 icon ${isDarkMode ? 'moon' : 'sun'}`}></i>:
+                                                    <i className={`iconfont icon-moonyueliang icon ${isDarkMode ? 'sun' : 'moon'}`}></i>}
+                                            </div>
+                                            <span className="mode-text text">{isDarkMode ? '白日模式' : '夜间模式'}</span>
+                                            <div className="toggle-switch">
+                                                <Switch handleModeSwitch={handleModeSwitch}/>
+                                            </div>
+
+                                        </li>
+                                    </div>
                                 </div>
-                                <span className="mode-text text">{isDarkMode ? '白日模式' : '夜间模式'}</span>
-                                <div className="toggle-switch">
-                                    <Switch handleModeSwitch={handleModeSwitch}/>
-                                </div>
-
-                            </li>
+                            </nav>
                         </div>
-                    </div>
-                </nav>
-            </div>
-                    <div className={`content ${isDarkMode ? 'contentDark' : ''}`}>
-                        <Card style={{ width: 1400,height: 740 }} className={`Card ${isDarkMode ? 'CardDark' : ''}`}>
+                        <Card style={{ width: "90%",height: '95%' ,marginLeft:80}} className={`Card ${isDarkMode ? 'CardDark' : ''}`}>
                             <MainContext.Provider value={isDarkMode.toString()}>
                                 <Outlet />
                             </MainContext.Provider>

@@ -111,6 +111,7 @@ const Friends = () => {
     const handleItemClick = (key: number) => {
         // 检查当前图片对应的复选框状态
         const isChecked = checkStatus[key] || false;
+        console.log(isChecked)
 
         // 更新复选框状态
         setCheckStatus(prevState => ({
