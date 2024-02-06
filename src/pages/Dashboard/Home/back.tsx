@@ -1,5 +1,5 @@
 // import {Calendar, CalendarProps, Card, ConfigProvider, Progress, Space, Steps, theme} from "antd";
-// import './index.sass';
+// import './index.css';
 // import {useContext, useEffect, useRef, useState} from "react";
 // import axios from "axios";
 // import {Dayjs} from "dayjs";

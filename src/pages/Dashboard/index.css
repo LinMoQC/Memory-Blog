@@ -370,3 +370,23 @@ li.search-box input {
     border-radius: 6px;
     transition: 0.5s;
 }
+
+
+.setting_btn{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+/*.setting_btn:hover{*/
+/*    justify-content: flex-start;*/
+/*    align-items: flex-start;*/
+/*    opacity: 1;*/
+/*}*/
+
+/*.setting_btn:not(:hover) {*/
+/*    !* 鼠标移出时的样式 *!*/
+/*    !* 你可以在这里设置移出时的样式，如果没有特殊需求，可以保持和初始样式一致 *!*/
+/*    opacity: 0;*/
+
+/*}*/

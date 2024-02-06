@@ -1,13 +1,14 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import './index.css';
 import '../../assets/font/iconfont.js';
 import '../../assets/font/iconfont.css';
-import avator from '../../assets/avator.jpg'
+import avatar from '../../assets/avator.jpg'
 import {Outlet, useNavigate} from "react-router-dom";
 import deleteToken from "../../apis/deleteToken.tsx";
 import {Button, Space, notification, message, Card, Spin} from "antd";
 import MainContext from "../../components/conText.tsx";
 import Switch from "../../components/Switch";
+import SettingButton from "../../components/Buttons/SettingButton";
 
 const Dashboard = () => {
     //hooks区域
@@ -142,6 +143,52 @@ const Dashboard = () => {
     ]
 
 
+    //全屏
+    const fullScreenRef = useRef<HTMLDivElement>(null);
+    const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+
+    const toggleFullScreen = () => {
+        const elem = fullScreenRef.current;
+
+        if (!isFullScreen) {
+            if (elem?.requestFullscreen) {
+                elem.requestFullscreen();
+            } else { // @ts-ignore
+                if (elem?.mozRequestFullScreen) { /* Firefox */
+                                // @ts-ignore
+                    elem.mozRequestFullScreen();
+                            } else { // @ts-ignore
+                    if (elem?.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                                                    // @ts-ignore
+                        elem.webkitRequestFullscreen();
+                                                } else { // @ts-ignore
+                        if (elem?.msRequestFullscreen) { /* IE/Edge */
+                                                                            // @ts-ignore
+                            elem.msRequestFullscreen();
+                                                                        }
+                    }
+                }
+            }
+            setIsFullScreen(true);
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+                // @ts-ignore
+            } else if (document.mozCancelFullScreen) { /* Firefox */
+                // @ts-ignore
+                document.mozCancelFullScreen();
+                // @ts-ignore
+            } else if (document.webkitExitFullscreen) {
+                // @ts-ignore/* Chrome, Safari & Opera */
+                document.webkitExitFullscreen();
+                // @ts-ignore
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                // @ts-ignore
+                document.msExitFullscreen();
+            }
+            setIsFullScreen(false);
+        }
+    };
 
     return (
         <div className={`contain ${isDarkMode ? 'dark' : ''}`}>
@@ -154,13 +201,13 @@ const Dashboard = () => {
                 // 渲染实际的组件
                 <>
 
-                    <div className={`content ${isDarkMode ? 'contentDark' : ''}`}>
+                    <div className={`content ${isDarkMode ? 'contentDark' : ''}`} ref={fullScreenRef}>
                         <div className={`shell ${isShellClosed ? 'close' : ''} ${isDarkMode ? 'dark' : ''} slider`}>
                             <nav className={`shell ${isShellClosed ? 'close' : ''} ${isDarkMode ? 'dark' : '' }`}>
                                 <header>
                                     <div className="image-text">
                         <span className="image">
-                            <img src={avator} alt="" />
+                            <img src={avatar} alt="" />
                         </span>
                                         <div className="text logo-text">
                                             <span className="name">林陌青川</span>
@@ -222,6 +269,12 @@ const Dashboard = () => {
                                 <Outlet />
                             </MainContext.Provider>
                         </Card>
+
+                        {/*  悬浮按钮  */}
+
+                        <div className='setting_btn' onClick={()=>toggleFullScreen()}>
+                            <SettingButton />
+                        </div>
                     </div>
 
             {contextHolder}
