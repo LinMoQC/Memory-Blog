@@ -360,26 +360,12 @@ const AdvancedSearchForm = () => {
 };
 
 const AllNotes = () => {
-    const { token } = theme.useToken();
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const navigate = useNavigate()
     const [staticDate,setStaticDate] = useState(Notesdata)
     const [open, setOpen] = useState(false);
     const [isEdit,setEdit] = useState('')
     const [form] = Form.useForm();
-
-    const listStyle: React.CSSProperties = {
-        lineHeight: '200px',
-        textAlign: 'center',
-        background: 'white',
-        borderRadius: token.borderRadiusLG,
-        marginTop: 16,
-        maxWidth: '98%',
-        height: '460px',
-        marginLeft: '1%',
-        overflowY: 'auto'
-    };
-
     const DeleteNote = (key:string) => {
         setStaticDate(staticDate.filter(item => item.key!== key))
         message.success('删除成功')
@@ -562,7 +548,7 @@ const AllNotes = () => {
                 <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
                 </span>
-                <div style={listStyle} className="searchRes">
+                <div className="searchRes">
 
                     <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange}/>
                     <div style={{ overflowX: 'auto' }}>
