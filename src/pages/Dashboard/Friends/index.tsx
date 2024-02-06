@@ -1,4 +1,4 @@
-import './index.sass';
+    import './index.sass';
 import { Avatar, Card, message, Tabs } from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import avator from "../../../assets/avator.jpg";
@@ -224,7 +224,8 @@ const Friends = () => {
                                 <h3 className="link-title">
                                     <span className="link-fix">友链申请</span>
                                 </h3>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'grid',gridTemplateColumns:'repeat(auto-fit, minmax(200px,' +
+                                        ' 1fr))', gridGap: 50}}>
                                     {
                                         staticReq.map(item => (
                                             <Card
