@@ -27,7 +27,7 @@ const ArticleAnalytics = () => {
     return <>
         <div className="analyticsCard">
             {list.map(item => (
-                <Card style={{width: 210,padding: 10,marginBottom:0,fontWeight:'600'}} key={item.index}>
+                <Card style={{width: '75%',height:'25%',padding: 10,marginBottom:0,fontWeight:'600',marginTop: 0,justifyContent: 'space-around'}} key={item.index}>
                     <Row gutter={16}>
                         <Col span={12}>
                             <Statistic title={item.name} value={item.value} formatter={formatter}/>

@@ -32,13 +32,14 @@ const Home = () => {
 
 
     const wrapperStyle: React.CSSProperties = {
-        width: 350,
-        position: "absolute",
-        right: "0",
-        bottom: "120px",
-        margin: "30px",
+        width: '100%',
+        height: '50%',
         border: "none",
         borderRadius: token.borderRadiusLG,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
     };
 
     //初次渲染
@@ -67,59 +68,71 @@ const Home = () => {
     const isDark = JSON.parse(useContext(MainContext))
         return (
         <div className="home">
-            <div className="about_logo">
-                <div className="about_me">
-                    <img src={avatar} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
-                    <div ref={typedRef} className="typed"></div>
-                </div>
-                <Space wrap style={{marginTop: 20}}>
-                    <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>CPU</span>}/>
-                    <Progress type="circle" percent={50} size={65} format={() => <span style={{color:isDark?"white":'black'}}>内存</span>} />
-                    <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>磁盘</span>} />
-                </Space>
+
+            <div className='left' style={{height: '100%',width:'25%'}}>
+               <div className="about_logo">
+                   <div className="about_me">
+                       <img src={avatar} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
+                       <div ref={typedRef} className="typed"></div>
+                   </div>
+                   <Space wrap style={{marginTop: 20}}>
+                       <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>CPU</span>}/>
+                       <Progress type="circle" percent={50} size={65} format={() => <span style={{color:isDark?"white":'black'}}>内存</span>} />
+                       <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>磁盘</span>} />
+                   </Space>
+               </div>
+               <ArticleAnalytics />
+               <div style={{display:"flex",justifyContent: 'center',height:'22%',alignItems:'center'}}>
+                   <WordCloud />
+               </div>
+           </div>
+
+            <div className='center' style={{height: '100%',width:'60%',paddingRight:30}}>
+                <ArticleRecord isDark={isDark}/>
             </div>
-            <ArticleAnalytics />
-            <ArticleRecord isDark={isDark}/>
-            <WordCloud />
-            <Card size="small" title={
-                <div className="custom-card-header">
-                    <span className="dot"></span>
-                    <span className="dot"></span>
-                    <span className="dot"></span>
-                    每日箴言
-                </div>
-            } style={{minWidth: 350, height: 200}}>
-                <div className="oneSay">
-                    <span className="stick">📌</span>
-                    <p className="onesay_content">{oneSay}</p>
-                </div>
-            </Card>
 
-            <ConfigProvider locale={zhCN}>
-                <div style={wrapperStyle}>
-                    <TheYearPass/>
-                    <Calendar fullscreen={false} onPanelChange={onPanelChange} disabledDate={disabledDate}/>
-                </div>
-            </ConfigProvider>
 
-            <Card className="cardInfo">
-                <h3 style={{marginLeft: 10,marginBottom:10,marginTop:5}}>开发进度</h3>
-                <Steps
-                    direction="vertical"
-                    current={1}
-                    items={[
-                        {
-                            title: '登录逻辑和后台页面UI',
-                        },
-                        {
-                            title: '静态数据完成后台功能逻辑',
-                        },
-                        {
-                            title: '后端接口开发',
-                        },
-                    ]}
-                />
-            </Card>
+            <div className='right'>
+               <Card size="small" title={
+                   <div className="custom-card-header">
+                       <span className="dot"></span>
+                       <span className="dot"></span>
+                       <span className="dot"></span>
+                       每日箴言
+                   </div>
+               } style={{minWidth: 350, height: '30%',margin: 0}}>
+                   <div className="oneSay">
+                       <span className="stick">📌</span>
+                       <p className="onesay_content">{oneSay}</p>
+                   </div>
+               </Card>
+
+               <ConfigProvider locale={zhCN}>
+                   <div style={wrapperStyle}>
+                       <TheYearPass/>
+                       <Calendar fullscreen={false} onPanelChange={onPanelChange} disabledDate={disabledDate} style={{height:'85%'}}/>
+                   </div>
+               </ConfigProvider>
+
+               <Card className="cardInfo" style={{margin: 0}}>
+                   <h3 style={{marginLeft: 10,marginBottom:10,marginTop:5}}>开发进度</h3>
+                   <Steps
+                       direction="vertical"
+                       current={1}
+                       items={[
+                           {
+                               title: '登录逻辑和后台页面UI',
+                           },
+                           {
+                               title: '静态数据完成后台功能逻辑',
+                           },
+                           {
+                               title: '后端接口开发',
+                           },
+                       ]}
+                   />
+               </Card>
+           </div>
         </div>
     );
 
