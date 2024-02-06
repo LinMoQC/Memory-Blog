@@ -140,7 +140,6 @@ const tags = [
             },
         ],
     },
-    // 添加更多一级标签和二级标签...
 ];
 const NewNotes = () => {
     //hooks区域

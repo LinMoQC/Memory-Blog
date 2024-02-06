@@ -333,7 +333,13 @@ const AdvancedSearchForm = () => {
                             treeDefaultExpandAll
                             treeData={tags.map(tag => ({
                                 ...tag,
-                                value: tag.key
+                                value: tag.key,
+                                key: tag.key,
+                                children: tag.children ? tag.children.map(child => ({
+                                    ...child,
+                                    value: child.key,
+                                    key: child.key
+                                })) : [] // 确保即使没有子节点也保留空数组
                             }))}
                         />
                     </Form.Item>
@@ -381,7 +387,8 @@ const AllNotes = () => {
             if (item.key === isEdit) {
                 return {
                     ...item,
-                    status: parseInt(form.getFieldsValue().status)
+                    status: parseInt(form.getFieldsValue().status),
+                    isTop: (form.getFieldsValue().top == 'true')
                 };
             } else {
                 return item;
@@ -461,7 +468,7 @@ const AllNotes = () => {
                         });
 
                         return (
-                            <Tag color={color} key={tag}>
+                            <Tag color={color} key={tag} style={{margin:5}}>
                                 {tag}
                             </Tag>
                         );
@@ -475,14 +482,14 @@ const AllNotes = () => {
             key: 'isTop',
             dataIndex: 'isTop',
             align: "center",
-            render: (isTop) => (isTop ? '是' : '否'),
+            render: (isTop) => (isTop ? <i className={`iconfont icon-yes`} style={{fontSize:24}}></i> : <i className={`iconfont icon-no`} style={{fontSize:24}}></i>),
         },
         {
             title: '发布时间',
             key: 'time',
             dataIndex: 'time',
             align: "center",
-            render: (time) => new Date(time).toLocaleString(),
+            render: (time) => <div style={{width:160,height:26,color:'rgba(0,0,0.88)',fontWeight:600,borderRadius:10}}>{new Date(time).toLocaleString()}</div>,
         },
         {
             title: '文章状态',
@@ -496,11 +503,11 @@ const AllNotes = () => {
             key: 'action',
             align: "center",
             render: (item) => (
-                <Space size="middle">
-                    <Button type='primary'>编辑</Button>
-                    <Button type='primary' style={{background: '#f5222d'}} onClick={() => DeleteNote(item.key)}>删除</Button>
-                    <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}>状态变更</Button>
-                </Space>
+                <div style={{display: "flex",flexDirection:'column',alignItems:'center'}}>
+                        <Button type='primary' style={{marginBottom: 10}}><i className={`iconfont icon-bianji`} style={{fontSize:16}}></i> 编辑</Button>
+                        <Button type='primary' style={{background: '#f5222d',marginBottom:10}} onClick={() => DeleteNote(item.key)}><i className={`iconfont icon-shanchu1`} style={{fontSize:16}}></i>删除</Button>
+                        <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16}}></i> 状态变更</Button>
+                </div>
             ),
         },
     ];
@@ -549,9 +556,8 @@ const AllNotes = () => {
                 {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
                 </span>
                 <div className="searchRes">
-
-                    <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange}/>
-                    <div style={{ overflowX: 'auto' }}>
+                    <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange} />
+                    <div style={{ overflowX: 'hidden' }}>
                         <ConfigProvider
                             theme={{
                                 components: {
@@ -561,7 +567,7 @@ const AllNotes = () => {
                                 },
                             }}
                         >
-                            <Table columns={columns} dataSource={staticDate} pagination={{ pageSize: 4 }} rowSelection={rowSelection} />
+                            <Table columns={columns} dataSource={staticDate} pagination={{ pageSize: 4 }} rowSelection={rowSelection} scroll={{y:290,x:1000}}/>
                         </ConfigProvider>
                     </div>
                 </div>
@@ -569,7 +575,6 @@ const AllNotes = () => {
 
         <Modal
             open={open}
-            title="文章状态变更"
             okText="保存"
             cancelText="取消"
             onCancel={onCancel}
@@ -583,11 +588,18 @@ const AllNotes = () => {
                 onFinish={onfinish}
             >
 
-                <Form.Item name="status" className="collection-create-form_last-form-item">
+                <Form.Item name="status" className="collection-create-form_last-form-item" label={<h4>文章状态</h4>}>
                     <Radio.Group>
                         <Radio value="1">公开</Radio>
                         <Radio value="2">私密</Radio>
                         <Radio value="3">草稿</Radio>
+                    </Radio.Group>
+                </Form.Item>
+
+                <Form.Item name="top" label={<h4>是否置顶</h4>}>
+                    <Radio.Group>
+                        <Radio value="true">是</Radio>
+                        <Radio value="false">否</Radio>
                     </Radio.Group>
                 </Form.Item>
             </Form>

@@ -6,6 +6,118 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "924471",
+      "name": "no",
+      "font_class": "no",
+      "unicode": "e918",
+      "unicode_decimal": 59672
+    },
+    {
+      "icon_id": "924597",
+      "name": "yes",
+      "font_class": "yes",
+      "unicode": "e982",
+      "unicode_decimal": 59778
+    },
+    {
+      "icon_id": "1017309",
+      "name": "yes",
+      "font_class": "yes1",
+      "unicode": "e684",
+      "unicode_decimal": 59012
+    },
+    {
+      "icon_id": "9193133",
+      "name": "是-通用",
+      "font_class": "shi-tongyong",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "11349135",
+      "name": "no-f",
+      "font_class": "no-f",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "12905261",
+      "name": "no",
+      "font_class": "no1",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "1130591",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "2815703",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "4878270",
+      "name": "变更",
+      "font_class": "biangeng",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "5076785",
+      "name": "删除",
+      "font_class": "shanchu1",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "10031749",
+      "name": "编辑",
+      "font_class": "bianji1",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "10303644",
+      "name": "改变状态",
+      "font_class": "gaibianzhuangtai",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "11078653",
+      "name": "删除",
+      "font_class": "shanchu2",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "19848670",
+      "name": "改变状态",
+      "font_class": "gaibianzhuangtai1",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "25453294",
+      "name": "删除",
+      "font_class": "shanchu3",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "37224183",
+      "name": "改变状态",
+      "font_class": "icon-com-change-state",
+      "unicode": "ea33",
+      "unicode_decimal": 59955
+    },
+    {
       "icon_id": "490511",
       "name": "public",
       "font_class": "public",

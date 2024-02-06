@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4335817 */
-  src: url('iconfont.woff2?t=1707086706897') format('woff2'),
-       url('iconfont.woff?t=1707086706897') format('woff'),
-       url('iconfont.ttf?t=1707086706897') format('truetype');
+  src: url('iconfont.woff2?t=1707251326286') format('woff2'),
+       url('iconfont.woff?t=1707251326286') format('woff'),
+       url('iconfont.ttf?t=1707251326286') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,70 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-no:before {
+  content: "\e918";
+}
+
+.icon-yes:before {
+  content: "\e982";
+}
+
+.icon-yes1:before {
+  content: "\e684";
+}
+
+.icon-shi-tongyong:before {
+  content: "\e625";
+}
+
+.icon-no-f:before {
+  content: "\e641";
+}
+
+.icon-no1:before {
+  content: "\e626";
+}
+
+.icon-shanchu:before {
+  content: "\e61c";
+}
+
+.icon-bianji:before {
+  content: "\e61e";
+}
+
+.icon-biangeng:before {
+  content: "\e621";
+}
+
+.icon-shanchu1:before {
+  content: "\e63d";
+}
+
+.icon-bianji1:before {
+  content: "\e624";
+}
+
+.icon-gaibianzhuangtai:before {
+  content: "\e622";
+}
+
+.icon-shanchu2:before {
+  content: "\e623";
+}
+
+.icon-gaibianzhuangtai1:before {
+  content: "\e656";
+}
+
+.icon-shanchu3:before {
+  content: "\e6da";
+}
+
+.icon-icon-com-change-state:before {
+  content: "\ea33";
 }
 
 .icon-public:before {

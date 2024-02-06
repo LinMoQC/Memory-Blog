@@ -4,8 +4,9 @@ import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import avator from "../../../assets/avator.jpg";
 import CheckButton from "../../../components/Buttons/CheckButton";
 import DeleteButton from "../../../components/Buttons/DeleteButton";
-import { useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import {Friend} from "../../../interface/FriendType";
+    import MainContext from "../../../components/conText.tsx";
 
 // interface Friend {
 //     key: number,
@@ -93,10 +94,16 @@ const Friends = () => {
     const [checkStatus, setCheckStatus] = useState<Record<number, boolean>>({});
     const [staticDate, setStaticDate] = useState<Friend[]>(friendsData); // 假设 Friend 是你的类型
     const [staticReq, setStaticReq] = useState<Friend[]>(req);
+    const [isDarkMode,setIsDarkMode] = useState(false)
+    const Mode = useContext(MainContext)
 
     //回调函数区域
         //删除
     const Delete = () => {
+        if (SelectDelete === 0){
+            message.warning('待选中')
+            return
+        }
         // @ts-ignore
         const keysToDelete = Object.keys(checkStatus).filter(key => checkStatus[key]);
 
@@ -115,7 +122,6 @@ const Friends = () => {
     const handleItemClick = (key: number) => {
         // 检查当前图片对应的复选框状态
         const isChecked = checkStatus[key] || false;
-        console.log(isChecked)
 
         // 更新复选框状态
         setCheckStatus(prevState => ({
@@ -139,6 +145,10 @@ const Friends = () => {
             return result;
         }, []);
 
+        useEffect(() => {
+            const isDark = Mode === 'true';
+            setIsDarkMode(isDark)
+        },[Mode])
 
 
         return friendsChunks.map((friends, chunkIndex) => (
@@ -146,11 +156,12 @@ const Friends = () => {
                 {/*// @ts-ignore*/}
                 {friends.map((item, friendIndex) => (
                     <li className='link-item' key={friendIndex} onClick={() => handleItemClick(item.key)}>
-                        <div style={{ position: 'absolute', right: 5, top: 5 }}>
+                        <div style={{ position: 'absolute', right: 5, top: 5 }} onClick={(evente) => {
+                            evente.stopPropagation()
+                        }}>
                             <CheckButton
                                 checked={checkStatus[item.key] || false}
-                                handleCheckBoxChange={(e) => {
-                                    e.stopPropagation();
+                                handleCheckBoxChange={() => {
                                     handleItemClick(item.key);
                                 }}
                             />
@@ -207,7 +218,7 @@ const Friends = () => {
                         {i === 0 ? (
                             <>
                                 <h3 className="link-title">
-                                    <span className="link-fix">Friends</span>
+                                    <span className="link-fix" style={{ color: isDarkMode ? 'cornflowerblue' : 'black' }}>Friends</span>
                                 </h3>
                                 <div style={{ float: 'right' }}>
                                     <div style={{ display: 'flex', alignItems: "center" }}>

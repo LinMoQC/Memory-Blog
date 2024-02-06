@@ -100,9 +100,14 @@ const  AllCategorize = () => {
     }
 
     const DeleteAll = () => {
-        setStaticDate(staticDate.filter(item => !selectedRowKeys.includes(item.key)))
-        setSelectedRowKeys([])
-        message.success('删除成功')
+        console.log(selectedRowKeys.length)
+        if(selectedRowKeys.length === 0){
+            message.warning('待选中')
+        }else{
+            setStaticDate(staticDate.filter(item => !selectedRowKeys.includes(item.key)))
+            setSelectedRowKeys([])
+            message.success('删除成功')
+        }
     }
 
     //编辑逻辑

@@ -3,7 +3,7 @@ import './index.sass'
 import {Card, Modal, UploadFile} from "antd";
 import DeleteButton from "../../../components/Buttons/DeleteButton";
 import UpLoadButton from "../../../components/Buttons/UpLoadButton";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
@@ -90,7 +90,11 @@ const Albums = () => {
         // Implement your logic to fetch more data
     };
 
-    const Delete = () => {
+    const Delete = useCallback(() => {
+        if (SelectDelete === 0) {
+            message.warning("待选中");
+            return;
+        }
         // @ts-ignore
         //拿出所有的键
         const keysToDelete = Object.keys(checkStatus).filter(key => checkStatus[key]);
@@ -100,12 +104,12 @@ const Albums = () => {
             prevStaticDate.filter(item => !keysToDelete.includes(item.key.toString()))
         ));
 
-        message.success('删除成功')
+        message.success("删除成功");
 
         // 删除完毕后清空 checkStatus
         setCheckStatus({});
-        setSelectDelete(0)
-    }
+        setSelectDelete(0);
+    }, [SelectDelete, checkStatus]);
 
     // 触发选择框和图片点击
     const handleItemClick = (key:number) => {

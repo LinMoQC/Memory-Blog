@@ -14,26 +14,6 @@ import {TagsOutlined} from '@ant-design/icons'
 import {myTreeNode,myFieldDataNode,newTag} from "../../../../interface/TagType";
 
 
-// interface myTreeNode extends TreeDataNode{
-//     color: string
-//     children?: myFieldDataNode[]
-// }
-//
-// interface myFieldDataNode {
-//     title: string;
-//     color: string;
-//     key: string;
-// }
-//
-// interface newTag {
-//     level?: string
-//     title: string;
-//     key: string;
-//     color: Color;
-//     children?: myFieldDataNode[]
-//     parentTag?: string
-// }
-
 //静态数据
 const TagsData: myTreeNode[] = [
     {
@@ -142,6 +122,11 @@ const AllTag = () => {
     };
 
     const Delete = () => {
+        if (selectedKeys.length === 0){
+            message.warning('待选中')
+            return
+        }
+
         setStaticDate(staticDate.filter(tag => {
             // 如果当前标签被选中，直接过滤掉
             if (selectedKeys.includes(tag.key)) {
@@ -162,7 +147,6 @@ const AllTag = () => {
             }
     };
     const onfinish = (values: newTag) => {
-        console.log(values.color.toHexString())
         if (values.level === 'level_1') {
             const newTag: myTreeNode = {
                 title: values.title,
@@ -176,18 +160,24 @@ const AllTag = () => {
             ])
             message.success('添加成功')
         } else {
+            console.log(values.parentTag)
             const fatherTag = staticDate.find(item => item.key === values.parentTag);
-            if (fatherTag) {
+            console.log(fatherTag)
+            if (fatherTag&&fatherTag.children) {
+                const len = fatherTag.children?.length
                 const newTag: myFieldDataNode = {
                     title: values.title,
                     // @ts-ignore
-                    key: (fatherTag.children.length + 1).toString(),
-                    color: values.color.toHexString()
+                    key: (parseInt(fatherTag.children[len-1].key)+1).toString(),
+                    color: fatherTag.color,
                 }
-                // @ts-ignore
-                fatherTag.children.push(newTag); // 将新标签添加到父标签的 children 数组中
-                message.success('添加成功')
-                setStaticDate([...staticDate]); // 更新 staticDate 状态
+                if(!fatherTag.children?.find(item => item.title ===  newTag.title)){
+                    fatherTag?.children.push(newTag)
+                    message.success('添加成功')
+                    setStaticDate([...staticDate])
+                }else {
+                    message.error('子标签已经存在')
+                }
             }
         }
     }
