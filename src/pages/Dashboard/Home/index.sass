@@ -56,6 +56,10 @@
     margin: 30px 0 0 30px
     display: flex
     flex-direction: column
+    @media only screen and (max-width: 1530px)
+      height: 20%
+      margin: 40px 0 0 40px
+
     .about_me
       display: flex
       flex-direction: row
@@ -64,6 +68,10 @@
         font-weight: 600
         font-size: 20px
         margin-left: 10px
+
+    .p_hidden
+      @media only screen and (max-width: 1530px)
+        display: none
 
 
   .ant-picker-calendar-mini

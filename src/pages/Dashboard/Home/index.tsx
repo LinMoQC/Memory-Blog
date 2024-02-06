@@ -75,7 +75,7 @@ const Home = () => {
                        <img src={avatar} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
                        <div ref={typedRef} className="typed"></div>
                    </div>
-                   <Space wrap style={{marginTop: 20}}>
+                   <Space wrap style={{marginTop: 20}} className='p_hidden'>
                        <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>CPU</span>}/>
                        <Progress type="circle" percent={50} size={65} format={() => <span style={{color:isDark?"white":'black'}}>内存</span>} />
                        <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>磁盘</span>} />

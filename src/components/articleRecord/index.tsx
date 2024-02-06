@@ -40,7 +40,7 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
         <div className="articleRecordImg">
             <img src="https://ghchart.rshah.org/409ba5/LinMoQC" alt="2016rshah's Blue Github Chart" />
         </div>
-        <div className="articleRecordBox">
+        <div className="articleRecordBox" style={{overflowY:"auto"}}>
             <h3>最新文章</h3>
             {articleList.map(item => (
                 <div className="articleRecordCard in" key={item.index} style={{background: isDark ? 'rgba(0,0,0,0.33)' : 'rgba(255,255,255,0.33)'}}>
