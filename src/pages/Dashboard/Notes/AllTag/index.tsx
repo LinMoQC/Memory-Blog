@@ -251,7 +251,7 @@ const AllTag = () => {
                     <Alert message={`选中删除标签：${selectedKeys.length} 个`} type="warning" showIcon style={{position: 'absolute',transition: '0.3s',opacity: selectedKeys.length===0?0:1}}/>
                 </Form>
             </div>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>
                 <Tree
                     showLine
                     multiple
@@ -263,6 +263,8 @@ const AllTag = () => {
                         <Tag color={node.color}>{node.title}</Tag>
                     )}
                     ref={tree}
+                    virtual={true}
+                    height={500}
                 />
             </div>
 

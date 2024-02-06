@@ -31,6 +31,13 @@ const Dashboard = () => {
                                 location.hash === '#/dashboard/analytics' ? 6 :
                                     location.hash.startsWith('#/dashboard/notes') ? 2 : 1;
 
+        const Mode = localStorage.getItem('isDarkMode');
+        if (Mode) {
+            // 将字符串转换为布尔类型
+            const isDarkMode = Mode === 'true';
+            setDarkMode(isDarkMode);
+        }
+
         setSelectCurrent(currentHashCode)
         setLoading(true);
         if(DarkSwitch!==null){

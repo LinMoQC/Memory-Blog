@@ -224,13 +224,13 @@ const Friends = () => {
                                 <h3 className="link-title">
                                     <span className="link-fix">友链申请</span>
                                 </h3>
-                                <div style={{ display: 'grid',gridTemplateColumns:'repeat(auto-fit, minmax(200px,' +
-                                        ' 1fr))', gridGap: 50}}>
+                                <div style={{ display: 'grid',gridTemplateColumns:'repeat(auto-fit, minmax(210px,' +
+                                        ' 1fr))', gridGap:90}}>
                                     {
                                         staticReq.map(item => (
                                             <Card
                                                 hoverable
-                                                style={{ width: 300, marginTop: 25 }}
+                                                style={{ width: 270, marginTop: 25 }}
                                                 className='resCard'
                                                 actions={[
                                                     <CheckOutlined key="agree" onClick={() => agree(item.key)} />,
