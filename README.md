@@ -88,7 +88,7 @@ Blog/
 
    //启动前端
    cd LinMo
-   npm install
+   npm install （如果安装依赖报错加上 --force)
    npm run dev
 
    //启动后端--json-server
