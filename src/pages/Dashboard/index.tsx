@@ -30,18 +30,11 @@ const Dashboard = () => {
                             location.hash === '#/dashboard/friends' ? 5 :
                                 location.hash === '#/dashboard/analytics' ? 6 :
                                     location.hash.startsWith('#/dashboard/notes') ? 2 : 1;
-
-        const Mode = localStorage.getItem('isDarkMode');
-        if (Mode) {
-            // 将字符串转换为布尔类型
-            const isDarkMode = Mode === 'true';
-            setDarkMode(isDarkMode);
-        }
-
         setSelectCurrent(currentHashCode)
         setLoading(true);
         if(DarkSwitch!==null){
             setDarkMode(JSON.parse(DarkSwitch));
+
         }
     },[])
 
@@ -78,9 +71,8 @@ const Dashboard = () => {
     };
 
     const handleModeSwitch = () => {
-        console.log(1)
         setDarkMode(!isDarkMode);
-        localStorage.setItem("isDarkMode",String(!isDarkMode))
+        localStorage.setItem("isDarkMode", JSON.stringify(!isDarkMode));
     };
 
     // 导航栏数据
@@ -263,7 +255,7 @@ const Dashboard = () => {
                                             </div>
                                             <span className="mode-text text">{isDarkMode ? '白日模式' : '夜间模式'}</span>
                                             <div className="toggle-switch">
-                                                <Switch handleModeSwitch={handleModeSwitch}/>
+                                                <Switch handleModeSwitch={handleModeSwitch} isDarkMode={isDarkMode}/>
                                             </div>
 
                                         </li>

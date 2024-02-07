@@ -205,7 +205,7 @@ const  AllCategorize = () => {
         },
         {
             title: '分类名称',
-            dataIndex: 'categorie_title',
+            dataIndex: 'categories_title',
             key: 'key',
             align: "center",
         },
@@ -256,7 +256,7 @@ const  AllCategorize = () => {
         borderRadius: '10px',
         marginTop: 10,
         maxWidth: '98%',
-        height: '86%',
+        height: '90%',
         marginLeft: '1%',
         overflowY: 'hidden'
     };
@@ -292,6 +292,7 @@ const  AllCategorize = () => {
                        </h2>
                    </>}
                    rowSelection={rowSelection}
+                   scroll={{y:480,x:1000}}
             />
         </div>
 

@@ -387,8 +387,8 @@ const AllNotes = () => {
             if (item.key === isEdit) {
                 return {
                     ...item,
-                    status: parseInt(form.getFieldsValue().status),
-                    isTop: (form.getFieldsValue().top == 'true')
+                    status: parseInt(form.getFieldsValue().status||item.status),
+                    isTop: (form.getFieldsValue().top == 'true'||item.isTop)
                 };
             } else {
                 return item;

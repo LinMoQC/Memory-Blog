@@ -148,21 +148,31 @@ const AllTag = () => {
     };
     const onfinish = (values: newTag) => {
         if (values.level === 'level_1') {
+            let color:string
+            if (values.color && values.color.toHexString) {
+                color = values.color.toHexString(); // 如果存在有效颜色并且具有 toHexString 方法，则转换为十六进制
+            } else {
+                color = 'black'; // 否则使用默认颜色 #fff
+            }
+
             const newTag: myTreeNode = {
                 title: values.title,
                 key: staticDate.length + 1,
-                color: values.color.toHexString(),
+                color: color,
                 children: []
+            };
+
+            if (!staticDate.find(item => item.title === newTag.title)) {
+                setStaticDate([
+                    ...staticDate,
+                    newTag
+                ]);
+                message.success('添加成功');
+            } else {
+                message.error('一级标签已经存在');
             }
-            setStaticDate([
-                ...staticDate,
-                newTag
-            ])
-            message.success('添加成功')
         } else {
-            console.log(values.parentTag)
             const fatherTag = staticDate.find(item => item.key === values.parentTag);
-            console.log(fatherTag)
             if (fatherTag&&fatherTag.children) {
                 const len = fatherTag.children?.length
                 const newTag: myFieldDataNode = {
@@ -176,7 +186,7 @@ const AllTag = () => {
                     message.success('添加成功')
                     setStaticDate([...staticDate])
                 }else {
-                    message.error('子标签已经存在')
+                    message.error('二级标签已经存在')
                 }
             }
         }
@@ -226,7 +236,7 @@ const AllTag = () => {
                         name="color"
                         label="标签颜色"
                     >
-                        <ColorPicker defaultValue="#fff" showText format={"hex"}/>
+                        <ColorPicker defaultValue="black" showText format={"hex"}/>
                     </Form.Item>}
 
                     <Form.Item>
@@ -241,7 +251,7 @@ const AllTag = () => {
                     <Alert message={`选中删除标签：${selectedKeys.length} 个`} type="warning" showIcon style={{position: 'absolute',transition: '0.3s',opacity: selectedKeys.length===0?0:1}}/>
                 </Form>
             </div>
-            <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>
+            <div style={{display:'flex',alignItems:'flex-start',justifyContent:'center',height:'100%'}}>
                 <Tree
                     showLine
                     multiple

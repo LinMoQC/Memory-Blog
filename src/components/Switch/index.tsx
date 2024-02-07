@@ -1,12 +1,13 @@
 import './index.css'
 interface SwitchProps {
-    handleModeSwitch: () => void
+    handleModeSwitch: () => void,
+    isDarkMode: boolean
 }
 
-const Switch = ({handleModeSwitch}: SwitchProps) => {
+const Switch = ({ handleModeSwitch, isDarkMode }: SwitchProps) => {
     return <>
         <label className="theme-switch">
-            <input type="checkbox" className="theme-switch__checkbox" onClick={handleModeSwitch}/>
+            <input type="checkbox" className="theme-switch__checkbox" onClick={handleModeSwitch} checked={isDarkMode}/>
                 <div className="theme-switch__container">
                     <div className="theme-switch__clouds"></div>
                     <div className="theme-switch__stars-container">
