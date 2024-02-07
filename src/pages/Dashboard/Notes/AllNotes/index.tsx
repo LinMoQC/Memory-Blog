@@ -388,7 +388,7 @@ const AllNotes = () => {
                 return {
                     ...item,
                     status: parseInt(form.getFieldsValue().status||item.status),
-                    isTop: (form.getFieldsValue().top == 'true'||item.isTop)
+                    isTop: (form.getFieldsValue().top===undefined?item.isTop:Boolean(form.getFieldsValue().top))
                 };
             } else {
                 return item;
@@ -435,7 +435,7 @@ const AllNotes = () => {
                     {categoriesDate
                         .filter(category => category.categories_title === item)
                         .map(category => (
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center' }}>
                                 <Tag color={category.color} key={category.key}>
                                     <i className={`iconfont ${category.icon}`} style={{ display: 'inline', fontSize: 20,marginTop:1 }}></i>
                                     <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categories_title}</span>
