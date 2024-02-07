@@ -28,17 +28,6 @@ import img2 from '../../../../assets/formImg/img1.webp'
 import img3 from '../../../../assets/formImg/img2.jpg'
 import img4 from '../../../../assets/formImg/img4.jpg'
 
-// interface NoteType {
-//     key: string;
-//     cover: string;
-//     title: string;
-//     categories: string;
-//     tags: string[];
-//     isTop: boolean;
-//     time: Date;
-//     status: number
-// }
-
 const tags:myTreeNode[] = [
     {
         title: '前端开发',
@@ -388,7 +377,7 @@ const AllNotes = () => {
                 return {
                     ...item,
                     status: parseInt(form.getFieldsValue().status||item.status),
-                    isTop: (form.getFieldsValue().top===undefined?item.isTop:Boolean(form.getFieldsValue().top))
+                    isTop: form.getFieldsValue().top === 'true' || item.isTop
                 };
             } else {
                 return item;
@@ -504,9 +493,9 @@ const AllNotes = () => {
             align: "center",
             render: (item) => (
                 <div style={{display: "flex",flexDirection:'column',alignItems:'center'}}>
-                        <Button type='primary' style={{marginBottom: 10}}><i className={`iconfont icon-bianji`} style={{fontSize:16}}></i> 编辑</Button>
-                        <Button type='primary' style={{background: '#f5222d',marginBottom:10}} onClick={() => DeleteNote(item.key)}><i className={`iconfont icon-shanchu1`} style={{fontSize:16}}></i>删除</Button>
-                        <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16}}></i> 状态变更</Button>
+                        <Button type='primary' style={{marginBottom: 10}}><i className={`iconfont icon-bianji`} style={{fontSize:16,marginRight:'0.2em'}}></i> 编辑</Button>
+                        <Button type='primary' style={{background: '#f5222d',marginBottom:10}} onClick={() => DeleteNote(item.key)}><i className={`iconfont icon-shanchu1`} style={{fontSize:16,marginRight:'0.2em'}}></i>删除</Button>
+                        <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16,marginRight:'0.2em'}}></i> 状态变更</Button>
                 </div>
             ),
         },
