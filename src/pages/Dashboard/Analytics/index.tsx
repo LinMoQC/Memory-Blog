@@ -133,7 +133,7 @@ const Analytice = () => {
     };
 
     return (
-        <div style={{padding: 20,marginTop: 100}} className='analyticsBody'>
+        <div style={{padding: 20}}  className='analyticsBody'>
             <div style={{display: 'flex',flexDirection: 'column',alignItems: 'center'}}>
                 <h2 style={{textDecoration: 'underline wavy #ce7397',marginBottom: 20}}>月更统计</h2>
                 <div style={{height: 400 }} className='monthAnalytics'>
