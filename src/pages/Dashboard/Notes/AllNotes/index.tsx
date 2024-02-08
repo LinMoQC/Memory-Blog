@@ -377,7 +377,7 @@ const AllNotes = () => {
                 return {
                     ...item,
                     status: parseInt(form.getFieldsValue().status||item.status),
-                    isTop: form.getFieldsValue().top === 'true' || item.isTop
+                    isTop: form.getFieldsValue().top === 'true'
                 };
             } else {
                 return item;
