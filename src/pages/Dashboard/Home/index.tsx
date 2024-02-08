@@ -69,7 +69,7 @@ const Home = () => {
         return (
         <div className="home">
 
-            <div className='left' style={{height: '100%',width:'25%'}}>
+            <div className='left' style={{height: '100%',width:'25%',display:'flex',flexDirection:'column'}}>
                <div className="about_logo">
                    <div className="about_me">
                        <img src={avatar} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
@@ -82,7 +82,7 @@ const Home = () => {
                    </Space>
                </div>
                <ArticleAnalytics />
-               <div style={{display:"flex",justifyContent: 'center',height:'22%',alignItems:'center'}}>
+               <div style={{display:"flex",justifyContent: 'center',height:'22%',alignItems:'center',flexDirection: 'column'}}>
                    <WordCloud />
                </div>
            </div>
