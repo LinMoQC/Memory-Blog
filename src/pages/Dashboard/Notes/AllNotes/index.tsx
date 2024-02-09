@@ -3,7 +3,7 @@ import {
     Button,
     Col,
     ConfigProvider,
-    Form,
+    Form, Image,
     Input, message,
     Modal,
     Radio,
@@ -406,7 +406,7 @@ const AllNotes = () => {
             dataIndex: 'cover',
             key: 'cover',
             align: "center",
-            render: (cover) => <img src={cover} alt="封面缩略图" style={{ maxWidth: '100px',borderRadius: 5}} />
+            render: (cover) => <Image src={cover} alt="封面缩略图" style={{ maxWidth: '100px',borderRadius: 5}} />
         },
         {
             title: '文章标题',
