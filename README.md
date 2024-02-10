@@ -17,7 +17,7 @@
 ### 前端
 - React + TypeScript
 - React Router
-- React Reducer
+- Reducer
 - Sass预编译器
 - Axios
 - Vite
