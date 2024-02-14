@@ -69,7 +69,7 @@ nodemon app.js
 ## 😉 Preview
 
 ### Login Page
-![](./预览图/login.png)
+![](./screenshots/login.png)
 
 ### Backstage Home Page
 ![c38005904c9c5be6da96853c0167e40](https://github.com/LinMoQC/LinMoBlog/assets/59323207/ce6a46cb-20c4-4b32-847b-3540b3d3ca5b)
