@@ -3,22 +3,28 @@ import {TreeDataNode} from "antd";
 type Color = {
     toHexString: () => string
 }
-export interface myTreeNode extends TreeDataNode{
+export interface TagLevelOne extends TreeDataNode{
+    key: number,
     color: string
-    children?: myFieldDataNode[]
+    level: number
+    title: string
+    children: TagLevelTwo[]
 }
 
-export interface myFieldDataNode {
+//二级标签
+export interface TagLevelTwo {
+    key: number;
+    level: number;
     title: string;
     color: string;
-    key: string;
+    fatherTag: string;
 }
 
 export interface newTag {
-    level?: string
+    level: string
     title: string;
-    key: string;
+    key: number;
     color: Color;
-    children?: myFieldDataNode[]
-    parentTag?: string
+    children?: TagLevelTwo[]
+    fatherTag?: number
 }

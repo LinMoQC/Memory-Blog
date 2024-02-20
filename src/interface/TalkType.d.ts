@@ -1,6 +1,7 @@
 export interface Talk{
-    key: number;
-    title: string,
+    talkKey: number;
+    talkTitle: string,
     content: string,
-    time: Date
+    createTime: Date
+    updateTime: Date
 }

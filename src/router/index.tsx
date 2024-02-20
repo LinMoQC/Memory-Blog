@@ -36,7 +36,7 @@ const router = createHashRouter([
                         element: <AllNotes />
                     },
                     {
-                        path: 'newnote',
+                        path: 'newnote/:id?', // 在:id后面加上问号?表示id参数可选
                         element: <NewNotes />,
                     },
                     {

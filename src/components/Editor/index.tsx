@@ -6,10 +6,11 @@ import highlight from "@bytemd/plugin-highlight";
 import { Editor} from '@bytemd/react'
 import mediumZoom from '@bytemd/plugin-medium-zoom'
 import 'bytemd/dist/index.css'
-import {useState} from "react";
 import zhCN from 'bytemd/locales/zh_Hans.json'
 import 'github-markdown-css/github-markdown-dark.css'
 import './index.css'
+import http from "../../apis/axios.tsx";
+import {message} from "antd";
 
 const plugins = [
     gfm(),
@@ -20,40 +21,57 @@ const plugins = [
     mediumZoom()
 ]
 
-const Editor_ = () => {
-    const [value, setValue] = useState('')
-    // @ts-ignore
-    const handleImageUpload = async (file) => {
-        try {
-            // Implement your image upload logic here, for example using FormData and fetch
-            const formData = new FormData();
-            formData.append('image', file);
+interface Editor_Props {
+    setNoteContent: (content: string) => void,
+    noteContent: string
+}
 
-            const response = await fetch('your-upload-api-endpoint', {
+
+const Editor_ = ({ setNoteContent, noteContent }: Editor_Props) => {
+
+    // @ts-ignore
+    const handleImageUpload = async (files: File[]): Promise<Pick<Image, "alt" | "url" | "title">[]> => {
+        try {
+            const formData = new FormData();
+            formData.append('file', files[0]);
+            const response = await http({
+                url: '/api/protect/upload',
                 method: 'POST',
-                body: formData,
+                data: formData
             });
 
-            if (response.ok) {
-                const imageURL = await response.json();
-                console.log('Upload successful. Image URL:', imageURL);
+            if (response.status === 200) {
+                message.success("添加成功");
+                const imageURL = response.data.data;
+                // @ts-ignore
+                const img: Pick<Image, "alt" | "url" | "title"> = {
+                    alt: '',
+                    url: imageURL,
+                    title: ''
+                };
+                return [img];
             } else {
-                console.error('Upload failed.');
+                message.error("添加失败");
+                return [];
             }
         } catch (error) {
             console.error('Error during image upload:', error);
+            throw error;
         }
     };
+
+
+
+
     return (
         <div className='markdown-body"'>
             <Editor
-                value={value}
+                value={noteContent}
                 plugins={plugins}
                 locale={zhCN}
                 onChange={(v) => {
-                    setValue(v)
+                    setNoteContent(v)
                 }}
-                // @ts-ignore
                 uploadImages={(e) => handleImageUpload(e)}
             />
 

@@ -2,13 +2,19 @@ import {useEffect, useRef, useState} from 'react';
 import './index.css';
 import '../../assets/font/iconfont.js';
 import '../../assets/font/iconfont.css';
-import avatar from '../../assets/avator.jpg'
+// import avatar from '../../assets/avator.jpg'
 import {Outlet, useNavigate} from "react-router-dom";
 import deleteToken from "../../apis/deleteToken.tsx";
 import {Button, Space, notification, message, Card, Spin} from "antd";
 import MainContext from "../../components/conText.tsx";
 import Switch from "../../components/Switch";
 import SettingButton from "../../components/Buttons/SettingButton";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchUserInfo} from "../../store/components/user.tsx";
+import UserState from "../../interface/UserState";
+import {fetchCategories} from "../../store/components/categories.tsx";
+import {fetchTags} from "../../store/components/tags.tsx";
+import {fetchNoteList} from "../../store/components/note.tsx";
 
 const Dashboard = () => {
     //hooks区域
@@ -18,9 +24,17 @@ const Dashboard = () => {
     const [isDarkMode, setDarkMode] = useState(false);
     const [api, contextHolder] = notification.useNotification();
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const avatar = useSelector((state: { user: UserState }) => state.user.avatar);
+    const talk = useSelector((state: { user: UserState }) => state.user.talk);
+    const name = useSelector((state: { user: UserState }) => state.user.name);
 
     //初始渲染
     useEffect(() => {
+        dispatch<any>(fetchUserInfo())
+        dispatch<any>(fetchCategories())
+        dispatch<any>(fetchTags())
+        dispatch<any>(fetchNoteList())
         const DarkSwitch = localStorage.getItem('isDarkMode')
         const currentHashCode =
             location.hash === '#/dashboard' ? 1 :
@@ -209,8 +223,10 @@ const Dashboard = () => {
                             <img src={avatar} alt="" />
                         </span>
                                         <div className="text logo-text">
-                                            <span className="name">林陌青川</span>
-                                            <p className="onesay">"渺沧海之一粟"</p>
+                                            <span className="name">
+                                                {name}
+                                            </span>
+                                            <p className="onesay">"{talk}"</p>
                                         </div>
                                     </div>
                                     <i className="iconfont icon-iconfonticonfontarrowright toggle" onClick={handleToggleClick} style={{fontSize: 20}}></i>

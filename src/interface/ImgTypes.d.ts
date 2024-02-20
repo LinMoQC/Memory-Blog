@@ -1,5 +1,4 @@
 export interface ImgUrl {
-    title?:string
-    key: number
-    url: string
+    imageKey: number
+    imageUrl: string
 }

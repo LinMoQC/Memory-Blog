@@ -1,108 +1,15 @@
 import './index.sass'
 import {Avatar, Card, Col, Form, Input, message, Modal, Popconfirm, Row} from "antd";
 import { EditOutlined,DeleteOutlined  } from '@ant-design/icons';
-import avatar from '../../../assets/avator.jpg'
 import { ConfigProvider } from 'antd/lib';
-import DeleteButton from "../../../components/Buttons/DeleteButton";
 import NewButton from "../../../components/Buttons/NewButton";
 import SearchButton from "../../../components/Buttons/SearchButton";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Talk} from "../../../interface/TalkType";
-
-// interface Talk{
-//     key: number;
-//     title: string,
-//     content: string,
-//     time: Date
-// }
-
-const talks: Talk[] = [
-    {
-        key: 1,
-        title: "街头美食发现",
-        content: "今天在街头巷尾闲逛，偶然发现一家超好吃的小吃摊🍜。分享一下这个小角落的美味，生活中的惊喜就藏在这些不经意间！ #街头美食",
-        time: new Date("2024-02-05T08:00:00")
-    },
-    {
-        key: 2,
-        title: "周末电影马拉松",
-        content: "周末就是要窝在沙发上来一场电影马拉松🎥！你最近有看到什么好片推荐吗？一起来分享一下吧！ #电影时间",
-        time: new Date("2024-02-05T10:00:00")
-    },
-    {
-        key: 3,
-        title: "阅读时光",
-        content: "窗外雨点滴答，正是最好的阅读时光📖。推荐一本近期看的好书，分享一下你们最近的阅读心得！ #阅读推荐",
-        time: new Date("2024-02-05T12:00:00")
-    },
-    {
-        key: 4,
-        title: "城市夜景",
-        content: "夜晚的城市夜景总是那么迷人✨，灯火阑珊间感受城市的脉动。你们喜欢哪座城市的夜景呢？ #夜色撩人",
-        time: new Date("2024-02-05T14:00:00")
-    },
-    {
-        key: 5,
-        title: "户外冒险故事",
-        content: "回顾一次精彩的户外冒险，山川河流中的每个瞬间都值得铭记。你有什么难忘的户外经历吗？ #户外冒险",
-        time: new Date("2024-02-05T16:00:00")
-    },
-    {
-        key: 6,
-        title: "夏日冰淇淋时光",
-        content: "炎炎夏日，最好的解暑方式就是一支冰淇淋🍦。分享一下你最爱的口味！ #夏日甜品",
-        time: new Date("2024-02-05T18:00:00")
-    },
-    {
-        key: 7,
-        title: "音乐治愈时光",
-        content: "今天随机播放的歌单居然全中我喜欢的歌曲🎶，这种巧合让一天都变得美好。分享一下你最近听到的好听歌曲吧！ #音乐治愈",
-        time: new Date("2024-02-05T20:00:00")
-    },
-    {
-        key: 8,
-        title: "秋日午后",
-        content: "秋日午后，微风拂过，阳光透过树叶洒在身上，温暖而宁静。生活中的小确幸就隐藏在这样的瞬间。 #秋日时光",
-        time: new Date("2024-02-05T22:00:00")
-    },
-    {
-        key: 9,
-        title: "摄影心情",
-        content: "抓住一个美好瞬间，按下快门，定格成永恒的回忆。分享一张你最近拍的照片吧！ #摄影心情",
-        time: new Date("2024-02-06T08:00:00")
-    },
-    {
-        key: 10,
-        title: "咖啡与心事",
-        content: "一杯香浓的咖啡☕️，静静品味着生活的滋味。你们有喜欢的咖啡馆推荐吗？ #咖啡时光",
-        time: new Date("2024-02-06T10:00:00")
-    },
-    {
-        key: 11,
-        title: "城市漫步心情",
-        content: "放慢脚步，漫步在熟悉的城市街头。突然发现原来身边的风景也可以如此美妙。 #城市漫步",
-        time: new Date("2024-02-06T12:00:00")
-    },
-    {
-        key: 12,
-        title: "假日甜点时光",
-        content: "假日的下午，来一份美味的甜点🍰，心情瞬间变得愉悦。你们喜欢吃什么样的甜点呢？ #甜点时光",
-        time: new Date("2024-02-06T14:00:00")
-    },
-    {
-        key: 13,
-        title: "城市漫步心情",
-        content: "放慢脚步，漫步在熟悉的城市街头。突然发现原来身边的风景也可以如此美妙。 #城市漫步",
-        time: new Date("2024-02-06T16:00:00")
-    },
-    {
-        key: 14,
-        title: "假日甜点时光",
-        content: "假日的下午，来一份美味的甜点🍰，心情瞬间变得愉悦。你们喜欢吃什么样的甜点呢？ #甜点时光",
-        time: new Date("2024-02-06T18:00:00")
-    }
-];
-
+import dayjs from "dayjs";
+import http from "../../../apis/axios.tsx";
+import {useSelector} from "react-redux";
+import UserState from "../../../interface/UserState";
 
 const Comments = () => {
     //hooks区域
@@ -110,44 +17,72 @@ const Comments = () => {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [staticDate,setStaticDate] = useState(talks)
+    const [talks,setTalks] = useState([])
     const [isEdit,setEdit] = useState(0)
+    const avatar = useSelector((state: { user: UserState }) => state.user.avatar);
+
+
+    useEffect(() => {
+        getTalkList().then((res) => {
+            setTalks(res)
+        })
+    },[])
+
+    //获取说说
+    const getTalkList = async () => {
+        return http({
+            url: '/api/protect/talk',
+            method: "GET"
+        }).then((res) => {
+            return res.data.data
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
 
     const showModal = () => {
         setOpen(true);
     };
 
     const change_comment = (value: Talk) => {
-        setEdit(value.key)
+        setEdit(value.talkKey)
         showModal()
         form.setFieldsValue({
-            title: value.title,
-            content: value.content
+            talkTitle: value.talkTitle,
+            content: value.content,
         });
     }
 
-    const handleOk = () => {
+    const handleOk = async () => {
         if (isEdit !== 0) {
-            const updatedData = staticDate.map(item => {
-                if (item.key === isEdit) {
-                    return {
-                        ...item,
-                        title: form.getFieldsValue().title,
-                        content: form.getFieldsValue().content
-                    };
+            const data = {
+                talkTitle: form.getFieldsValue().talkTitle,
+                content: form.getFieldsValue().content,
+                updateTime: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")
+            }
+            http({
+                url: `/api/protect/talk/${isEdit}`,
+                method: "POST",
+                data: data
+            }).then(async (res) => {
+                if (res.status == 200) {
+                    getTalkList().then((res) => {
+                        setTalks(res)
+                        message.success("修改成功")
+                        setEdit(0);
+                        form.resetFields();
+                        setOpen(false);
+                    })
                 } else {
-                    return item;
+                    await message.error("修改失败")
+                    setEdit(0);
+                    form.resetFields();
+                    setOpen(false);
                 }
-            });
-            setStaticDate(updatedData);
-            message.success('修改成功')
-            setEdit(0);
-            form.resetFields();
-            setOpen(false);
+            })
         } else {
             form.validateFields().then(() => {
                 setConfirmLoading(true);
-                // 这里替换成你的提交逻辑
                 onFinish();
                 message.success('发布成功');
                 setConfirmLoading(false);
@@ -164,23 +99,44 @@ const Comments = () => {
     };
 
     //确认逻辑
-    const confirm = (key:number) => {
-        setStaticDate(staticDate.filter(item => item.key!==key))
-        message.success('删除成功')
+    const confirm = async (id: number) => {
+        try {
+            http({
+                url: `/api/protect/talk/${id}`,
+                method: "DELETE"
+            }).then(async (res) => {
+                if (res.status === 200) {
+                    getTalkList().then((res) => {
+                        setTalks(res)
+                        message.success("删除成功")
+                    })
+                } else {
+                    await message.error("删除失败")
+                }
+            })
+        } catch (err) {
+            console.log(err);
+            await message.error("删除失败")
+        }
     }
     //表单提交
-    const onFinish = () => {
-        // 获取整个表单的值
+    const onFinish = async () => {
         const formValues = form.getFieldsValue();
-        const key = staticDate.length+1
         const date = {
             ...formValues,
-            key: key
+            createTime: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+            updateTime: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")
         }
-        setStaticDate([
-            ...staticDate,
-            date
-        ])
+        const res = await http({
+            url: '/api/protect/talk',
+            method: "POST",
+            data: date
+        })
+        if(res.status === 200){
+            getTalkList().then((res) => {
+                setTalks(res)
+            })
+        }
     };
 
     //弹窗表单
@@ -210,23 +166,25 @@ const Comments = () => {
                 <NewButton onClick={showModal}/>
                 <div style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}>
                     <h2> <i className="iconfont icon-pinglun4" style={{ fontWeight: '100', fontSize: 50, color: '#13a8a8' }} /> 说说  </h2>
-                    <SearchButton style={{marginLeft: '50px'}}/>
+
                 </div>
-                <DeleteButton />
+                <SearchButton style={{marginLeft: '50px'}}/>
             </div>
-            <Row gutter={16} style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between' }}>
-                {staticDate.map(talk => (
-                    <Col key={talk.key}>
+            <Row gutter={16} style={{ display: 'grid',
+                gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                gridGap: 30 }}>
+                {talks.map((talk:Talk) => (
+                    <Col key={talk.talkKey}>
                         <Card
                             hoverable
-                            style={{ width: 300, marginTop: 25 }}
+                            style={{ width: 300, marginTop: 25 ,fontWeight:600}}
                             className='talkCard'
                             actions={[
                                 <EditOutlined key="edit" onClick={()=>change_comment(talk)}/>,
                                 <Popconfirm
                                     title="删除确认"
                                     description="确定删除此说说?"
-                                    onConfirm={()=>confirm(talk.key)}
+                                    onConfirm={()=>confirm(talk.talkKey)}
                                     okText="Yes"
                                     cancelText="No"
                                     style={{position: 'absolute'}}
@@ -237,7 +195,7 @@ const Comments = () => {
                         >
                             <Card.Meta
                                 avatar={<Avatar src={avatar} />}
-                                title={talk.title}
+                                title={talk.talkTitle}
                                 description={talk.content}
                             />
                         </Card>
@@ -255,7 +213,7 @@ const Comments = () => {
                 cancelText='取消'
             >
                 <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }} onFinish={onFinish} form={form}>
-                    <Form.Item label="标题" name="title">
+                    <Form.Item label="标题" name="talkTitle">
                         <Input />
                     </Form.Item>
 

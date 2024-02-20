@@ -9,115 +9,78 @@ import {
     Tree,
     Alert, message,
 } from "antd";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {TagsOutlined} from '@ant-design/icons'
-import {myTreeNode,myFieldDataNode,newTag} from "../../../../interface/TagType";
+import {TagLevelOne,TagLevelTwo,newTag} from "../../../../interface/TagType";
+import http from "../../../../apis/axios.tsx";
+import {fetchTags} from "../../../../store/components/tags.tsx";
+import {useDispatch} from "react-redux";
 
-
-//静态数据
-const TagsData: myTreeNode[] = [
-    {
-        title: '前端开发',
-        key: '1',
-        color: 'geekblue',
-        children: [
-            {
-                title: 'React',
-                key: '101',
-                color: 'geekblue',
-            },
-            {
-                title: 'Vue.js',
-                key: '102',
-                color: 'geekblue',
-            },
-            {
-                title: 'Angular',
-                key: '103',
-                color: 'geekblue',
-            },
-        ],
-    },
-    {
-        title: '后端开发',
-        color: 'lime',
-        key: '2',
-        children: [
-            {
-                title: 'Node.js',
-                key: '201',
-                color: 'lime',
-            },
-            {
-                title: 'Django',
-                key: '202',
-                color: 'lime',
-            },
-            {
-                title: 'Spring Boot',
-                key: '203',
-                color: 'lime',
-            },
-        ],
-    },
-    {
-        title: '移动端开发',
-        color: 'gold',
-        key: '3',
-        children: [
-            {
-                title: 'React Native',
-                key: '301',
-                color: 'gold',
-            },
-            {
-                title: 'Flutter',
-                key: '302',
-                color: 'gold',
-            },
-            {
-                title: 'Swift',
-                key: '303',
-                color: 'gold',
-            },
-        ],
-    },
-    {
-        title: '数据科学',
-        key: '4',
-        color: 'cyan',
-        children: [
-            {
-                title: '机器学习',
-                key: '401',
-                color: 'cyan',
-            },
-            {
-                title: '数据分析',
-                key: '402',
-                color: 'cyan',
-            },
-            {
-                title: '人工智能',
-                key: '403',
-                color: 'cyan',
-            },
-        ],
-    },
-];
 const AllTag = () => {
     // hooks区域
     const tree = useRef(null)
     const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
     const [level,setLevel] = useState('level_1')
-    const [staticDate,setStaticDate] = useState(TagsData)
+    const [staticDate,setStaticDate] = useState<TagLevelOne[]>([])
+    const dispatch = useDispatch()
+    useEffect(() => {
+        buildTree();
+    }, []);
+
+    const buildTree = async () => {
+        const tagOneData: TagLevelOne[] = await getTagOne();
+        const tagTwoData: TagLevelTwo[] = await getTagTwo();
+        const tree = tagOneData.map(item => {
+            item.children = tagTwoData.filter(child => child.fatherTag === item.title);
+            return item;
+        });
+        setStaticDate(tree)
+    }
+    const getTagOne = async () => {
+        try {
+            const response = await http({
+                url: '/api/protected/tagone',
+                method: 'GET'
+            });
+            return response.data.data.map((item: { tagKey: number; title: string; level: number; color: string; }) => ({
+                key: item.tagKey,
+                title: item.title,
+                level: item.level,
+                color: item.color,
+                children: []
+            }));
+        } catch (error) {
+            console.error("Error fetching tag one data:", error);
+            return []; // or handle error as needed
+        }
+    }
+    const getTagTwo = async () => {
+        try {
+            const response = await http({
+                url: '/api/protected/tagtwo',
+                method: 'GET'
+            });
+            return response.data.data.map((item: { tagKey: number; title: string; level: number; color: string; fatherTag: string }) => ({
+                key: item.tagKey,
+                title: item.title,
+                level: item.level,
+                color: item.color,
+                fatherTag: item.fatherTag
+            }));
+        } catch (error) {
+            console.error("Error fetching tag two data:", error);
+            return []; // or handle error as needed
+        }
+    }
 
     //回调函数
     const onSelect = (selectedKeysValue: React.Key[]) => {
+        console.log(selectedKeysValue)
         setSelectedKeys(selectedKeysValue);
     };
 
     const handleTagTypeChange = (value:string) => {
+        console.log(value)
         setLevel(value);
     };
 
@@ -126,68 +89,74 @@ const AllTag = () => {
             message.warning('待选中')
             return
         }
-
-        setStaticDate(staticDate.filter(tag => {
-            // 如果当前标签被选中，直接过滤掉
-            if (selectedKeys.includes(tag.key)) {
-                message.success('删除成功')
-                return false;
+        http({
+            url: '/api/protected/tag',
+            method: 'DELETE',
+            data: selectedKeys
+        }).then((res) => {
+            if(res.status === 200){
+                buildTree()
+                setSelectedKeys([]); // 清空选中的标签
+                if(tree.current)
+                { // @ts-ignore
+                    tree.current.state.selectedKeys = []
+                }
+                dispatch<any>(fetchTags())
+                message.success("删除成功")
             }
-            // 如果当前标签是一个父标签，并且其下有子标签被选中，则过滤掉
-            if (tag.children && tag.children.some(child => selectedKeys.includes(child.key))) {
-                tag.children = tag.children.filter(child => !selectedKeys.includes(child.key));
-                message.success('删除成功')
-            }
-            return true;
-        }));
-        setSelectedKeys([]); // 清空选中的标签
-        if(tree.current)
-            { // @ts-ignore
-                tree.current.state.selectedKeys = []
-            }
+        })
     };
     const onfinish = (values: newTag) => {
         if (values.level === 'level_1') {
             let color:string
             if (values.color && values.color.toHexString) {
-                color = values.color.toHexString(); // 如果存在有效颜色并且具有 toHexString 方法，则转换为十六进制
+                color = values.color.toHexString();
             } else {
                 color = 'black'; // 否则使用默认颜色 #fff
             }
 
-            const newTag: myTreeNode = {
+            const newTag  = {
                 title: values.title,
-                key: staticDate.length + 1,
                 color: color,
-                children: []
             };
 
-            if (!staticDate.find(item => item.title === newTag.title)) {
-                setStaticDate([
-                    ...staticDate,
-                    newTag
-                ]);
-                message.success('添加成功');
-            } else {
-                message.error('一级标签已经存在');
-            }
+            http({
+                url: '/api/protected/tagone',
+                method: 'POST',
+                data: newTag
+            }).then(async (res) => {
+                if (res.status === 200) {
+                    await buildTree()
+                    dispatch<any>(fetchTags())
+                    message.success('添加成功');
+                }
+            }).catch(async () => {
+                await message.error("添加失败：" + '已存在')
+            })
         } else {
-            const fatherTag = staticDate.find(item => item.key === values.parentTag);
-            if (fatherTag&&fatherTag.children) {
+            const fatherTag = staticDate.find(item => item.key === values.fatherTag);
+            if (fatherTag) {
                 const len = fatherTag.children?.length
-                const newTag: myFieldDataNode = {
+                const newTag = {
                     title: values.title,
-                    // @ts-ignore
-                    key: (parseInt(fatherTag.children[len-1].key)+1).toString(),
+                    tagKey: fatherTag?.children.length>0?fatherTag.children[len-1].key+1:fatherTag.key*100+1 ,
                     color: fatherTag.color,
+                    fatherTag: fatherTag.title,
                 }
-                if(!fatherTag.children?.find(item => item.title ===  newTag.title)){
-                    fatherTag?.children.push(newTag)
-                    message.success('添加成功')
-                    setStaticDate([...staticDate])
-                }else {
-                    message.error('二级标签已经存在')
-                }
+                console.log(newTag)
+                http({
+                    url: '/api/protected/tagtwo',
+                    method: 'POST',
+                    data: newTag
+                }).then((res) => {
+                    if(res.status === 200){
+                        buildTree()
+                        dispatch<any>(fetchTags())
+                        message.success("添加成功")
+                    }
+                }).catch(() => {
+                    message.error("添加失败：" + '已存在')
+                })
             }
         }
     }
@@ -222,7 +191,7 @@ const AllTag = () => {
                     </Form.Item>
 
                     {level==='level_2'&& <Form.Item
-                        name="parentTag"
+                        name="fatherTag"
                         label="父标签"
                         shouldUpdate
                     >
@@ -259,7 +228,6 @@ const AllTag = () => {
                     onSelect={onSelect}
                     treeData={staticDate}
                     titleRender={(node) => (
-                        // @ts-ignore
                         <Tag color={node.color}>{node.title}</Tag>
                     )}
                     ref={tree}

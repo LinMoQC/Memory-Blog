@@ -1,8 +1,8 @@
 export interface CategoriesType {
-    key: string;
-    categories_title: string;
+    key: number;
+    categoryTitle: string;
     introduce: string;
     icon: string;
-    note_count: number;
+    noteCount: number;
     color: string;
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.linmoblog.server.Mapper.CategoryMapper">
+    <update id="updateCategory">
+        update categories
+        <set>
+            <if test="category.categoryTitle != null and category.categoryTitle != ''">
+                category_title = #{category.categoryTitle},
+            </if>
+            <if test="category.introduce != null and category.introduce != ''">
+                introduce = #{category.introduce},
+            </if>
+            <if test="category.icon != null and category.icon != ''">
+                icon = #{category.icon},
+            </if>
+            <if test="category.color != null and category.color != ''">
+                color = #{category.color},
+            </if>
+        </set>
+        where category_key = #{id}
+    </update>
+
+
+    <delete id="deleteCategory">
+        delete from categories where categories.category_key in
+        <foreach collection="categories" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </delete>
+</mapper>

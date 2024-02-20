@@ -1,5 +1,5 @@
-const getToken = () => {
+const deleteToken = () => {
     return localStorage.removeItem("tokenKey")
 }
 
-export default getToken
+export default deleteToken;

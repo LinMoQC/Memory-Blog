@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.linmoblog.server.Mapper.NoteMapper">
+    <update id="updateNote">
+        update notes
+        <set>
+            <if test="note.noteTitle != null and note.noteTitle != ''">
+                note_title = #{note.noteTitle},
+            </if>
+            <if test="note.noteContent != null and note.noteContent != ''">
+                note_content = #{note.noteContent},
+            </if>
+            <if test="note.description != null">
+                description = #{note.description},
+            </if>
+            <if test="note.cover != null and note.cover != ''">
+                cover = #{note.cover},
+            </if>
+            <if test="note.noteCategory != null">
+                note_category = #{note.noteCategory},
+            </if>
+            <if test="note.noteTags != null">
+                note_tags = #{note.noteTags},
+            </if>
+            <if test="note.isTop != null">
+                is_top = #{note.isTop},
+            </if>
+            <if test="note.status != null">
+                status = #{note.status},
+            </if>
+            update_time = #{note.updateTime},
+        </set>
+        where note_key = #{id}
+    </update>
+    <delete id="deleteNote">
+        delete from notes where notes.note_key in
+        <foreach collection="notesList" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </delete>
+</mapper>

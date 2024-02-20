@@ -40,6 +40,11 @@
   @media only screen and (max-width: 1530px)
     justify-content: space-around
 
+  .ant-picker-calendar
+    .ant-picker-panel
+      .ant-picker-body
+        border-radius: 10px
+
   .right
     display: flex
     justify-content: space-between
@@ -48,6 +53,10 @@
     width: 30%
     padding: 30px 30px 30px 0px
     @media only screen and (max-width: 1530px)
+      display: none
+
+  .center
+    @media only screen and (max-width: 768px)
       display: none
 
   .about_logo
@@ -61,6 +70,8 @@
       transform: scale(1.4)
       align-items: center
       height: 15%
+    @media only screen and (max-width: 768px)
+      margin: 30% 0 0px 5px
 
     .about_me
       display: flex
@@ -70,6 +81,8 @@
         font-weight: 600
         font-size: 20px
         margin-left: 10px
+        @media only screen and (max-width: 768px)
+          display: none
 
     .p_hidden
       @media only screen and (max-width: 1530px)

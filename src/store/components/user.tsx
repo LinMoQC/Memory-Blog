@@ -1,18 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import http from '../../apis/axios.tsx';
 import { Dispatch } from 'react';
-
-interface UserData {
-    account: string;
-    password: string;
-}
-
-interface UserState {
-    token: string | null;
-}
+import UserState from "../../interface/UserState";
+import UserData from "../../interface/UserData";
+import deleteToken from "../../apis/deleteToken.tsx";
 
 const initialState: UserState = {
     token: localStorage.getItem('tokenKey') || null,
+    avatar: '',
+    talk: '',
+    name: ''
 };
 
 const userSlice = createSlice({
@@ -23,10 +20,15 @@ const userSlice = createSlice({
             state.token = action.payload.token;
             localStorage.setItem('tokenKey', action.payload.token);
         },
+        setUserInfo: (state: UserState,action: PayloadAction<{avatar:string,talk:string,name:string}>) => {
+            state.avatar = action.payload.avatar;
+            state.talk = action.payload.talk;
+            state.name = action.payload.name
+        }
     },
 });
 
-const { setToken } = userSlice.actions;
+const { setToken,setUserInfo } = userSlice.actions;
 const userReducer = userSlice.reducer;
 
 const fetchToken = (data: UserData) => {
@@ -38,17 +40,36 @@ const fetchToken = (data: UserData) => {
                 data: data
             });
 
-            const token = res.data.token;
+            const token = res.data.data;
             dispatch(setToken({ token: token}));
             return res.status;
         } catch (error) {
             // 处理错误
-            console.error('Failed to fetch token:', error);
             throw error;
         }
     };
 };
 
+const fetchUserInfo = () => {
+    return async (dispatch: Dispatch<PayloadAction<{avatar:string,talk:string}>>) => {
+        try{
+            const userinfo = await http({
+                url: '/api/protect/user',
+                method: "GET"
+            })
+            const res = {
+                avatar: userinfo.data.data.avatar,
+                talk: userinfo.data.data.talk,
+                name: userinfo.data.data.name
+            }
+            dispatch(setUserInfo(res))
+        }catch (error){
+            console.error('Failed to fetch userinfo:', error);
+            deleteToken()
+        }
+    }
+}
 
-export { setToken, fetchToken };
+
+export { setToken, fetchToken,fetchUserInfo };
 export default userReducer;

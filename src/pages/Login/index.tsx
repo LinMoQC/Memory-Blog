@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { fetchToken } from '../../store/components/user'; // 请根据实际路径修改
 import { useNavigate } from 'react-router-dom';
 import getToken from '../../apis/getToken';
+import UserData from "../../interface/UserData";
 
 const Login: React.FC = () => {
     //hooks区域
@@ -16,7 +17,6 @@ const Login: React.FC = () => {
 
     useEffect(() => {
         const token = getToken();
-        console.log(token);
         if (token) {
             navigate('/dashboard');
         }
@@ -35,15 +35,15 @@ const Login: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const data = {
-            account,
+        const data:UserData = {
+            username:account,
             password,
         };
 
         try {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            const status:number = await dispatch(fetchToken(data))
+
+            const status:number = await dispatch<any>(fetchToken(data))
             if (status === 200) {
                 message.success('登录成功');
                 navigate('/dashboard');

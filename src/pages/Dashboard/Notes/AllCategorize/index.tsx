@@ -3,110 +3,88 @@ import {
     Button, ColorPicker,
     Form,
     Input, message,
-    Modal,
+    Modal, Popconfirm,
     Space,
     Table,
     TableProps,
     Tag,
 } from "antd";
-import React, {useState} from "react";
-import {FolderOpenOutlined} from '@ant-design/icons';
+import React, {useEffect, useState} from "react";
+import {FolderOpenOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import {CategoriesType} from "../../../../interface/CategoriesType";
-
-// interface CategoriesType {
-//     key: string;
-//     categories_title: string;
-//     introduce: string;
-//     icon: string;
-//     note_count: number;
-//     color: string;
-// }
-
-//静态数据
-const CategoriesData:CategoriesType[] = [
-    {
-        key: '1',
-        categories_title: '技术',
-        introduce: '关于编程、开发、技术趋势等的博客文章',
-        icon: 'icon-code1',
-        note_count: 2,
-        color: '#3498db',
-    },
-    {
-        key: '2',
-        categories_title: '设计',
-        introduce: '设计原理、用户界面设计、用户体验等方面的博客文章',
-        icon: 'icon-sheji1',
-        note_count: 10,
-        color: '#2ecc71',
-    },
-    {
-        key: '3',
-        categories_title: '生活',
-        introduce: '个人生活、日常琐事、旅行日记等的博客文章',
-        icon: 'icon-icon',
-        note_count: 12,
-        color: '#e74c3c',
-    },
-    {
-        key: '4',
-        categories_title: '健康',
-        introduce: '健康生活、运动、饮食等方面的博客文章',
-        icon: 'icon-jiankang',
-        note_count: 21,
-        color: '#f39c12',
-    },
-    {
-        key: '5',
-        categories_title: '文学',
-        introduce: '文学创作、书评、阅读感想等的博客文章',
-        icon: 'icon-wenxue2',
-        note_count: 7,
-        color: '#9b59b6',
-    },
-    {
-        key: '6',
-        categories_title: '学术',
-        introduce: '学术研究、学科探讨等的博客文章',
-        icon: 'icon-xueshuquan',
-        note_count: 19,
-        color: '#34495e',
-    },
-    {
-        key: '7',
-        categories_title: '音乐',
-        introduce: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
-        icon: 'icon-yinle',
-        note_count: 4,
-        color: '#e67e22',
-    }
-];
-
+import http from "../../../../apis/axios.tsx";
+import {fetchCategories} from "../../../../store/components/categories.tsx";
+import {useDispatch} from "react-redux";
 
 const  AllCategorize = () => {
     //hooks区域
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-    const [staticDate,setStaticDate] = useState(CategoriesData)
+    const [staticDate,setStaticDate] = useState<CategoriesType[]>([])
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [isEdit,setEdit] = useState('0')
+    const [isEdit,setEdit] = useState(0)
     const [form] = Form.useForm();
+    const dispatch = useDispatch()
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+       getCategories()
+    },[])
+
+    const getCategories = () => {
+        http({
+            url: '/api/protected/category',
+            method: 'GET'
+        }).then((res) => {
+            setStaticDate(res.data.data.map((item: { categoryKey: number; categoryTitle: string; color: string; icon: string; introduce: string; noteCount: number; }) => {
+                return {
+                    key: item.categoryKey,
+                    categoryTitle: item.categoryTitle,
+                    color: item.color,
+                    icon: item.icon,
+                    introduce: item.introduce,
+                    noteCount: item.noteCount
+                }
+            }))
+        })
+    }
 
     //回调函数区域
     //删除逻辑
     const Delete = (key:number) => {
-        setStaticDate(staticDate.filter(item => item.key!==key.toString()))
-        message.success('删除成功')
+        http({
+            url: '/api/protected/category',
+            method: 'DELETE',
+            data: [key]
+        }).then((res)=>{
+            if(res.status === 200){
+                getCategories();
+                dispatch<any>(fetchCategories())
+                message.success('删除成功')
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     const DeleteAll = () => {
-        console.log(selectedRowKeys.length)
         if(selectedRowKeys.length === 0){
             message.warning('待选中')
         }else{
-            setStaticDate(staticDate.filter(item => !selectedRowKeys.includes(item.key)))
+            http({
+                url: '/api/protected/category',
+                method: 'DELETE',
+                data: selectedRowKeys
+            }).then((res)=>{
+                if(res.status === 200){
+                    getCategories();
+                    dispatch<any>(fetchCategories())
+                    message.success('删除成功')
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
             setSelectedRowKeys([])
-            message.success('删除成功')
         }
     }
 
@@ -115,7 +93,7 @@ const  AllCategorize = () => {
         setEdit(value.key)
         showModal()
         form.setFieldsValue({
-            categorie: value.categories_title,
+            categorie: value.categoryTitle,
             introduce: value.introduce,
             categorie_icon: value.icon,
             categorie_color: value.color
@@ -126,47 +104,54 @@ const  AllCategorize = () => {
     const onfinish = () => {
         // 获取整个表单的值
         const {categorie,introduce,categorie_icon,categorie_color} = form.getFieldsValue();
-        const key = staticDate.length+1
-        const date:CategoriesType = {
-            categories_title: categorie,
+        const date:{ color: any; introduce: any;categoryTitle: string; icon: string } = {
+            categoryTitle: categorie,
             icon:categorie_icon,
-            color:categorie_color.toHexString(),
+            color:form.getFieldsValue().categorie?'#000000':categorie_color.toHexString(),
             introduce:introduce,
-            key: key.toString(),
-            note_count: 0
         }
-        console.log(date)
-        setStaticDate([
-            ...staticDate,
-            date
-        ])
+        http({
+            url: '/api/protected/category',
+            method: 'POST',
+            data: date
+        }).then((res) => {
+            if(res.status === 200){
+                getCategories();
+                dispatch<any>(fetchCategories())
+                message.success('添加成功')
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     const handleOk = () => {
-        if (isEdit !== '0') {
-            const updatedData = staticDate.map(item => {
-                if (item.key === isEdit) {
-                    return {
-                        ...item,
-                        categorie_title: form.getFieldsValue().categorie,
-                        introduce: form.getFieldsValue().introduce,
-                        icon: form.getFieldsValue().categorie_icon,
-                        color: form.getFieldsValue().categorie_color
-                    };
-                } else {
-                    return item;
+        if (isEdit !== 0) {
+            const update = {
+                categoryTitle: form.getFieldsValue().categorie,
+                introduce: form.getFieldsValue().introduce,
+                icon: form.getFieldsValue().categorie_icon,
+                color: form.getFieldsValue().categorie_color
+            }
+            http({
+                url: `/api/protected/category/${isEdit}`,
+                method: 'POST',
+                data: update
+            }).then((res) => {
+                if(res.status === 200){
+                    getCategories();
+                    message.success('更新成功')
                 }
-            });
-            setStaticDate(updatedData);
-            message.success('修改成功')
-            setEdit('0');
+            }).catch((error) => {
+                console.log(error)
+            })
+            setEdit(0);
             form.resetFields();
             setOpen(false);
         } else {
             form.validateFields().then(() => {
                 setConfirmLoading(true);
                 onfinish();
-                message.success('发布成功');
                 setConfirmLoading(false);
                 form.resetFields();
                 setOpen(false);
@@ -176,13 +161,12 @@ const  AllCategorize = () => {
 
     const handleCancel = () => {
         form.resetFields()
-        setEdit('0')
+        setEdit(0)
         setOpen(false);
     };
 
     //表单选中
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
     };
     const rowSelection = {
@@ -192,6 +176,7 @@ const  AllCategorize = () => {
     const hasSelected = selectedRowKeys.length > 0;
     //添加框打开
     const showModal = () => {
+        // form.setFieldValue("categorie_color","white")
         setOpen(true);
     };
 
@@ -199,20 +184,20 @@ const  AllCategorize = () => {
     const columns: TableProps<CategoriesType>['columns'] = [
         {
           title: '序列',
-          dataIndex: 'key',
+            render: (_text, _record, index) => index + 1,
           key: 'key',
-          align: "center"
+          align: "center",
         },
         {
             title: '分类名称',
-            dataIndex: 'categories_title',
+            dataIndex: 'categoryTitle',
             key: 'key',
             align: "center",
         },
         {
             title: '分类介绍',
             dataIndex: 'introduce',
-            key: 'title',
+            key: 'key',
             align: "center"
         },
         {
@@ -225,7 +210,7 @@ const  AllCategorize = () => {
         {
             title: '文章数量',
             key: 'key',
-            dataIndex: 'note_count',
+            dataIndex: 'noteCount',
             align: "center",
         },
         {
@@ -237,12 +222,22 @@ const  AllCategorize = () => {
         },
         {
             title: '操作',
-            key: 'action',
+            key: 'key',
             align: "center",
             render: (item) => (
                 <Space size="middle">
                     <Button type='primary' onClick={() => Change_Categories(item)}>编辑</Button>
-                    <Button type='primary' style={{background: '#f5222d'}} onClick={() => Delete(item.key)}>删除</Button>
+                    <Popconfirm
+                        title="删除确认"
+                        description="确定删除此分类？"
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                        okText='删除'
+                        onConfirm={() => Delete(item.key)}
+                        cancelText='取消'
+                    >
+                        <Button type='primary' style={{background: '#f5222d'}}>删除</Button>
+                    </Popconfirm>
+
                 </Space>
             ),
         },
@@ -271,18 +266,29 @@ const  AllCategorize = () => {
         },
     };
 
+    const showdelModal = () => {
+        setIsModalOpen(true);
+    };
 
+    const handledelOk = () => {
+        DeleteAll()
+        setIsModalOpen(false);
+    };
+
+    const handledelCancel = () => {
+        setIsModalOpen(false);
+    };
     return <>
         <div style={listStyle} className="searchRes">
             <Table columns={columns} dataSource={staticDate} pagination={{pageSize: 8}}
                    title={() => <>
                            <div style={{float: 'left'}}>
-                               <Button type="primary" style={{ background: '#389e0d'}} onClick={showModal}>
+                               <Button type="primary"  onClick={showModal}>
                                    新增
                                </Button>
-                               <Button type="primary" style={{ marginLeft: 10,background: '#f5222d'}} onClick={DeleteAll}>
+                               {hasSelected&&<Button type="primary" style={{ marginLeft: 10,background: '#f5222d'}} onClick={showdelModal}>
                                    批量删除
-                               </Button>
+                               </Button>}
                                <span style={{ marginLeft: 8 ,position: 'absolute',fontSize: 20,fontWeight: 600}}>
                 {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
         </span>
@@ -302,7 +308,7 @@ const  AllCategorize = () => {
             onOk={handleOk}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
-            okText={isEdit==='0'? '添加' : '保存'}
+            okText={isEdit=== 0? '添加' : '保存'}
             cancelText='取消'
         >
             <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }} form={form} onFinish={onfinish}>
@@ -325,9 +331,13 @@ const  AllCategorize = () => {
                 </Form.Item>
 
                 <Form.Item label="颜色" name="categorie_color" >
-                    <ColorPicker defaultValue="#fff" showText format={'hex'}/>
+                    <ColorPicker defaultValue="black" showText format={'hex'}/>
                 </Form.Item>
             </Form>
+        </Modal>
+
+        <Modal title="删除确认" open={isModalOpen} onOk={handledelOk} onCancel={handledelCancel} okText="确定" cancelText="取消">
+            是否删除选中所有分类?
         </Modal>
     </>
 }

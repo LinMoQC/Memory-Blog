@@ -1,10 +1,15 @@
+import {ReactNode} from "react";
+
 export interface NoteType {
+    updateTime: Date;
+    noteTitle: string;
+    description: string;
+    noteTags: number[];
     key: string;
     cover: string;
-    title: string;
     categories: string;
-    tags: string[];
     isTop: boolean;
-    time: Date;
-    status: number
+    createTime: Date;
+    status: string;
+    content: string;
 }

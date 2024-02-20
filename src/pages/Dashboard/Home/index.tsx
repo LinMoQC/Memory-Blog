@@ -9,15 +9,16 @@ import ArticleRecord from "../../../components/articleRecord";
 import TheYearPass from "../../../components/theYearPass";
 import ArticleAnalytics from "../../../components/articleAnalytics";
 import WordCloud from "../../../components/wordCloud";
-import avatar from '../../../assets/avator.jpg'
 import Typed from 'typed.js';
 import MainContext from "../../../components/conText.tsx";
+import {useSelector} from "react-redux";
+import UserState from "../../../interface/UserState";
 const Home = () => {
     //hooks区域
     const [oneSay, setOneSay] = useState('');
     const typedRef = useRef(null);
     const { token } = theme.useToken();
-
+    const avatar = useSelector((state: { user: UserState }) => state.user.avatar);
     //回调函数区域
         //日历处理
     const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
@@ -102,7 +103,7 @@ const Home = () => {
                    </div>
                } style={{minWidth: 350, height: '30%',margin: 0}}>
                    <div className="oneSay">
-                       <span className="stick">📌</span>
+                       <span className="stick">🎯</span>
                        <p className="onesay_content">{oneSay}</p>
                    </div>
                </Card>
@@ -118,7 +119,7 @@ const Home = () => {
                    <h3 style={{marginLeft: 10,marginBottom:10,marginTop:5}}>开发进度</h3>
                    <Steps
                        direction="vertical"
-                       current={1}
+                       current={3}
                        items={[
                            {
                                title: '登录逻辑和后台页面UI',

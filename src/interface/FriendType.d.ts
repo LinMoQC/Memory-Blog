@@ -1,7 +1,8 @@
 export interface Friend {
-    key: number,
-    sitename: string;
-    avator: string;
-    siteurl: string;
-    desciption: string;
+    friendKey: number,
+    siteName: string;
+    avatar: string;
+    siteUrl: string;
+    description: string;
+    status: number
 }

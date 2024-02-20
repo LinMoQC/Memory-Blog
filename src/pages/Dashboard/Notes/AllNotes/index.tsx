@@ -5,7 +5,7 @@ import {
     ConfigProvider,
     Form, Image,
     Input, message,
-    Modal,
+    Modal, Popconfirm,
     Radio,
     Row,
     Select,
@@ -14,239 +14,23 @@ import {
     TreeSelect
 } from 'antd';
 import { DatePicker} from 'antd';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import zhCN from "antd/lib/locale/zh_CN";
 import {useNavigate} from "react-router-dom";
 import { Table, Tag } from 'antd';
 import type { TableProps, TabsProps } from 'antd';
 import {NoteType} from "../../../../interface/NoteType";
-import {CategoriesType} from "../../../../interface/CategoriesType";
-import {myTreeNode} from "../../../../interface/TagType";
-//图片引入
-import img1 from '../../../../assets/formImg/img.webp'
-import img2 from '../../../../assets/formImg/img1.webp'
-import img3 from '../../../../assets/formImg/img2.jpg'
-import img4 from '../../../../assets/formImg/img4.jpg'
-
-const tags:myTreeNode[] = [
-    {
-        title: '前端开发',
-        key: '1',
-        color: 'geekblue',
-        children: [
-            {
-                title: 'React',
-                key: '101',
-                color: 'geekblue',
-            },
-            {
-                title: 'Vue.js',
-                key: '102',
-                color: 'geekblue',
-            },
-            {
-                title: 'Angular',
-                key: '103',
-                color: 'geekblue',
-            },
-        ],
-    },
-    {
-        title: '后端开发',
-        color: 'lime',
-        key: '2',
-        children: [
-            {
-                title: 'Node.js',
-                key: '201',
-                color: 'lime',
-            },
-            {
-                title: 'Django',
-                key: '202',
-                color: 'lime',
-            },
-            {
-                title: 'Spring Boot',
-                key: '203',
-                color: 'lime',
-            },
-        ],
-    },
-    {
-        title: '移动端开发',
-        color: 'gold',
-        key: '3',
-        children: [
-            {
-                title: 'React Native',
-                key: '301',
-                color: 'gold',
-            },
-            {
-                title: 'Flutter',
-                key: '302',
-                color: 'gold',
-            },
-            {
-                title: 'Swift',
-                key: '303',
-                color: 'gold',
-            },
-        ],
-    },
-    {
-        title: '数据科学',
-        key: '4',
-        color: 'cyan',
-        children: [
-            {
-                title: '机器学习',
-                key: '401',
-                color: 'cyan',
-            },
-            {
-                title: '数据分析',
-                key: '402',
-                color: 'cyan',
-            },
-            {
-                title: '人工智能',
-                key: '403',
-                color: 'cyan',
-            },
-        ],
-    },
-];
-
-const categoriesDate:CategoriesType[] = [
-    {
-        key: '1',
-        categories_title: '技术',
-        introduce: '关于编程、开发、技术趋势等的博客文章',
-        icon: 'icon-code1',
-        note_count: 2,
-        color: '#3498db',
-    },
-    {
-        key: '2',
-        categories_title: '设计',
-        introduce: '设计原理、用户界面设计、用户体验等方面的博客文章',
-        icon: 'icon-sheji1',
-        note_count: 10,
-        color: '#2ecc71',
-    },
-    {
-        key: '3',
-        categories_title: '生活',
-        introduce: '个人生活、日常琐事、旅行日记等的博客文章',
-        icon: 'icon-icon',
-        note_count: 12,
-        color: '#e74c3c',
-    },
-    {
-        key: '4',
-        categories_title: '健康',
-        introduce: '健康生活、运动、饮食等方面的博客文章',
-        icon: 'icon-jiankang',
-        note_count: 21,
-        color: '#f39c12',
-    },
-    {
-        key: '5',
-        categories_title: '文学',
-        introduce: '文学创作、书评、阅读感想等的博客文章',
-        icon: 'icon-wenxue2',
-        note_count: 7,
-        color: '#9b59b6',
-    },
-    {
-        key: '6',
-        categories_title: '学术',
-        introduce: '学术研究、学科探讨等的博客文章',
-        icon: 'icon-xueshuquan',
-        note_count: 19,
-        color: '#34495e',
-    },
-    {
-        key: '7',
-        categories_title: '音乐',
-        introduce: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
-        icon: 'icon-yinle',
-        note_count: 4,
-        color: '#e67e22',
-    }
-];
-
-let Notesdata: NoteType[] = [
-    {
-        key: '1',
-        cover: img1,
-        title: '深入理解神经网络',
-        categories: '技术',
-        tags: ["数据分析", "机器学习", "人工智能"],
-        isTop: true,
-        time: new Date('2022-01-01'),
-        status: 1
-    },
-    {
-        key: '2',
-        cover: img2,
-        title: '构建高性能的Web应用',
-        categories: '设计',
-        tags: ["React", "Vue.js", "React Native"],
-        isTop: false,
-        time: new Date('2022-02-15'),
-        status: 2
-    },
-    {
-        key: '3',
-        cover: img3,
-        title: "掌握数据结构与算法",
-        categories: '技术',
-        tags: ["Flutter", "Django", "Node.js"],
-        isTop: true,
-        time: new Date('2022-03-20'),
-        status: 2
-    },
-    {
-        key: '4',
-        cover: img4,
-        title: '容器化应用与Docker"',
-        categories: '文学',
-        tags: ["Docker", "Vue.js", "DevOps"],
-        isTop: true,
-        time: new Date('2022-01-01'),
-        status: 1
-    },
-    {
-        key: '5',
-        cover: img3,
-        title: "掌握数据结构与算法",
-        categories: '学术',
-        tags: ["数据结构", "算法", "编程"],
-        isTop: true,
-        time: new Date('2022-03-20'),
-        status: 3
-    },
-    {
-        key: '6',
-        cover: img4,
-        title: '容器化应用与Docker"',
-        categories: '技术',
-        tags: ["Docker", "容器化", "DevOps"],
-        isTop: true,
-        time: new Date('2022-01-01'),
-        status: 3
-    },
-];
-
+import {useDispatch, useSelector} from "react-redux";
+import http from "../../../../apis/axios.tsx";
+import {fetchNoteList} from "../../../../store/components/note.tsx";
+import { QuestionCircleOutlined } from '@ant-design/icons';
 const AdvancedSearchForm = () => {
     //hooks区域
     const { RangePicker } = DatePicker;
     const { token } = theme.useToken();
     const [form] = Form.useForm();
-
+    const categories = useSelector((state: {categories: any}) => state.categories.categories);
+    const tagList = useSelector((state: {tags: any}) => state.tags.tag)
 
     //回调函数区域
     const onFinish = (values: any) => {
@@ -262,6 +46,7 @@ const AdvancedSearchForm = () => {
         background: 'white',
         height: '140px'
     };
+
 
     return (
         <Form form={form} name="advanced_search" style={formStyle} onFinish={onFinish}>
@@ -290,9 +75,9 @@ const AdvancedSearchForm = () => {
                         label='文章分类'
                     >
                         <Select placeholder="请选择文章分类">
-                            {categoriesDate.map(category => (
-                                <Select.Option key={category.key} value={category.categories_title}>
-                                    {category.categories_title}
+                            {categories.map((category: { key: React.Key | null | undefined; categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+                                <Select.Option key={category.key} value={category.categoryTitle}>
+                                    {category.categoryTitle}
                                 </Select.Option>
                             ))}
                         </Select>
@@ -320,14 +105,14 @@ const AdvancedSearchForm = () => {
                             allowClear
                             multiple
                             treeDefaultExpandAll
-                            treeData={tags.map(tag => ({
+                            treeData={tagList.map((tag: { tagKey: number; children: { tagKey: number; }[]; }) => ({
                                 ...tag,
-                                value: tag.key,
-                                key: tag.key,
-                                children: tag.children ? tag.children.map(child => ({
+                                value: tag.tagKey,
+                                key: tag.tagKey,
+                                children: tag.children ? tag.children.map((child: { tagKey: number; }) => ({
                                     ...child,
-                                    value: child.key,
-                                    key: child.key
+                                    value: child.tagKey,
+                                    key: child.tagKey
                                 })) : [] // 确保即使没有子节点也保留空数组
                             }))}
                         />
@@ -357,13 +142,73 @@ const AdvancedSearchForm = () => {
 const AllNotes = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const navigate = useNavigate()
-    const [staticDate,setStaticDate] = useState(Notesdata)
+    const [staticDate,setStaticDate] = useState<NoteType[]>([])
     const [open, setOpen] = useState(false);
     const [isEdit,setEdit] = useState('')
+    const dispatch = useDispatch()
     const [form] = Form.useForm();
-    const DeleteNote = (key:string) => {
-        setStaticDate(staticDate.filter(item => item.key!== key))
-        message.success('删除成功')
+    const tagList = useSelector((state: {tags: any}) => state.tags.tag)
+    const categories = useSelector((state: {categories: any}) => state.categories.categories);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        getNotes()
+    },[])
+
+    const getNotes = () => {
+        http({
+            url: '/api/protected/notes',
+            method: 'GET'
+        }).then((res) => {
+            setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                return {
+                    key: item.noteKey,
+                    noteTitle: item.noteTitle,
+                    noteContent: item.noteContent,
+                    description: item.description,
+                    cover: item.cover,
+                    noteCategory: item.noteCategory,
+                    noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
+                    isTop: item.isTop,
+                    status: item.status,
+                    createTime: item.createTime,
+                    updateTime: item.updateTime
+                }
+            }))
+        })
+    }
+
+
+    const DeleteNote = (key:number) => {
+        http({
+            url: '/api/protected/notes',
+            method: 'DELETE',
+            data: [key]
+        }).then((res) => {
+            if(res.status === 200){
+                getNotes()
+                dispatch<any>(fetchNoteList())
+                message.success('删除成功')
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    const deleteAll = () => {
+        http({
+            url: '/api/protected/notes',
+            method: 'DELETE',
+            data: selectedRowKeys
+        }).then((res) => {
+            if(res.status === 200){
+                getNotes()
+                dispatch<any>(fetchNoteList())
+                message.success('删除成功')
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     const showModal = (value:NoteType) => {
@@ -372,20 +217,23 @@ const AllNotes = () => {
     }
 
     const onOk = () => {
-        const updatedData = Notesdata.map(item => {
-            if (item.key === isEdit) {
-                return {
-                    ...item,
-                    status: parseInt(form.getFieldsValue().status||item.status),
-                    isTop: form.getFieldsValue().top === 'true'
-                };
-            } else {
-                return item;
+        const data = {
+            isTop: Number(form.getFieldsValue().top),
+            status: form.getFieldsValue().status
+        }
+
+        http({
+            url: `/api/protected/notes/${isEdit}`,
+            method: 'POST',
+            data: data
+        }).then((res) => {
+            if(res.status === 200){
+                getNotes()
+                message.success('状态变更成功')
             }
-        });
-        Notesdata = updatedData
-        setStaticDate(updatedData);
-        message.success('状态变更成功')
+        }).catch((error) => {
+            message.error("状态更新失败" + error)
+        })
         setEdit('0');
         form.resetFields();
         setOpen(false)
@@ -399,6 +247,18 @@ const AllNotes = () => {
 
     }
 
+    const showdelModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handledelOk = () => {
+        deleteAll()
+        setIsModalOpen(false);
+    };
+
+    const handledelCancel = () => {
+        setIsModalOpen(false);
+    };
 
     const columns: TableProps<NoteType>['columns'] = [
         {
@@ -410,24 +270,24 @@ const AllNotes = () => {
         },
         {
             title: '文章标题',
-            dataIndex: 'title',
+            dataIndex: 'noteTitle',
             key: 'title',
             align: "center"
         },
         {
             title: '文章分类',
-            dataIndex: 'categories',
+            dataIndex: 'noteCategory',
             key: 'categories',
             align: "center",
             render: (item) => (
                 <>
-                    {categoriesDate
-                        .filter(category => category.categories_title === item)
-                        .map(category => (
+                    {categories
+                        .filter((category: { categoryTitle: string; }) => category.categoryTitle === item)
+                        .map((category: { color: string | (string & {}) | undefined; key: React.Key | null | undefined; icon: any; categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
                             <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center' }}>
                                 <Tag color={category.color} key={category.key}>
                                     <i className={`iconfont ${category.icon}`} style={{ display: 'inline', fontSize: 20,marginTop:1 }}></i>
-                                    <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categories_title}</span>
+                                    <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categoryTitle}</span>
                                 </Tag>
                             </div>
 
@@ -441,32 +301,37 @@ const AllNotes = () => {
             key: 'tags',
             dataIndex: 'tags',
             align: "center",
-            render: (_, record) => (
-                <>
-                    {record.tags.map((tag) => {
-                        let color = 'green'; // 默认颜色
+            render: (_, record) => {
+                return (
+                    <>
+                        {record.noteTags.map(noteTag => {
+                            let color;
+                            let name;
+                            // Iterate over all tagList items
+                            tagList.forEach((tag: { tagKey: number; color: string; title: string; children: any[]; }) => {
+                                // If the tag exists in the current tagList item, set color and name
+                                if (tag.tagKey === noteTag) {
+                                    color = tag.color;
+                                    name = tag.title;
+                                } else if (tag.children && tag.children.some(child => child.tagKey === noteTag)) {
+                                    // Fix here: Changed child.title to tag.children.find(child => child.tagKey === noteTag).title
+                                    color = tag.color;
+                                    name = tag.children.find(child => child.tagKey === noteTag).title;
+                                }
+                            });
 
-                        // 遍历所有分类项
-                        tags.forEach((category) => {
-                            // 如果标签存在于当前分类项中，则将颜色设置为当前分类项的颜色
-                            if (category.title === tag) {
-                                color = category.color;
-                            } else if (category.children && category.children.some(child => child.title === tag)) {
-                                color = category.color;
-                            }
-                        });
-
-                        return (
-                            <Tag color={color} key={tag} style={{margin:5}}>
-                                {tag}
-                            </Tag>
-                        );
-                    })}
-                </>
-            )
+                            return (
+                                <Tag color={color} key={noteTag} style={{margin:5}}>
+                                    {name}
+                                </Tag>
+                            );
+                        })}
+                    </>
+                );
+            }
 
         },
-        {
+            {
             title: '是否置顶',
             key: 'isTop',
             dataIndex: 'isTop',
@@ -474,18 +339,18 @@ const AllNotes = () => {
             render: (isTop) => (isTop ? <i className={`iconfont icon-yes`} style={{fontSize:24}}></i> : <i className={`iconfont icon-no`} style={{fontSize:24}}></i>),
         },
         {
-            title: '发布时间',
-            key: 'time',
-            dataIndex: 'time',
+            title: '最近更新时间',
+            key: 'updateTime',
+            dataIndex: 'updateTime',
             align: "center",
-            render: (time) => <div style={{width:160,height:26,color:'rgba(0,0,0.88)',fontWeight:600,borderRadius:10}}>{new Date(time).toLocaleString()}</div>,
+            render: (time) => <div style={{width:160,height:26,color:'rgba(0,0,0.88)',fontWeight:600,borderRadius:10}}>{time}</div>,
         },
         {
             title: '文章状态',
             key: 'status',
             dataIndex: 'status',
             align: "center",
-            render: (status) => (status === 1 ?  <i className={`iconfont icon-public1`}></i> : status === 2 ? <i className={`iconfont icon-private4`}></i>: status === 3 ? <i className={`iconfont icon-caogaoxiang1`}></i>: '未知状态'),
+            render: (status) => (status === 'public' ?  <i className={`iconfont icon-public1`}></i> : status === 'private' ? <i className={`iconfont icon-private4`}></i>: status === 'draft' ? <i className={`iconfont icon-caogaoxiang1`}></i>: '未知状态'),
         },
         {
             title: '操作',
@@ -493,8 +358,17 @@ const AllNotes = () => {
             align: "center",
             render: (item) => (
                 <div style={{display: "flex",flexDirection:'column',alignItems:'center'}}>
-                        <Button type='primary' style={{marginBottom: 10}}><i className={`iconfont icon-bianji`} style={{fontSize:16,marginRight:'0.2em'}}></i> 编辑</Button>
-                        <Button type='primary' style={{background: '#f5222d',marginBottom:10}} onClick={() => DeleteNote(item.key)}><i className={`iconfont icon-shanchu1`} style={{fontSize:16,marginRight:'0.2em'}}></i>删除</Button>
+                        <Button type='primary' onClick={() => navigate(`newnote/${item.key}`)} style={{marginBottom: 10}}><i className={`iconfont icon-bianji`} style={{fontSize:16,marginRight:'0.2em'}}></i> 编辑</Button>
+                    <Popconfirm
+                        title="删除确认"
+                        description="确定删除此文章？"
+                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                        okText='删除'
+                        onConfirm={() => DeleteNote(item.key)}
+                        cancelText='取消'
+                    >
+                        <Button type='primary' style={{background: '#f5222d',marginBottom:10}} ><i className={`iconfont icon-shanchu1`} style={{fontSize:16,marginRight:'0.2em'}}></i>删除</Button>
+                    </Popconfirm>
                         <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16,marginRight:'0.2em'}}></i> 状态变更</Button>
                 </div>
             ),
@@ -529,18 +403,18 @@ const AllNotes = () => {
 
     const onChange = (value:string) => {
         if (parseInt(value) === 1){
-            setStaticDate(Notesdata)
+            getNotes()
         }else if (parseInt(value) === 2){
-            setStaticDate(Notesdata.filter(item => item.status===2))
+            setStaticDate(staticDate.filter(item => item.status==='private'))
         }else {
-            setStaticDate(Notesdata.filter(item => item.status=== 3))
+            setStaticDate(staticDate.filter(item => item.status=== 'draft'))
         }
     }
     return <>
             <div className="AllCard">
                 <AdvancedSearchForm />
-                <Button type="primary" style={{marginLeft:15,marginTop:15,background: '#389e0d'}} onClick={() => navigate('newnote')}>新增</Button>
-                <Button type="primary" style={{marginLeft:15,marginTop:15,background: '#f5222d'}}>批量删除</Button>
+                <Button type="primary" style={{marginLeft:15,marginTop:15}} onClick={() => navigate('newnote')}>新增</Button>
+                {hasSelected&&<Button  danger style={{marginLeft:15,marginTop:15,background:'transparent'}} onClick={showdelModal}>批量删除</Button>}
                 <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
                 </span>
@@ -579,19 +453,23 @@ const AllNotes = () => {
 
                 <Form.Item name="status" className="collection-create-form_last-form-item" label={<h4>文章状态</h4>}>
                     <Radio.Group>
-                        <Radio value="1">公开</Radio>
-                        <Radio value="2">私密</Radio>
-                        <Radio value="3">草稿</Radio>
+                        <Radio value="public">公开</Radio>
+                        <Radio value="private">私密</Radio>
+                        <Radio value="draft">草稿</Radio>
                     </Radio.Group>
                 </Form.Item>
 
                 <Form.Item name="top" label={<h4>是否置顶</h4>}>
                     <Radio.Group>
-                        <Radio value="true">是</Radio>
-                        <Radio value="false">否</Radio>
+                        <Radio value="1">是</Radio>
+                        <Radio value="0">否</Radio>
                     </Radio.Group>
                 </Form.Item>
             </Form>
+        </Modal>
+
+        <Modal title="删除确认" open={isModalOpen} onOk={handledelOk} onCancel={handledelCancel}  okText="确定" cancelText="取消">
+            是否删除选中所有文章?
         </Modal>
     </>
 }

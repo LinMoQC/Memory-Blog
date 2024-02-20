@@ -6,148 +6,37 @@ import {
     Form,
     Modal,
     Select,
-    Upload, Switch, Radio, TreeSelect, ConfigProvider,
+    Upload, Switch, Radio, TreeSelect, ConfigProvider, UploadProps, UploadFile, GetProp, message,
 } from "antd";
 import {PlusOutlined} from "@ant-design/icons";
-import {useState} from "react";
+import React, {useEffect,  useState} from "react";
+import dayjs from "dayjs";
+import http from "../../../../apis/axios.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate, useParams} from "react-router-dom";
+import {fetchNoteList} from "../../../../store/components/note.tsx";
 
-//静态数据
-const categorize = [
-    {
-        id: 1,
-        name: '技术',
-        description: '关于编程、开发、技术趋势等的博客文章',
-    },
-    {
-        id: 2,
-        name: '设计',
-        description: '设计原理、用户界面设计、用户体验等方面的博客文章',
-    },
-    {
-        id: 3,
-        name: '生活',
-        description: '个人生活、日常琐事、旅行日记等的博客文章',
-    },
-    {
-        id: 4,
-        name: '健康',
-        description: '健康生活、运动、饮食等方面的博客文章',
-    },
-    {
-        id: 5,
-        name: '文学',
-        description: '文学创作、书评、阅读感想等的博客文章',
-    },
-    {
-        id: 6,
-        name: '学术',
-        description: '学术研究、学科探讨等的博客文章',
-    },
-    {
-        id: 7,
-        name: '音乐',
-        description: '音乐欣赏、乐器演奏、音乐创作等的博客文章',
-    },
-    // 添加更多分类...
-];
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-const tags = [
-    {
-        id: 1,
-        value: '前端开发',
-        title: '前端开发',
-        children: [
-            {
-                id: 101,
-                value: 'React',
-                title: 'React',
-            },
-            {
-                id: 102,
-                value: 'Vue.js',
-                title: 'Vue.js',
-            },
-            {
-                id: 103,
-                value: 'Angular',
-                title: 'Angular',
-            },
-        ],
-    },
-    {
-        id: 2,
-        value: '后端开发',
-        title: '后端开发',
-        children: [
-            {
-                id: 201,
-                value: 'Node.js',
-                title: 'Node.js',
-            },
-            {
-                id: 202,
-                value: 'Django',
-                title: 'Django',
-            },
-            {
-                id: 203,
-                value: 'Spring Boot',
-                title: 'Spring Boot',
-            },
-        ],
-    },
-    {
-        id: 3,
-        value: '移动端开发',
-        title: '移动端开发',
-        children: [
-            {
-                id: 301,
-                value: 'React Native',
-                title: 'React Native',
-            },
-            {
-                id: 302,
-                value: 'Flutter',
-                title: 'Flutter',
-            },
-            {
-                id: 303,
-                value: 'Swift',
-                title: 'Swift',
-            },
-        ],
-    },
-    {
-        id: 4,
-        value: '数据科学',
-        title: '数据科学',
-        children: [
-            {
-                id: 401,
-                value: '机器学习',
-                title: '机器学习',
-            },
-            {
-                id: 402,
-                value: '数据分析',
-                title: '数据分析',
-            },
-            {
-                id: 403,
-                value: '人工智能',
-                title: '人工智能',
-            },
-        ],
-    },
-];
+
 const NewNotes = () => {
     //hooks区域
     //文章提交表单
     const [open, setOpen] = useState(false);
-    const [title_vlaue,setTitle] = useState('')
+    const [noteTitle,setTitle] = useState('')
+    const [noteContent, setNoteContent] = useState('')
+    const [coverImg,setCoverImg] = useState('')
+    const [noteTag, setNoteTag] = useState<number[]>();
     const [confirmLoading, setConfirmLoading] = useState(false);
+    const [fileList, setFileList] = useState<UploadFile[]>([])
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { id } = useParams();
     const [form] = Form.useForm();
+    const tagList = useSelector((state: {tags: any}) => state.tags.tag)
+    const categories = useSelector((state: {categories: any}) => state.categories.categories);
+
+
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
@@ -159,58 +48,167 @@ const NewNotes = () => {
         },
     };
 
+    useEffect(() => {
+        if(id){
+            http({
+                url: `/api/protected/notes/${id}`,
+                method: 'GET'
+            }).then((res) => {
+                console.log(res.data.data)
+                form.setFieldsValue({
+                    noteTitle: res.data.data.noteTitle,
+                    description: res.data.data.description,
+                    noteCategory: res.data.data.noteCategory,
+                    isTop: res.data.data.isTop,
+                    status: res.data.data.status
+                })
+                setTitle(res.data.data.noteTitle)
+                setNoteContent(res.data.data.noteContent)
+                setNoteTag(res.data.data.noteTags.split(',').map((tag: string) => parseInt(tag, 10)))
+            })
+        }
+    },[id])
+
+
     //回调函数区域
-    const showModal = () => {
+
+    const upload = async (file: UploadFile) => {
+        const formData = new FormData();
+        // @ts-ignore
+        formData.append('file', file);
+        const response = await http({
+            url: '/api/protect/upload',
+            method: 'POST',
+            data: formData
+        });
+
+        if(response.status ===200){
+            setCoverImg(response.data.data)
+            console.log(coverImg)
+        }
+
+    }
+
+    const showModal = async () => {
         setOpen(true);
-        form.setFieldsValue({ Input: title_vlaue });
+        form.setFieldsValue({noteTitle: noteTitle});
     };
 
     const handleOk = () => {
         setConfirmLoading(true);
-        setTimeout(() => {
+            onFinsh()
             setOpen(false);
             setConfirmLoading(false);
-        }, 2000);
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
     };
 
-    // const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    //     setFileList(newFileList);
-    // };
+    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    };
 
-    // const onPreview = async (file: UploadFile) => {
-    //     let src = file.url as string;
-    //     if (!src) {
-    //         src = await new Promise((resolve) => {
-    //             const reader = new FileReader();
-    //             reader.readAsDataURL(file.originFileObj as FileType);
-    //             reader.onload = () => resolve(reader.result as string);
-    //         });
-    //     }
-    //     const image = new Image();
-    //     image.src = src;
-    //     const imgWindow = window.open(src);
-    //     imgWindow?.document.write(image.outerHTML);
-    // };
+    const handlePreview = async (file: UploadFile) => {
+        let src = file.url as string;
+        if (!src) {
+            src = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file.originFileObj as FileType);
+                reader.onload = () => resolve(reader.result as string);
+            });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow?.document.write(image.outerHTML);
+    };
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
+
+    const onFinsh = () => {
+        const formValues = form.getFieldsValue();
+
+        if(id){
+            const data = {
+                noteTitle: formValues.noteTitle,
+                noteContent: noteContent,
+                cover: coverImg,
+                description: formValues.description,
+                noteCategory: formValues.noteCategory,
+                // @ts-ignore
+                noteTags: noteTag.toString(),
+                isTop: Number(formValues.isTop),
+                status: formValues.status,
+                updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
+            }
+            console.log(data)
+            http({
+                url: `/api/protected/notes/${id}`,
+                method: 'POST',
+                data: data
+            }).then((res) => {
+                if (res.status === 200) {
+                    dispatch<any>(fetchNoteList())
+                    message.success("文章更新成功")
+                    navigate('/dashboard/notes')
+                }
+            }).catch((error) => {
+                message.error("文章更新失败：" + error)
+                navigate('/dashboard/notes')
+            })
+        }else{
+            const data = {
+                noteTitle: formValues.noteTitle,
+                noteContent: noteContent,
+                cover: coverImg,
+                description: formValues.description,
+                noteCategory: formValues.noteCategory,
+                // @ts-ignore
+                noteTags: noteTag.toString(),
+                isTop: Number(formValues.isTop),
+                status: formValues.status,
+                createTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
+                updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
+            }
+            http({
+                url: '/api/protected/notes',
+                method: 'POST',
+                data: data
+            }).then((res) => {
+                if (res.status === 200) {
+                    dispatch<any>(fetchNoteList())
+                    message.success("文章创建成功")
+                }
+            }).catch((error) => {
+                message.error("文章创建失败：" + error)
+            })
+        }
+
+        //     清除
+        setNoteContent(' ')
+        setTitle(' ')
+        setNoteTag([])
+        setNoteContent('')
+        form.resetFields()
+    }
+    const onChange = (newTag: number[]) => {
+        setNoteTag(newTag);
+    };
+
     return <>
         <div className="notes-container">
             <div className="article_title">
                 <label style={{width:115,fontSize:18,fontWeight:600}}>文章标题</label>
-                <Input style={{background: 'transparent',border: '1px solid #4096ff',width: '95%',marginRight: 10}} onChange={handleInputChange}/>
+                <Input style={{background: 'transparent',border: '1px solid #4096ff',width: '95%',marginRight: 10}} onChange={handleInputChange} value={noteTitle}/>
 
                 <Button type="primary" onClick={showModal} style={{float: "right"}}>
                     提交
                 </Button>
             </div>
             <div className="new_article">
-                <Editor_ />
+                <Editor_  setNoteContent={setNoteContent} noteContent={noteContent}/>
             </div>
 
             {/*文章创建*/}
@@ -224,31 +222,31 @@ const NewNotes = () => {
                 cancelText="返回"
             >
 
-                <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }} form={form}>
-                    <Form.Item label="文章标题" name="Input" >
-                        <Input  disabled={true} value={title_vlaue}/>
+                <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }} form={form} onFinish={onFinsh}>
+                    <Form.Item label="文章标题" name="noteTitle" >
+                        <Input  disabled={true} value={noteTitle}/>
                     </Form.Item>
 
                     <Form.Item
                         label="文章描述"
-                        name="TextArea"
+                        name="description"
                         rules={[{ required: true, message: 'Please input!' }]}
                     >
                         <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }}/>
                     </Form.Item>
 
 
-                    <Form.Item label="文章分类" name="Select" rules={[{ required: true, message: 'Please input!'}]}>
+                    <Form.Item label="文章分类" name="noteCategory" rules={[{ required: true, message: 'Please input!'}]}>
                         <Select>
-                            {categorize.map((item) => (
-                                <Select.Option value={item.name}>{item.name}</Select.Option>
+                            {categories.map((item: { categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+                                <Select.Option value={item.categoryTitle}>{item.categoryTitle}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>
 
                     <Form.Item
                         label="文章标签"
-                        name="Cascader"
+                        name="noteTags"
                         rules={[{ required: true, message: 'Please input!' }]}
                     >
                         <ConfigProvider
@@ -260,25 +258,39 @@ const NewNotes = () => {
                             }}
                         >
                             <TreeSelect
+                                placeholder="请选择文章标签"
                                 showSearch
                                 style={{ width: '100%' }}
-                                // value={value}
                                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                                 allowClear
                                 multiple
                                 treeDefaultExpandAll
-                                treeData={tags}
+                                treeData={tagList.map((tag: { tagKey: number; children: { tagKey: number; }[]; }) => ({
+                                    ...tag,
+                                    value: tag.tagKey,
+                                    key: tag.tagKey,
+                                    children: tag.children ? tag.children.map((child: { tagKey: number; }) => ({
+                                        ...child,
+                                        value: child.tagKey,
+                                        key: child.tagKey
+                                    })) : [] // 确保即使没有子节点也保留空数组
+                                }))}
+                                onChange={onChange}
+                                value={noteTag}
                             />
                         </ConfigProvider>
                     </Form.Item>
 
-                    <Form.Item label="文章封面" name="avatar" valuePropName="fileList" getValueFromEvent={(e) => {
+                    <Form.Item label="文章封面" name="cover" valuePropName="fileList" getValueFromEvent={(e) => {
                         if (Array.isArray(e)) {
-                            return e.slice(-1); // 返回数组中的最后一个元素，即上传的最后一个文件
+                            return e.slice(-1);
                         }
                         return e && e.fileList.slice(-1);
                     }} rules={[{ required: true, message: 'Please input!' }]}>
-                        <Upload action="/upload.do" listType="picture-card">
+                        {/*@ts-ignore*/}
+                        <Upload action={upload} listType="picture-card" fileList={fileList}
+                                onPreview={handlePreview}
+                                onChange={handleChange}>
                             <button style={{ border: 0, background: 'none' }} type="button">
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Upload</div>
@@ -286,11 +298,11 @@ const NewNotes = () => {
                         </Upload>
                     </Form.Item>
 
-                    <Form.Item label="置顶" valuePropName="checked">
+                    <Form.Item label="置顶" name='isTop' valuePropName="checked">
                         <Switch />
                     </Form.Item>
 
-                    <Form.Item name="article_status" label="文章状态" rules={[{ required: true, message: 'Please input!' }]}>
+                    <Form.Item name="status" label="文章状态" rules={[{ required: true, message: 'Please input!' }]}>
                         <Radio.Group>
                             <Radio value="public">公开</Radio>
                             <Radio value="private">私密</Radio>
