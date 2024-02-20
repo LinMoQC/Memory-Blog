@@ -71,8 +71,11 @@ If you want to change the username or password, please generate the SHA256 encry
  ### server/src/main/java/com/linmoblog/server/Config/ImageConfig.java
  ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/8931931f-89ed-4927-94c0-cc499d302a94)
 
-
-
+## Which interfaces are not yet completed?
+  - Article conditional search
+  - Word cloud and hotspot map on the homepage
+  - Statistics page
+  - Translate the settings page into English
 
 ## 😉 Preview
 
