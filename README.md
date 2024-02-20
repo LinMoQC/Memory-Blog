@@ -5,10 +5,10 @@ A developing blog framework, based on `React` + `TypeScript` + `SpringBoot`
 ## 🗺 Roadmap
 
 - [x] Backstage UI
-- [ ] Frontend UI
-- [ ] API
-- [ ] Login System
-- [ ] Axios Encapsulation
+- [x] Frontend UI
+- [x] API
+- [x] Login System
+- [x] Axios Encapsulation
 
 ## 👌 Tech Stacks
 
@@ -23,8 +23,8 @@ A developing blog framework, based on `React` + `TypeScript` + `SpringBoot`
 
 ### Behind end
 
-- `json-servre` emulate api (temporarily)
-- `nodejs api in Express framework` (You can deploy locally or visit out deployment on `vercel`)
+- SpringBoot
+- Mybatis
 
 ## Structure
 
@@ -55,16 +55,19 @@ cd LinMoBlog
 npm install # If failed please append `--force`
 npm run dev
 
-// Select one in two behind ends
-
-// Run behind end: json-server
-cd server
-json-server --watch db.json --port 3000
-
-// Run behind end: nodejs interface in Express framework
-cd server/nodejs
-nodemon app.js
+// Run behind end:
+mvn package
+java -jar xxx.jar  //target file
 ```
+
+## Where You Should Change
+ #### server/src/main/resources/application.yml
+ ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/3eddce3e-dd4b-476e-b1b8-d8cd67ac8324)
+ ### server/src/main/java/com/linmoblog/server/Config/ImageConfig.java
+ ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/8931931f-89ed-4927-94c0-cc499d302a94)
+
+
+
 
 ## 😉 Preview
 
