@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = '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'; // 替换为你的API密钥
+const OPENAI_API_KEY = 'xxx'; // 替换为你的API密钥
 const CHATGPT_ENDPOINT = 'https://api.openai.com/v1/engines/davinci-codex/completions';
 
 async function callChatGPT(prompt:string) {
