@@ -56,8 +56,7 @@ npm install # If failed please append `--force`
 npm run dev
 
 // Run behind end:
-mvn package
-java -jar xxx.jar  //target file
+mvn spring-boot:run
 
 account:admin
 password:123456
