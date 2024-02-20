@@ -58,6 +58,11 @@ npm run dev
 // Run behind end:
 mvn package
 java -jar xxx.jar  //target file
+
+account:admin
+password:123456
+
+If you want to change the username or password, please generate the SHA256 encrypted ciphertext by yourself temporarily, and then replace it in the user table of the database.
 ```
 
 ## Where You Should Change
