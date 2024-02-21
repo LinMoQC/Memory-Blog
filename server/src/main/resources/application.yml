@@ -5,10 +5,9 @@ spring:
       max-request-size: 100MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/linmoblog
-    username: root
-    password: hk200478
-
+    url: jdbc:mysql://localhost:3306/xxx  # 改成你的数据库名
+    username: xxx   #改成你的数据库用户名
+    password: xxx   #改成你的数据库密码
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

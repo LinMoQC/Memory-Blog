@@ -11,6 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ImageConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:C:\\Users\\Karen\\Desktop\\前端\\React\\LinMo\\server\\src\\main\\resources\\static\\upload\\");
+        registry.addResourceHandler("/upload/**").addResourceLocations("xxx");  //改成你的绝对上传路径
     }
 }
