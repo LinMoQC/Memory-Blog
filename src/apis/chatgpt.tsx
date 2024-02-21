@@ -29,7 +29,7 @@ export default async function generateResponse(prompt: string): Promise<string> 
         messages: [
             {
                 role: 'system',
-                content: 'You are a helpful assistant.',
+                content: '用50字概述下面的文章内容',
             },
             {
                 role: 'user',
