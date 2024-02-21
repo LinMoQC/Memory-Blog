@@ -1,30 +1,54 @@
-const OPENAI_API_KEY = 'xxx'; // 替换为你的API密钥
-const CHATGPT_ENDPOINT = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+import axios from 'axios';
 
-async function callChatGPT(prompt:string) {
-    try {
-        const response = await fetch(CHATGPT_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`,
-            },
-            body: JSON.stringify({
-                prompt: prompt,
-                max_tokens: 150, // 生成的最大token数
-                temperature: 0.5, // 提供多样化的回答，值越高，回答越随机
-            })
-        });
-
-        const data = await response.json();
-        return data.choices[0].text; // 返回ChatGPT的回答
-    } catch (error) {
-        console.error('Error calling ChatGPT:', error);
-        return 'Uh oh, there was an error. Try again later.';
-    }
+interface ChatGPTResponse {
+    id: string;
+    object: string;
+    model: string;
+    choices: {
+        id: string;
+        object: string;
+        index: number;
+        message: {
+            role: string;
+            content: string;
+            metadata?: any;
+        };
+        finish_reason: string;
+    }[];
 }
 
-// 使用示例
-callChatGPT("Hello, who are you?").then(response => {
-    console.log(response); // 输出ChatGPT的回答
-});
+export default async function generateResponse(prompt: string): Promise<string> {
+    const apiKey = 'xxxxx';  //替换你的key
+    const endpoint = 'https://api.openai.com/v1/chat/completions';
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey,
+    };
+    const data = {
+        model: 'gpt-3.5-turbo',
+        messages: [
+            {
+                role: 'system',
+                content: 'You are a helpful assistant.',
+            },
+            {
+                role: 'user',
+                content: prompt,
+            },
+        ],
+    };
+
+    try {
+        const response = await axios.post<ChatGPTResponse>(endpoint, data, { headers });
+        const responseData = response.data;
+
+        if (responseData.choices && responseData.choices.length > 0) {
+            return responseData.choices[0].message.content;
+        } else {
+            return 'Error: Failed to generate response';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return 'Error: Failed to generate response';
+    }
+}
