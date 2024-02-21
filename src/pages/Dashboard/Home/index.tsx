@@ -1,4 +1,4 @@
-import {Calendar, CalendarProps, Card, ConfigProvider, Progress, Space, Steps, theme} from "antd";
+import {Calendar, Card, ConfigProvider, Progress, Space, Steps, theme} from "antd";
 import './index.sass';
 import {useContext, useEffect, useRef, useState} from "react";
 import axios from "axios";
@@ -20,10 +20,6 @@ const Home = () => {
     const { token } = theme.useToken();
     const avatar = useSelector((state: { user: UserState }) => state.user.avatar);
     //回调函数区域
-        //日历处理
-    const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
-        console.log(value.format('YYYY-MM-DD'), mode);
-    };
     const disabledDate = (current: Dayjs) => {
         // 将current转换为JavaScript的Date对象
         const currentDate = current.toDate();
@@ -111,7 +107,7 @@ const Home = () => {
                <ConfigProvider locale={zhCN}>
                    <div style={wrapperStyle}>
                        <TheYearPass/>
-                       <Calendar fullscreen={false} onPanelChange={onPanelChange} disabledDate={disabledDate} style={{height:'85%'}}/>
+                       <Calendar fullscreen={false}  disabledDate={disabledDate} style={{height:'85%'}}/>
                    </div>
                </ConfigProvider>
 

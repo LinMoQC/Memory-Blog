@@ -2,6 +2,7 @@ package com.linmoblog.server.Dao;
 
 import com.linmoblog.server.Entity.Result;
 import com.linmoblog.server.Entity.User;
+import com.linmoblog.server.Entity.UserInfo;
 import com.linmoblog.server.Mapper.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,8 +16,8 @@ public class LoginDao {
         return loginMapper.login(user);
     }
 
-    public Result<User> userinfo() {
-        User res = loginMapper.userinfo();
-        return new Result<User>(200,"ok",res);
+    public Result<UserInfo> userinfo() {
+        UserInfo res = loginMapper.userinfo();
+        return new Result<UserInfo>(200,"ok",res);
     }
 }

@@ -25,7 +25,6 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
             }))
         })
     }, []);
-    console.log(tagList)
 
     return <div className="articleRecord">
         <div className="articleRecordImg">

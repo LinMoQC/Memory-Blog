@@ -1,7 +1,7 @@
 package com.linmoblog.server.Mapper;
 
-import com.linmoblog.server.Entity.Result;
 import com.linmoblog.server.Entity.User;
+import com.linmoblog.server.Entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -12,5 +12,5 @@ public interface LoginMapper {
     User login(User user);
 
     @Select(("select avatar,talk,name from user"))
-    User userinfo();
+    UserInfo userinfo();
 }

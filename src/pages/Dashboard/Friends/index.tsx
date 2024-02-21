@@ -200,7 +200,7 @@ const Friends = () => {
         })
     }
     return (
-        <div style={{ height: '100%', padding: 20, overflowY: 'scroll' }} className='link'>
+        <div style={{ height: '100%', padding: 20, overflowY: 'scroll' }} className='link allin'>
             <Tabs
                 defaultActiveKey="1"
                 centered

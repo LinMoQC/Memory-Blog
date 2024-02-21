@@ -1,3 +1,4 @@
+# 数据表生成
 create table categories
 (
     category_key   int unsigned auto_increment comment '唯一标识'
@@ -115,5 +116,42 @@ create table user
 )
     comment '用户';
 
+# admin 123456
 insert into user (username, password) values ('8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
                                               '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+
+# 触发器
+CREATE TRIGGER update_category_article_count
+    AFTER INSERT ON notes
+    FOR EACH ROW
+BEGIN
+    -- 更新相应分类的文章数量
+    UPDATE categories
+    SET note_count = note_count + 1
+    WHERE category_title = NEW.note_category; -- 使用NEW关键字引用插入的新行的值
+END;
+
+CREATE TRIGGER decrease_category_article_count
+    AFTER DELETE ON notes
+    FOR EACH ROW
+BEGIN
+    -- 减少相应分类的文章数量
+    UPDATE categories
+    SET note_count = note_count - 1
+    WHERE category_title = OLD.note_category; -- 使用OLD关键字引用删除的行的值
+END;
+
+CREATE TRIGGER update_note_category_article_count
+    AFTER UPDATE ON notes
+    FOR EACH ROW
+BEGIN
+    -- 原分类文章数量减一
+    UPDATE categories
+    SET note_count = note_count - 1
+    WHERE category_title = OLD.note_category; -- 使用OLD关键字引用旧的分类
+
+    -- 新分类文章数量加一
+    UPDATE categories
+    SET note_count = note_count + 1
+    WHERE category_title = NEW.note_category; -- 使用NEW关键字引用新的分类
+END;

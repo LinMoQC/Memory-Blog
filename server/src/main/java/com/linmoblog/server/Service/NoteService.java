@@ -7,7 +7,9 @@ import com.linmoblog.server.Entity.Result;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @Service
@@ -43,6 +45,11 @@ public class NoteService {
     public Result<List<Note>> getNotePages(Integer page, Integer pageSize) {
         Integer start = (page - 1) * pageSize;
         List<Note> noteList = noteDao.getNotePages(start,pageSize);
+        return new Result<>(200,"ok",noteList);
+    }
+
+    public Result<List<Note>> searchNote(String title, String categories, String tagsLab, int top, Data time,String status) {
+        List<Note> noteList = noteDao.searchNote(title,categories,tagsLab,top,time,status);
         return new Result<>(200,"ok",noteList);
     }
 }

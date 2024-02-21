@@ -4,7 +4,9 @@ import com.linmoblog.server.Entity.Note;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @Mapper
@@ -27,4 +29,6 @@ public interface NoteMapper {
 
     @Select("SELECT * FROM notes ORDER BY update_time DESC LIMIT #{start}, #{pageSize}")
     List<Note> getNotePages(Integer start, Integer pageSize);
+
+    List<Note> searchNote(String title, String categories, String tagsLab, int top, Data time,String status);
 }

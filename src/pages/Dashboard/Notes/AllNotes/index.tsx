@@ -24,7 +24,12 @@ import {useDispatch, useSelector} from "react-redux";
 import http from "../../../../apis/axios.tsx";
 import {fetchNoteList} from "../../../../store/components/note.tsx";
 import { QuestionCircleOutlined } from '@ant-design/icons';
-const AdvancedSearchForm = () => {
+import dayjs from "dayjs";
+interface AdvancedSearchFormProps {
+    setSearchNotes: (value: (((prevState: any[]) => any[]) | any[])) => void,
+}
+
+const AdvancedSearchForm = ({setSearchNotes}: AdvancedSearchFormProps) => {
     //hooks区域
     const { RangePicker } = DatePicker;
     const { token } = theme.useToken();
@@ -34,7 +39,33 @@ const AdvancedSearchForm = () => {
 
     //回调函数区域
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+        const data = {
+            ...values,
+            tagsLab: values.tagsLab.toString()
+        }
+        http({
+            url: '/api/protected/notes/search',
+            method: 'POST',
+            params: data
+        }).then((res) => {
+            if(res.status === 200){
+                setSearchNotes(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                    return {
+                        key: item.noteKey,
+                        noteTitle: item.noteTitle,
+                        noteContent: item.noteContent,
+                        description: item.description,
+                        cover: item.cover,
+                        noteCategory: item.noteCategory,
+                        noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
+                        isTop: item.isTop,
+                        status: item.status,
+                        createTime: item.createTime,
+                        updateTime: item.updateTime
+                    }
+                }))
+            }
+        })
     };
 
     //表单样式
@@ -63,8 +94,8 @@ const AdvancedSearchForm = () => {
                         label='是否置顶'
                     >
                         <Select placeholder="请选择是否置顶" options={[
-                            { value: 'true', label: '是' },
-                            { value: 'false', label: '否' },
+                            { value: 1, label: '是' },
+                            { value: 0, label: '否' },
                         ]}>
                         </Select>
                     </Form.Item>
@@ -219,7 +250,8 @@ const AllNotes = () => {
     const onOk = () => {
         const data = {
             isTop: Number(form.getFieldsValue().top),
-            status: form.getFieldsValue().status
+            status: form.getFieldsValue().status,
+            updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         }
 
         http({
@@ -375,7 +407,6 @@ const AllNotes = () => {
         },
     ];
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
     };
 
@@ -406,13 +437,62 @@ const AllNotes = () => {
             getNotes()
         }else if (parseInt(value) === 2){
             setStaticDate(staticDate.filter(item => item.status==='private'))
+            http({
+                url: '/api/protected/notes/search',
+                method: 'POST',
+                params: {
+                    status: 'private'
+                }
+            }).then((res) => {
+                if(res.status === 200){
+                    setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                        return {
+                            key: item.noteKey,
+                            noteTitle: item.noteTitle,
+                            noteContent: item.noteContent,
+                            description: item.description,
+                            cover: item.cover,
+                            noteCategory: item.noteCategory,
+                            noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
+                            isTop: item.isTop,
+                            status: item.status,
+                            createTime: item.createTime,
+                            updateTime: item.updateTime
+                        }
+                    }))
+                }
+            })
         }else {
-            setStaticDate(staticDate.filter(item => item.status=== 'draft'))
+            http({
+                url: '/api/protected/notes/search',
+                method: 'POST',
+                params: {
+                    status: 'draft'
+                }
+            }).then((res) => {
+                if(res.status === 200){
+                    setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                        return {
+                            key: item.noteKey,
+                            noteTitle: item.noteTitle,
+                            noteContent: item.noteContent,
+                            description: item.description,
+                            cover: item.cover,
+                            noteCategory: item.noteCategory,
+                            noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
+                            isTop: item.isTop,
+                            status: item.status,
+                            createTime: item.createTime,
+                            updateTime: item.updateTime
+                        }
+                    }))
+                }
+            })
         }
     }
     return <>
             <div className="AllCard">
-                <AdvancedSearchForm />
+                <AdvancedSearchForm setSearchNotes={setStaticDate}/>
                 <Button type="primary" style={{marginLeft:15,marginTop:15}} onClick={() => navigate('newnote')}>新增</Button>
                 {hasSelected&&<Button  danger style={{marginLeft:15,marginTop:15,background:'transparent'}} onClick={showdelModal}>批量删除</Button>}
                 <span style={{ marginLeft: 8 }}>

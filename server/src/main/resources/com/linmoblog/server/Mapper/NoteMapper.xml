@@ -40,4 +40,28 @@
             #{key}
         </foreach>
     </delete>
+    <select id="searchNote" resultType="com.linmoblog.server.Entity.Note">
+        SELECT * FROM notes
+        <where>
+            <if test="title != null and title != ''">
+                AND note_title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="categories != null">
+                AND note_category = #{categories}
+            </if>
+            <if test="tagsLab != null">
+                AND note_tags = #{tagsLab}
+            </if>
+            <if test="top != null and top != -1">
+                AND is_top = #{top}
+            </if>
+            <if test="time != null">
+                AND create_time = #{time}
+            </if>
+
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>

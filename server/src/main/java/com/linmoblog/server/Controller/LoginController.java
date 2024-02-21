@@ -2,6 +2,7 @@ package com.linmoblog.server.Controller;
 
 import com.linmoblog.server.Entity.Result;
 import com.linmoblog.server.Entity.User;
+import com.linmoblog.server.Entity.UserInfo;
 import com.linmoblog.server.Service.LoginService;
 import com.linmoblog.server.Utils.EncryptUtil;
 import com.linmoblog.server.Utils.JWTTokenUtil;
@@ -21,7 +22,7 @@ public class LoginController {
     }
 
     @GetMapping("/api/protect/user")
-    public Result<User> userinfo() {
+    public Result<UserInfo> userinfo() {
         return loginService.userinfo();
     }
 }

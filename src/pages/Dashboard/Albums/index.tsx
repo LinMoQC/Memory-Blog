@@ -157,7 +157,7 @@ const Albums = () => {
     };
 
 
-    return <div style={{height: '100%'}}>
+    return <div style={{height: '100%'}} className='allin'>
         <InfiniteScroll
         dataLength={staticDate.length}
         next={fetchData}

@@ -3,6 +3,7 @@ package com.linmoblog.server.Service;
 import com.linmoblog.server.Dao.LoginDao;
 import com.linmoblog.server.Entity.Result;
 import com.linmoblog.server.Entity.User;
+import com.linmoblog.server.Entity.UserInfo;
 import com.linmoblog.server.Utils.JWTTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class LoginService {
         return new Result<>(401, "Login failed",null);
     }
 
-    public Result<User> userinfo() {
+    public Result<UserInfo> userinfo() {
         return loginDao.userinfo();
     }
 }

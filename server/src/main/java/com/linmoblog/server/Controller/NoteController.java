@@ -7,6 +7,7 @@ import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @RequestMapping(value = "/api/protected/notes")
@@ -45,5 +46,14 @@ public class NoteController {
         return noteService.updateNote(id,note);
     }
 
+    @PostMapping("/search")
+    public Result<List<Note>> searchNote(@RequestParam(required = false) String title,
+                                         @RequestParam(required = false) String categories,
+                                         @RequestParam(required = false) String tagsLab,
+                                         @RequestParam(required = false, defaultValue = "-1") int top,
+                                         @RequestParam(required = false) Data time,
+                                         @RequestParam(required = false) String status) {
+        return noteService.searchNote(title, categories, tagsLab, top, time,status);
+    }
 
 }

@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "33483666",
+      "name": "openai",
+      "font_class": "openai",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "34844283",
+      "name": "openAI-filled",
+      "font_class": "openAI-filled",
+      "unicode": "e6a3",
+      "unicode_decimal": 59043
+    },
+    {
+      "icon_id": "35034124",
+      "name": "openai",
+      "font_class": "openai1",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "36505989",
+      "name": "openai",
+      "font_class": "openai2",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "39120407",
+      "name": "OpenAI",
+      "font_class": "OpenAI",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
       "icon_id": "924471",
       "name": "no",
       "font_class": "no",

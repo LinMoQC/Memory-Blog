@@ -15,6 +15,7 @@ import http from "../../../../apis/axios.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {fetchNoteList} from "../../../../store/components/note.tsx";
+import generateResponse from "../../../../apis/chatgpt.tsx";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -26,6 +27,7 @@ const NewNotes = () => {
     const [noteTitle,setTitle] = useState('')
     const [noteContent, setNoteContent] = useState('')
     const [coverImg,setCoverImg] = useState('')
+    const [aiContent,setAiContent] = useState('')
     const [noteTag, setNoteTag] = useState<number[]>();
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [fileList, setFileList] = useState<UploadFile[]>([])
@@ -54,14 +56,13 @@ const NewNotes = () => {
                 url: `/api/protected/notes/${id}`,
                 method: 'GET'
             }).then((res) => {
-                console.log(res.data.data)
                 form.setFieldsValue({
                     noteTitle: res.data.data.noteTitle,
-                    description: res.data.data.description,
                     noteCategory: res.data.data.noteCategory,
                     isTop: res.data.data.isTop,
                     status: res.data.data.status
                 })
+                setAiContent(res.data.data.description)
                 setTitle(res.data.data.noteTitle)
                 setNoteContent(res.data.data.noteContent)
                 setNoteTag(res.data.data.noteTags.split(',').map((tag: string) => parseInt(tag, 10)))
@@ -71,6 +72,10 @@ const NewNotes = () => {
 
 
     //回调函数区域
+    const getAiContent = async () => {
+        const openai = await generateResponse(noteContent)
+        setAiContent(openai)
+    }
 
     const upload = async (file: UploadFile) => {
         const formData = new FormData();
@@ -84,7 +89,6 @@ const NewNotes = () => {
 
         if(response.status ===200){
             setCoverImg(response.data.data)
-            console.log(coverImg)
         }
 
     }
@@ -135,7 +139,7 @@ const NewNotes = () => {
                 noteTitle: formValues.noteTitle,
                 noteContent: noteContent,
                 cover: coverImg,
-                description: formValues.description,
+                description: aiContent,
                 noteCategory: formValues.noteCategory,
                 // @ts-ignore
                 noteTags: noteTag.toString(),
@@ -143,7 +147,6 @@ const NewNotes = () => {
                 status: formValues.status,
                 updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
             }
-            console.log(data)
             http({
                 url: `/api/protected/notes/${id}`,
                 method: 'POST',
@@ -163,7 +166,7 @@ const NewNotes = () => {
                 noteTitle: formValues.noteTitle,
                 noteContent: noteContent,
                 cover: coverImg,
-                description: formValues.description,
+                description: aiContent,
                 noteCategory: formValues.noteCategory,
                 // @ts-ignore
                 noteTags: noteTag.toString(),
@@ -232,7 +235,8 @@ const NewNotes = () => {
                         name="description"
                         rules={[{ required: true, message: 'Please input!' }]}
                     >
-                        <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }}/>
+                        <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }} value={aiContent} onChange={(v) => setAiContent(v.target.value)}/>
+                        <i className="iconfont icon-openai" style={{fontSize: 16,color:'#939ad8',position:'absolute',bottom:5,right: 5,cursor:'pointer'}} onClick={getAiContent}></i>
                     </Form.Item>
 
 
