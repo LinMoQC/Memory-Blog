@@ -100,17 +100,38 @@ create table talks
 )
     comment '说说表';
 
+create table web_info
+(
+    id                   int auto_increment
+        primary key,
+    blog_title           varchar(255) null,
+    blog_author          varchar(255) null,
+    blog_domain          varchar(255) null,
+    blog_description     text         null,
+    blog_icp             varchar(255) null,
+    user_account         varchar(255) null,
+    user_password        varchar(255) null,
+    user_avatar          varchar(255) null,
+    user_talk            text         null,
+    social_github        varchar(255) null,
+    social_csdn          varchar(255) null,
+    social_bilibili      varchar(255) null,
+    social_qq            varchar(255) null,
+    social_netease_cloud varchar(255) null,
+    openai_token         varchar(255) null,
+    netease_cookies      varchar(255) null,
+    github_token         varchar(255) null,
+    constraint blog_title
+        unique (blog_title)
+);
+
+
 create table user
 (
     username varchar(100) not null comment '账号',
     password varchar(100) not null comment '密码',
-    avatar   varchar(255) not null comment '头像url',
-    talk     text         null comment '一言',
-    name     varchar(10)  not null,
     constraint password
         unique (password),
-    constraint user_name_uindex
-        unique (name),
     constraint username
         unique (username)
 )

@@ -10,27 +10,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/protected/friends")
+@RequestMapping(value = "/api")
 public class FriendsController {
     @Autowired
     private FriendsService friendsService;
 
-    @GetMapping
+    @GetMapping("/public/friends")
     public Result<List<Friend>> getFriends() {
         return friendsService.getFriendsList();
     }
 
-    @PostMapping
+    @PostMapping("/protected/friends")
     public Result<Null> addFriends(@RequestBody Friend friend) {
         return friendsService.addFriends(friend);
     }
 
-    @PostMapping("/{friendKey}")
+    @PostMapping("/protected/friends/{friendKey}")
     public Result<Null> updateFriend(@PathVariable int friendKey) {
         return friendsService.updateFriend(friendKey);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/protected/friends")
     public Result<Null> delFriend(@RequestBody List<Integer> friendKey) {
         return friendsService.deleteFriend(friendKey);
     }

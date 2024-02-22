@@ -14,7 +14,7 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
 
     useEffect(() => {
         http({
-           url: '/api/protected/notes/page',
+           url: '/api/public/notes/page',
            method: 'GET'
         }).then((res) => {
             setNewNotes(res.data.data.map((item: { noteTags: string; }) => {

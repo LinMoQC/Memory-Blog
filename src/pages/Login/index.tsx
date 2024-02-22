@@ -41,18 +41,14 @@ const Login: React.FC = () => {
         };
 
         try {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-
             const status:number = await dispatch<any>(fetchToken(data))
             if (status === 200) {
                 message.success('登录成功');
                 navigate('/dashboard');
-            } else {
-                message.error('登录失败！');
             }
         } catch (error) {
-            console.error('登录请求出错', error);
-            message.error('登录请求出错，请稍后再试！');
+            console.error('登录失败', error);
+            message.error('登录失败，账号或密码错误！');
         }
     };
 

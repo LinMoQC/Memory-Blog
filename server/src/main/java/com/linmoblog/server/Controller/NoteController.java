@@ -10,43 +10,43 @@ import org.springframework.web.bind.annotation.*;
 import javax.xml.crypto.Data;
 import java.util.List;
 
-@RequestMapping(value = "/api/protected/notes")
+@RequestMapping(value = "/api")
 @RestController
 public class NoteController {
     @Autowired
     private NoteService noteService;
 
-    @PostMapping
+    @PostMapping("/protected/notes")
     public Result<Null> addNote(@RequestBody Note note) {
         return noteService.addNote(note);
     }
 
-    @GetMapping
+    @GetMapping("/public/notes")
     public Result<List<Note>> getNoteList() {
         return noteService.getNoteList();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/public/notes/{id}")
     public Result<Note> getNoteById(@PathVariable Integer id) {
         return noteService.getNoteById(id);
     }
 
-    @GetMapping("/page")
+    @GetMapping("/public/notes/page")
     public Result<List<Note>> getNotePages(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "4") Integer pageSize) {
         return noteService.getNotePages(page, pageSize);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/protected/notes")
     public Result<Null> deleteNote(@RequestBody List<Integer> notes) {
         return noteService.deleteNote(notes);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/protected/notes/{id}")
     public Result<Null> updateNote(@PathVariable Integer id,@RequestBody Note note) {
         return noteService.updateNote(id,note);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/protected/notes/search")
     public Result<List<Note>> searchNote(@RequestParam(required = false) String title,
                                          @RequestParam(required = false) String categories,
                                          @RequestParam(required = false) String tagsLab,

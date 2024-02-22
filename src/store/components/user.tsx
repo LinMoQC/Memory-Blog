@@ -39,9 +39,8 @@ const fetchToken = (data: UserData) => {
                 method: 'POST',
                 data: data
             });
-
-            const token = res.data.data;
-            dispatch(setToken({ token: token}));
+                const token = res.data.data;
+                dispatch(setToken({ token: token}));
             return res.status;
         } catch (error) {
             // 处理错误
@@ -54,14 +53,15 @@ const fetchUserInfo = () => {
     return async (dispatch: Dispatch<PayloadAction<{avatar:string,talk:string}>>) => {
         try{
             const userinfo = await http({
-                url: '/api/protect/user',
+                url: '/api/public/user',
                 method: "GET"
             })
             const res = {
-                avatar: userinfo.data.data.avatar,
-                talk: userinfo.data.data.talk,
-                name: userinfo.data.data.name
+                avatar: userinfo.data.data.userAvatar,
+                talk: userinfo.data.data.userTalk,
+                name: userinfo.data.data.blogAuthor
             }
+
             dispatch(setUserInfo(res))
         }catch (error){
             console.error('Failed to fetch userinfo:', error);

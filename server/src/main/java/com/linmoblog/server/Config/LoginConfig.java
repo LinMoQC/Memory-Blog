@@ -13,6 +13,6 @@ public class LoginConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor).addPathPatterns("/api/**").excludePathPatterns("/api/login");  //除了login接口
+        registry.addInterceptor(interceptor).addPathPatterns("/api/protected/**").excludePathPatterns("/api/login");  //除了login接口
     }
 }

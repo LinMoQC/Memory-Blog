@@ -31,13 +31,13 @@ const tagSlice = createSlice({
 const fetchTags = () => {
     return async (dispatch:Dispatch<PayloadAction<TagLevelOne[]>>) => {
         const tagone = await http({
-            url: '/api/protected/tagone',
+            url: '/api/public/tagone',
             method: 'GET'
         }).then((res) => {
             return res.data.data
         });
         const tagtwo = await http({
-            url: '/api/protected/tagtwo',
+            url: '/api/public/tagtwo',
             method: 'GET'
         }).then((res) => {
             return res.data.data

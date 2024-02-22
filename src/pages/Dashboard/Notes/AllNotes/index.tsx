@@ -25,6 +25,12 @@ import http from "../../../../apis/axios.tsx";
 import {fetchNoteList} from "../../../../store/components/note.tsx";
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
+import {Fab} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 interface AdvancedSearchFormProps {
     setSearchNotes: (value: (((prevState: any[]) => any[]) | any[])) => void,
 }
@@ -188,7 +194,7 @@ const AllNotes = () => {
 
     const getNotes = () => {
         http({
-            url: '/api/protected/notes',
+            url: '/api/public/notes',
             method: 'GET'
         }).then((res) => {
             setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
@@ -235,6 +241,7 @@ const AllNotes = () => {
             if(res.status === 200){
                 getNotes()
                 dispatch<any>(fetchNoteList())
+                setSelectedRowKeys([])
                 message.success('删除成功')
             }
         }).catch((error) => {
@@ -317,10 +324,12 @@ const AllNotes = () => {
                         .filter((category: { categoryTitle: string; }) => category.categoryTitle === item)
                         .map((category: { color: string | (string & {}) | undefined; key: React.Key | null | undefined; icon: any; categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
                             <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center' }}>
-                                <Tag color={category.color} key={category.key}>
-                                    <i className={`iconfont ${category.icon}`} style={{ display: 'inline', fontSize: 20,marginTop:1 }}></i>
-                                    <span style={{ fontSize: 16 ,marginBottom:1,marginLeft:3}}>{category.categoryTitle}</span>
-                                </Tag>
+                                   <Tag color={category.color} key={category.key}>
+                                       <Space align={'center'} size={3}>
+                                       <i className={`iconfont ${category.icon}`} style={{ display: 'block', fontSize: 20}}></i>
+                                       <span style={{ fontSize: 16}}>{category.categoryTitle}</span>
+                                       </Space>
+                                   </Tag>
                             </div>
 
                         ))
@@ -389,8 +398,10 @@ const AllNotes = () => {
             key: 'action',
             align: "center",
             render: (item) => (
-                <div style={{display: "flex",flexDirection:'column',alignItems:'center'}}>
-                        <Button type='primary' onClick={() => navigate(`newnote/${item.key}`)} style={{marginBottom: 10}}><i className={`iconfont icon-bianji`} style={{fontSize:16,marginRight:'0.2em'}}></i> 编辑</Button>
+                <div style={{display: "flex",flexDirection:'row',alignItems:'center'}}>
+                    <Fab color="info" aria-label="edit" size='small' style={{marginRight:7}} onClick={() => navigate(`newnote/${item.key}`)}>
+                        <EditIcon />
+                    </Fab>
                     <Popconfirm
                         title="删除确认"
                         description="确定删除此文章？"
@@ -399,9 +410,14 @@ const AllNotes = () => {
                         onConfirm={() => DeleteNote(item.key)}
                         cancelText='取消'
                     >
-                        <Button type='primary' style={{background: '#f5222d',marginBottom:10}} ><i className={`iconfont icon-shanchu1`} style={{fontSize:16,marginRight:'0.2em'}}></i>删除</Button>
+                        <Fab color="error" aria-label="edit" size='small' style={{marginRight:7}}>
+                            <DeleteIcon />
+                        </Fab>
                     </Popconfirm>
-                        <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16,marginRight:'0.2em'}}></i> 状态变更</Button>
+                    {/*    <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16,marginRight:'0.2em'}}></i> 状态变更</Button>*/}
+                    <Fab color="secondary" aria-label="edit" size='small' onClick={() => showModal(item)}>
+                        <ChangeCircleIcon />
+                    </Fab>
                 </div>
             ),
         },
@@ -493,11 +509,14 @@ const AllNotes = () => {
     return <>
             <div className="AllCard">
                 <AdvancedSearchForm setSearchNotes={setStaticDate}/>
-                <Button type="primary" style={{marginLeft:15,marginTop:15}} onClick={() => navigate('newnote')}>新增</Button>
-                {hasSelected&&<Button  danger style={{marginLeft:15,marginTop:15,background:'transparent'}} onClick={showdelModal}>批量删除</Button>}
-                <span style={{ marginLeft: 8 }}>
-                {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
-                </span>
+                <Fab color="primary" aria-label="add" size='small' onClick={() => navigate('newnote')} style={{marginLeft:15,marginTop:15}}>
+                    <AddIcon />
+                </Fab>
+                {hasSelected&&<Fab variant="extended" color='error' size='medium' style={{marginLeft:15,marginTop:15}} onClick={showdelModal}>
+                    <DeleteForeverIcon sx={{ mr: 1 }} className='allin'/>
+                    批量删除
+                </Fab>}
+
                 <div className="searchRes">
                     <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange} />
                     <div style={{ overflowX: 'hidden' }}>

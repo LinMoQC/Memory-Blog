@@ -2,7 +2,6 @@ import {useEffect, useRef, useState} from 'react';
 import './index.css';
 import '../../assets/font/iconfont.js';
 import '../../assets/font/iconfont.css';
-// import avatar from '../../assets/avator.jpg'
 import {Outlet, useNavigate} from "react-router-dom";
 import deleteToken from "../../apis/deleteToken.tsx";
 import {Button, Space, notification, message, Card, Spin} from "antd";
@@ -15,6 +14,11 @@ import UserState from "../../interface/UserState";
 import {fetchCategories} from "../../store/components/categories.tsx";
 import {fetchTags} from "../../store/components/tags.tsx";
 import {fetchNoteList} from "../../store/components/note.tsx";
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 
 const Dashboard = () => {
     //hooks区域

@@ -37,7 +37,7 @@ const Friends = () => {
     //获取友链数据
     const getFriendsList = async () => {
         return http({
-            url: '/api/protected/friends',
+            url: '/api/public/friends',
             method: 'GET'
         }).then((res) => {
             return res.data.data;

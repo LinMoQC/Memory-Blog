@@ -53,7 +53,7 @@ const NewNotes = () => {
     useEffect(() => {
         if(id){
             http({
-                url: `/api/protected/notes/${id}`,
+                url: `/api/public/notes/${id}`,
                 method: 'GET'
             }).then((res) => {
                 form.setFieldsValue({

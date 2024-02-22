@@ -11,33 +11,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/protected")
+@RequestMapping(value = "/api")
 @RestController
 public class TagController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("/tagone")
+    @GetMapping("/public/tagone")
     public Result<List<TagLevelOne>> getTagsOne(){
         return tagService.getTagsOne();
     }
 
-    @GetMapping("/tagtwo")
+    @GetMapping("/public/tagtwo")
     public Result<List<TagLevelTwo>> getTagsTwo(){
         return tagService.getTagsTwo();
     }
 
-    @PostMapping("/tagone")
+    @PostMapping("/protected/tagone")
     public Result<Null> addTagOne(@RequestBody TagLevelOne tagLevelOne){
         return tagService.addTagOne(tagLevelOne);
     }
 
-    @PostMapping("/tagtwo")
+    @PostMapping("/protected/tagtwo")
     public Result<Null> addTagOne(@RequestBody TagLevelTwo tagLevelTwo){
         return tagService.addTagsTwo(tagLevelTwo);
     }
 
-    @DeleteMapping("/tag")
+    @DeleteMapping("/protected/tag")
     public Result<Null> deleteTag(@RequestBody List<Integer> tags){
         return tagService.deleteTags(tags);
     }

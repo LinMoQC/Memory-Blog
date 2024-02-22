@@ -31,7 +31,7 @@ const categoriesSlice = createSlice({
 const fetchCategories = () => {
     return async (dispatch:Dispatch<PayloadAction<CategoriesType[]>>) => {
         http({
-            url: '/api/protected/category',
+            url: '/api/public/category',
             method: 'GET'
         }).then((res) => {
             dispatch(setCategories(res.data.data))

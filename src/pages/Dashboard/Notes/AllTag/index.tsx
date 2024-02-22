@@ -39,7 +39,7 @@ const AllTag = () => {
     const getTagOne = async () => {
         try {
             const response = await http({
-                url: '/api/protected/tagone',
+                url: '/api/public/tagone',
                 method: 'GET'
             });
             return response.data.data.map((item: { tagKey: number; title: string; level: number; color: string; }) => ({
@@ -57,7 +57,7 @@ const AllTag = () => {
     const getTagTwo = async () => {
         try {
             const response = await http({
-                url: '/api/protected/tagtwo',
+                url: '/api/public/tagtwo',
                 method: 'GET'
             });
             return response.data.data.map((item: { tagKey: number; title: string; level: number; color: string; fatherTag: string }) => ({

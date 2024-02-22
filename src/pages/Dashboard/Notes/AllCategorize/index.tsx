@@ -1,6 +1,6 @@
 import './index.sass'
 import {
-    Button, ColorPicker,
+    ColorPicker,
     Form,
     Input, message,
     Modal, Popconfirm,
@@ -15,7 +15,11 @@ import {CategoriesType} from "../../../../interface/CategoriesType";
 import http from "../../../../apis/axios.tsx";
 import {fetchCategories} from "../../../../store/components/categories.tsx";
 import {useDispatch} from "react-redux";
-
+import {Fab} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 const  AllCategorize = () => {
     //hooks区域
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -33,7 +37,7 @@ const  AllCategorize = () => {
 
     const getCategories = () => {
         http({
-            url: '/api/protected/category',
+            url: '/api/public/category',
             method: 'GET'
         }).then((res) => {
             setStaticDate(res.data.data.map((item: { categoryKey: number; categoryTitle: string; color: string; icon: string; introduce: string; noteCount: number; }) => {
@@ -226,7 +230,9 @@ const  AllCategorize = () => {
             align: "center",
             render: (item) => (
                 <Space size="middle">
-                    <Button type='primary' onClick={() => Change_Categories(item)}>编辑</Button>
+                    <Fab color="info" aria-label="edit" size='small' onClick={() => Change_Categories(item)}>
+                        <EditIcon />
+                    </Fab>
                     <Popconfirm
                         title="删除确认"
                         description="确定删除此分类？"
@@ -235,7 +241,9 @@ const  AllCategorize = () => {
                         onConfirm={() => Delete(item.key)}
                         cancelText='取消'
                     >
-                        <Button type='primary' style={{background: '#f5222d'}}>删除</Button>
+                        <Fab color="error" aria-label="delete" size='small'>
+                            <DeleteIcon />
+                        </Fab>
                     </Popconfirm>
 
                 </Space>
@@ -282,16 +290,16 @@ const  AllCategorize = () => {
         <div style={listStyle} className="searchRes">
             <Table columns={columns} dataSource={staticDate} pagination={{pageSize: 8}}
                    title={() => <>
-                           <div style={{float: 'left'}}>
-                               <Button type="primary"  onClick={showModal}>
-                                   新增
-                               </Button>
-                               {hasSelected&&<Button type="primary" style={{ marginLeft: 10,background: '#f5222d'}} onClick={showdelModal}>
-                                   批量删除
-                               </Button>}
-                               <span style={{ marginLeft: 8 ,position: 'absolute',fontSize: 20,fontWeight: 600}}>
-                {hasSelected ? `选中 ${selectedRowKeys.length} 项` : ''}
-        </span>
+                           <div style={{float: 'left',display:'flex'}} >
+                               <Fab color="primary" aria-label="add" size='small' onClick={showModal}>
+                                   <AddIcon />
+                               </Fab>
+                               <div style={{position:'absolute',width:220}}>
+                                   {hasSelected&&<Fab variant="extended" color='error' size='medium' style={{ marginLeft: 10}} onClick={showdelModal}>
+                                       <DeleteForeverIcon sx={{ mr: 1 }} className='allin'/>
+                                       批量删除
+                                   </Fab>}
+                               </div>
                            </div>
                        <h2 style={{marginRight: 150}}>
                            <FolderOpenOutlined /> 分类管理

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.linmoblog.server.Mapper.WebInfoMapper">
+    <update id="updateWebInfo">
+        UPDATE web_info
+            <set>
+            <if test="blogTitle != null and blogTitle != ''">
+                web_info.blog_title = #{blogTitle},
+        </if>
+        <if test="blogAuthor != null and blogAuthor != ''">
+        web_info.blog_author = #{blogAuthor},
+        </if>
+        <if test="blogDomain != null and blogDomain != ''">
+        web_info.blog_domain = #{blogDomain},
+        </if>
+        <if test="blogDescription != null and blogDescription != ''">
+        web_info.blog_description = #{blogDescription},
+        </if>
+        <if test="blogIcp != null and blogIcp != ''">
+        web_info.blog_icp = #{blogIcp},
+        </if>
+        <if test="userAccount != null and userAccount != ''">
+        web_info.user_account = #{userAccount},
+        </if>
+        <if test="userPassword != null and userPassword != ''">
+        web_info.user_password = #{userPassword},
+        </if>
+        <if test="userAvatar != null and userAvatar != ''">
+        web_info.user_avatar = #{userAvatar},
+        </if>
+        <if test="userTalk != null and userTalk != ''">
+        web_info.user_talk = #{userTalk},
+        </if>
+        <if test="socialGithub != null and socialGithub != ''">
+        web_info.social_github = #{socialGithub},
+        </if>
+        <if test="socialCsdn != null and socialCsdn != ''">
+        web_info.social_csdn = #{socialCsdn},
+        </if>
+        <if test="socialBilibili != null and socialBilibili != ''">
+        web_info.social_bilibili = #{socialBilibili},
+        </if>
+        <if test="socialQQ != null and socialQQ != ''">
+        web_info.social_qq = #{socialQQ},        <if test="socialNeteaseCloud != null and socialNeteaseCloud != ''">
+            web_info.social_netease_cloud = #{socialNeteaseCloud},
+        </if>
+            <if test="openAiToken != null and openAiToken != ''">
+                web_info.openai_token = #{openAiToken},
+            </if>
+            <if test="neteaseCookies != null and neteaseCookies != ''">
+                web_info.netease_cookies = #{neteaseCookies},
+            </if>
+            <if test="githubToken != null and githubToken != ''">
+                web_info.github_token = #{githubToken}
+            </if>
+        </if>
+
+        </set>
+        WHERE id = 1
+</update>
+
+</mapper>

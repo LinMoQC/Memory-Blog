@@ -2,12 +2,10 @@ import axios from "axios";
 import getToken from "./getToken.tsx"
 
 const http = axios.create({
-    // baseURL: 'https://nodejs-six-alpha.vercel.app',
     baseURL: 'http://localhost:8080',
     timeout: 5000
 })
 
-// 添加请求拦截器
 // 添加请求拦截器
 http.interceptors.request.use(
     function (config) {

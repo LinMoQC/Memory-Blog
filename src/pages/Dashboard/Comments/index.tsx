@@ -31,7 +31,7 @@ const Comments = () => {
     //获取说说
     const getTalkList = async () => {
         return http({
-            url: '/api/protect/talk',
+            url: '/api/public/talk',
             method: "GET"
         }).then((res) => {
             return res.data.data

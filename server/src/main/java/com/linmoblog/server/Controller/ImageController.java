@@ -28,9 +28,6 @@ public class ImageController {
     @Value("${files.upload.path}")
     private String uploadPath;
 
-//    @Value("${files.domain.siteUrl}")
-//    private String domain;
-
     private static final String domain = "http://localhost:8080";
 
     @PostMapping("/upload")

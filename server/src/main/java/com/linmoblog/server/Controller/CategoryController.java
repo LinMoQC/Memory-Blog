@@ -9,28 +9,28 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping(value = "/api/protected/category")
+@RequestMapping(value = "/api")
 @RestController
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
+    @GetMapping("/public/category")
     private Result<List<Category>> getCategoryList(){
         return categoryService.getCategoryList();
     }
 
-    @PostMapping
+    @PostMapping("/protected/category")
     public Result<Null> addCategory(@RequestBody Category category){
         return categoryService.addCategory(category);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/protected/category")
     public Result<Null> deleteCategory(@RequestBody List<Integer> categories){
         return categoryService.deleteCategory(categories);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/protected/category/{id}")
     public Result<Null> updateCategory(@PathVariable Integer id,@RequestBody Category category){
         return categoryService.updateCategory(id,category);
     }

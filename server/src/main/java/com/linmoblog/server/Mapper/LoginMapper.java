@@ -11,6 +11,6 @@ public interface LoginMapper {
     @Select("select * from user where username = #{username} and password = #{password}")
     User login(User user);
 
-    @Select(("select avatar,talk,name from user"))
+    @Select(("select blog_author,user_talk,user_avatar from web_info"))
     UserInfo userinfo();
 }
