@@ -82,17 +82,21 @@ If you want to change the username or password, please generate the SHA256 encry
 ![](./screenshots/login.png)
 
 ### Backstage Home Page
-![c38005904c9c5be6da96853c0167e40](https://github.com/LinMoQC/LinMoBlog/assets/59323207/ce6a46cb-20c4-4b32-847b-3540b3d3ca5b)
+![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/439c575c-1bba-4655-b5d6-7cfba347b008)
 
 ### Dark Mode
-![e6741ccfe03917957ac5eaabb45eade](https://github.com/LinMoQC/LinMoBlog/assets/59323207/383f7e2e-0829-45f6-95b8-16dacd96b604)
+![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/d20f73f7-ea13-474f-acf5-7846b1520b30)
+
 
 ### Notes
 ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/cdab595f-4a7f-4612-a17b-bd4c889d0725)
 ![825e53fc859297c29cd0891f50f0164](https://github.com/LinMoQC/LinMoBlog/assets/59323207/578863ed-dcf9-4863-b1d1-25d4f38ea3cb)
 ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/fd2dd783-264f-4d0a-a3f2-a8fd3ca1d706)
-
 ![2563eab5a1964e16a0e59f958a7f652](https://github.com/LinMoQC/LinMoBlog/assets/59323207/5ae3a88b-e0fa-435f-af1b-580b2d4141e6)
+
+### Use OpenAI To Description Your Note
+![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/1a1560a1-758a-4837-89f0-6cb1c877f5ec)
+
 
 ### TalkTalk
 ![0e87026ca10e8eea0bccc3eb7bc91e3](https://github.com/LinMoQC/LinMoBlog/assets/59323207/5d9af682-9230-4d66-bb07-00a5963dc96e)
