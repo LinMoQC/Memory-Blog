@@ -111,4 +111,5 @@ If you want to change the username or password, please generate the SHA256 encry
 ![3f5340f422f1a501cf675c70b401980](https://github.com/LinMoQC/LinMoBlog/assets/59323207/78e6268c-dad3-4404-8c85-b7ff80f1a5db)
 
 ### Site Management
-![28cca66c9a8b2f08e2ef0eb30e7c147](https://github.com/LinMoQC/LinMoBlog/assets/59323207/7f82153d-0688-4581-9347-f604098df0f8)
+![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/75bf6836-3e1f-4c53-9952-b9aa544d0f88)
+
