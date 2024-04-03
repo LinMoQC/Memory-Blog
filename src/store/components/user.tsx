@@ -4,12 +4,14 @@ import { Dispatch } from 'react';
 import UserState from "../../interface/UserState";
 import UserData from "../../interface/UserData";
 import deleteToken from "../../apis/deleteToken.tsx";
+import {SocialType} from "../../interface/SocialType";
 
 const initialState: UserState = {
     token: localStorage.getItem('tokenKey') || null,
     avatar: '',
     talk: '',
-    name: ''
+    name: '',
+    social: null
 };
 
 const userSlice = createSlice({
@@ -24,11 +26,14 @@ const userSlice = createSlice({
             state.avatar = action.payload.avatar;
             state.talk = action.payload.talk;
             state.name = action.payload.name
+        },
+        setSocial: (state: UserState,action: PayloadAction<SocialType>) => {
+            state.social = action.payload
         }
     },
 });
 
-const { setToken,setUserInfo } = userSlice.actions;
+const { setToken,setUserInfo,setSocial } = userSlice.actions;
 const userReducer = userSlice.reducer;
 
 const fetchToken = (data: UserData) => {
@@ -43,7 +48,6 @@ const fetchToken = (data: UserData) => {
                 dispatch(setToken({ token: token}));
             return res.status;
         } catch (error) {
-            // 处理错误
             throw error;
         }
     };
@@ -61,7 +65,6 @@ const fetchUserInfo = () => {
                 talk: userinfo.data.data.userTalk,
                 name: userinfo.data.data.blogAuthor
             }
-
             dispatch(setUserInfo(res))
         }catch (error){
             console.error('Failed to fetch userinfo:', error);
@@ -70,6 +73,20 @@ const fetchUserInfo = () => {
     }
 }
 
+const fetchSocial = () => {
+    return async (dispatch: Dispatch<PayloadAction<SocialType>>) => {
+        try {
+            const social = await http({
+                url: '/api/public/social',
+                method: "GET"
+            })
+            dispatch(setSocial(social.data.data))
+        }catch (error){
+            console.error('Failed to fetch social');
+        }
+    }
+}
 
-export { setToken, fetchToken,fetchUserInfo };
+
+export { setToken, fetchToken,fetchUserInfo,fetchSocial };
 export default userReducer;

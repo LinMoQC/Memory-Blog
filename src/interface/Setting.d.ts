@@ -9,7 +9,7 @@ export interface webInfo{
     userAvatar: string;
     userTalk: string;
     socialGithub: string;
-    socialCsdn: string;
+    socialEmail: string;
     socialBilibili: string;
     socialQQ: string;
     socialNeteaseCloud: string;

@@ -1,19 +1,21 @@
 import './index.sass'
-import ReactWordcloud from "react-wordcloud";
 import {useSelector} from "react-redux";
-
+import { TagCloud } from 'react-tagcloud'
 const WordCloud = () => {
     // @ts-ignore
     const categoryList = useSelector((state) => state.categories.categories).map(item => {
         return {
-            text: item.categoryTitle,
-            value: item.noteCount
+            value: item.categoryTitle,
+            count: item.noteCount
         }
     })
 
-
     return <div className="wordCloud">
-        <ReactWordcloud words={categoryList} />
+        <TagCloud
+            minSize={10}
+            maxSize={35}
+            tags={categoryList}
+        />
     </div>
 }
 

@@ -18,7 +18,7 @@ interface ChatGPTResponse {
 }
 
 export default async function generateResponse(prompt: string): Promise<string> {
-    const apiKey = 'xxxxx';  //替换你的key
+    const apiKey = '';  //替换你的key
     const endpoint = 'https://api.openai.com/v1/chat/completions';
     const headers = {
         'Content-Type': 'application/json',

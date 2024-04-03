@@ -3,6 +3,7 @@ import CountUp from "react-countup";
 import './index.sass'
 import {useSelector} from "react-redux";
 import {noteList} from "../../store/components/note.tsx";
+import React from "react";
 
 const ArticleAnalytics = () => {
     const tagCount = useSelector((state: {tags: any}) => state.tags.tagCount)

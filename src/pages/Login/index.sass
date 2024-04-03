@@ -1,146 +1,144 @@
-%stickCenter
-  position: absolute
-  transform: translate(-50%, -50%)
-  left: 50%
-  top: 50%
+html
+  height: 100%
 
 body
-  background: linear-gradient(to left, #fed6e3, #fff1eb, #a8edea, #ace0f9)
-  background-size: 200% 100%
-  animation: gradientFlow 10s linear infinite
+  margin: 0
+  padding: 0
+  font-family: sans-serif
+  background: linear-gradient(#141e30, #243b55)
+
+.login-box
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 400px
+  padding: 40px
+  transform: translate(-50%, -50%)
+  background: rgba(0,0,0,.5)
   box-sizing: border-box
+  box-shadow: 0 15px 25px rgba(0,0,0,.6)
+  border-radius: 10px
 
-  .container
-    @extend %stickCenter
-    width: 1100px
-    height: 500px
-    border-radius: 12px
-    backdrop-filter: blur(50px)
-    background-color: rgba(255, 255, 255, 0.5)
-    box-sizing: border-box
-    overflow: hidden
-    box-shadow: 3px 3px 5px 5px #dce6e9
-    @media only screen and (max-width: 768px)
-      width: 500px
+  h2
+    margin: 0 0 30px
+    padding: 0
+    color: #fff
+    text-align: center
 
-
-    .back
-      float: left
-      width: 50%
-      height: 100%
-      background-size: cover
-      background: rgba(255, 255, 255, 0.5) center
-      backdrop-filter: blur(20px)
-
-      .BackFilter
-        background: rgba(255, 255, 255, 0.5) url("../../assets/loginBackGround.jpg")
-        background-size: cover
-        background-position: center
-        position: absolute
-        width: 100%
-        height: 100%
-
-    .back::before
-      content: ""
+  .user-box
+    position: relative
+    input
       width: 100%
-      height: 100%
+      padding: 10px 0
+      font-size: 16px
+      color: #fff
+      margin-bottom: 30px
+      border: none
+      border-bottom: 1px solid #fff
+      outline: none
+      background: transparent
+
+    label
       position: absolute
-      z-index: 999
-      //backdrop-filter: blur(2px)
+      top: 0
+      left: 0
+      padding: 10px 0
+      font-size: 16px
+      color: #fff
+      pointer-events: none
+      transition: .5s
 
-  .LoginForm
-    float: right
-    width: 50%
-    height: 100%
-    display: flex
-    justify-content: center
-    align-items: center
+    input:focus ~ label,
+    input:valid ~ label
+      top: -20px
+      left: 0
+      color: #03e9f4
+      font-size: 12px
 
-    .LoginContainer
-      max-width: 350px
-      background: #F8F9FD
-      background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100%)
-      border-radius: 40px
-      padding: 25px 35px
-      border: 5px solid rgb(255, 255, 255)
-      box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px
-      margin: 20px
+  form a
+    position: relative
+    display: inline-block
+    padding: 10px 20px
+    color: #03e9f4
+    font-size: 16px
+    text-decoration: none
+    text-transform: uppercase
+    overflow: hidden
+    transition: .5s
+    margin-top: 40px
+    letter-spacing: 4px
+    input
+      background: transparent
+      border: none
+      color: #fff1eb
+      font-size: 20px
+      font-weight: 600
 
-      .heading
-        text-align: center
-        font-weight: 900
-        font-size: 30px
-        color: rgb(16, 137, 211)
+    &:hover
+      background: #03e9f4
+      color: #fff
+      border-radius: 5px
+      box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4, 0 0 100px #03e9f4
 
-      .form
-        margin-top: 20px
+    span
+      position: absolute
+      display: block
 
-        .input
-          width: 100%
-          background: white
-          border: none
-          padding: 15px 20px
-          border-radius: 20px
-          margin-top: 15px
-          box-shadow: #cff0ff 0px 10px 10px -5px
-          border-inline: 2px solid transparent
-
-          &::-moz-placeholder
-            color: rgb(170, 170, 170)
-
-          &::placeholder
-            color: rgb(170, 170, 170)
-
-          &:focus
-            outline: none
-            border-inline: 2px solid #12B1D1
-
-        .forgot-password
-          display: block
-          margin-top: 10px
-          margin-left: 10px
-
-          a
-            font-size: 11px
-            color: #0099ff
-            text-decoration: none
-
-        .login-button
-          display: block
-          width: 100%
-          font-weight: bold
-          background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100%)
-          color: white
-          padding-block: 15px
-          margin: 20px auto
-          border-radius: 20px
-          box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px
-          border: none
-          transition: all 0.2s ease-in-out
-
-          &:hover
-            transform: scale(1.03)
-            box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 23px 10px -20px
-
-          &:active
-            transform: scale(0.95)
-            box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 15px 10px -10px
-
-@keyframes gradientFlow
-  0%
-    background-position: 0 50%
-  25%
-    background-position: 50% 50%
-  50%
-    background-position: 100% 50%
-  75%
-    background-position: 50% 50%
-  100%
-    background-position: 0 50%
-
-@media only screen and (max-width: 768px)
-  .container
-    .back
-      display: none
-    .LoginForm
+    span:nth-child(1)
+      top: 0
+      left: -100%
       width: 100%
+      height: 2px
+      background: linear-gradient(90deg, transparent, #03e9f4)
+      animation: btn-anim1 1s linear infinite
+
+    span:nth-child(2)
+      top: -100%
+      right: 0
+      width: 2px
+      height: 100%
+      background: linear-gradient(180deg, transparent, #03e9f4)
+      animation: btn-anim2 1s linear infinite
+      animation-delay: .25s
+
+    span:nth-child(3)
+      bottom: 0
+      right: -100%
+      width: 100%
+      height: 2px
+      background: linear-gradient(270deg, transparent, #03e9f4)
+      animation: btn-anim3 1s linear infinite
+      animation-delay: .5s
+
+    span:nth-child(4)
+      bottom: -100%
+      left: 0
+      width: 2px
+      height: 100%
+      background: linear-gradient(360deg, transparent, #03e9f4)
+      animation: btn-anim4 1s linear infinite
+      animation-delay: .75s
+
+@keyframes btn-anim1
+  0%
+    left: -100%
+  50%, 100%
+    left: 100%
+
+@keyframes btn-anim2
+  0%
+    top: -100%
+  50%, 100%
+    top: 100%
+
+@keyframes btn-anim3
+  0%
+    right: -100%
+  50%, 100%
+    right: 100%
+
+@keyframes btn-anim4
+  0%
+    bottom: -100%
+  50%, 100%
+    bottom: 100%

@@ -1,4 +1,4 @@
-    import './index.sass';
+import './index.sass';
 import {Avatar, Card, message, Modal, Tabs} from "antd";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 import CheckButton from "../../../components/Buttons/CheckButton";
@@ -6,7 +6,7 @@ import DeleteButton from "../../../components/Buttons/DeleteButton";
 import {useContext, useEffect, useState} from "react";
 import {Friend} from "../../../interface/FriendType";
 import MainContext from "../../../components/conText.tsx";
-import http from "../../../apis/axios.tsx";
+import {agreeFriends, delFriends, getFriendsList, refuseFriends} from "../../../apis/FriendMethods.tsx";
 
 const Friends = () => {
     //状态变量区域
@@ -21,33 +21,21 @@ const Friends = () => {
     const [isModaldelOpen, setIsDelModalOpen] = useState(false);
 
     useEffect(() => {
-        getFriendsList()
-            .then((res:Friend[]) => {
-               setStaticDate(res.filter(item => item.status === 1 ))
-                setStaticReq(res.filter(item => item.status === 0 ))
-            })
-            .catch((error) => {
-                console.error('获取朋友列表时出错:', error);
-            });
-        const isDark = Mode === 'true';
+        initFriendsList()
+        const isDark = Mode  === 'true';
         setIsDarkMode(isDark)
     },[Mode])
 
 
     //获取友链数据
-    const getFriendsList = async () => {
-        return http({
-            url: '/api/public/friends',
-            method: 'GET'
-        }).then((res) => {
-            return res.data.data;
+    const initFriendsList = () => {
+        getFriendsList().then((res) => {
+            setStaticDate(res.data.data.filter((item: Friend) => item.status === 1 ))
+            setStaticReq(res.data.data.filter((item: Friend) => item.status === 0 ))
         }).catch((error) => {
-            console.log(error);
-            throw error; // 将错误重新抛出以传播给调用者
+            message.error('获取朋友列表时出错:', error);
         });
     }
-
-
 
     //回调函数区域
         //删除
@@ -59,28 +47,15 @@ const Friends = () => {
         // @ts-ignore
         const keysToDelete = Object.keys(checkStatus).filter(key => checkStatus[key]);
 
-        http({
-            url: '/api/protected/friends',
-            method: 'DELETE',
-            data: keysToDelete
-        }).then((res) => {
+       delFriends(keysToDelete).then((res) => {
             if(res.status === 200){
-                getFriendsList()
-                    .then((res:Friend[]) => {
-                        setStaticDate(res.filter(item => item.status === 1 ))
-                        setStaticReq(res.filter(item => item.status === 0 ))
-                        // 删除完毕后清空 checkStatus
-                        message.success('删除成功')
-                        setCheckStatus({});
-                        setSelectDelete(0)
-                    })
-                    .catch((error) => {
-                        console.error('获取朋友列表时出错:', error);
-                    });
+                initFriendsList()
+                message.success('删除成功')
+                setCheckStatus({});
+                setSelectDelete(0)
             }
         })
     }
-
     const showdelModal = () => {
         if(SelectDelete === 0){
             message.warning("待选中")
@@ -89,31 +64,23 @@ const Friends = () => {
             setIsDelModalOpen(true);
         }
     };
-
     const delOk = () => {
         Delete()
         setIsDelModalOpen(false);
     };
-
     const delCancel = () => {
         setIsDelModalOpen(false);
     };
-
-    // 触发选择框和图片点击
     const handleItemClick = (key: number) => {
-        // 检查当前图片对应的复选框状态
         const isChecked = checkStatus[key] || false;
-
         // 更新复选框状态
         setCheckStatus(prevState => ({
             ...prevState,
-            [key]: !isChecked // 切换复选框状态
+            [key]: !isChecked
         }));
-
         // 更新选择的数量
         setSelectDelete(prevCount => isChecked ? prevCount - 1 : prevCount + 1);
     };
-
     const renderFriendList = () => {
         const friendsChunks = staticDate.reduce((result, friend, index) => {
             const chunkIndex = Math.floor(index / 5);
@@ -142,8 +109,6 @@ const Friends = () => {
                                 }}
                             />
                         </div>
-                        <a
-                        >
                             <img
                                 alt={item.siteName}
                                 className="lazyload"
@@ -153,52 +118,29 @@ const Friends = () => {
                             <br />
                             <span className="sitename">{item.siteName}</span>
                             <div className="linkdes">{item.description}</div>
-                        </a>
                     </li>
                 ))}
             </ul>
         ));
     };
-
     //申请处理函数
     const agree = (key: number) => {
-        http({
-            url: `/api/protected/friends/${key}`,
-            method: 'POST'
-        }).then((res) => {
+        agreeFriends(key).then((res) => {
             if(res.status === 200){
-                getFriendsList()
-                    .then((res:Friend[]) => {
-                        setStaticDate(res.filter(item => item.status === 1 ))
-                        setStaticReq(res.filter(item => item.status === 0 ))
-                        message.success('已添加')
-                    })
-                    .catch((error) => {
-                        console.error('获取朋友列表时出错:', error);
-                    });
+                initFriendsList()
+                message.success('已添加')
+            }
+        })
+    }
+    const refused = (key: number) => {
+        refuseFriends(key).then((res) => {
+            if(res.status === 200){
+                initFriendsList()
+                message.success('已拒绝')
             }
         })
     }
 
-    const refused = (key: number) => {
-        http({
-            url: `/api/protected/friends`,
-            method: 'DELETE',
-            data: [key]
-        }).then((res) => {
-            if(res.status === 200){
-                getFriendsList()
-                    .then((res:Friend[]) => {
-                        setStaticDate(res.filter(item => item.status === 1 ))
-                        setStaticReq(res.filter(item => item.status === 0 ))
-                        message.success('已拒绝')
-                    })
-                    .catch((error) => {
-                        console.error('获取朋友列表时出错:', error);
-                    });
-            }
-        })
-    }
     return (
         <div style={{ height: '100%', padding: 20, overflowY: 'scroll' }} className='link allin'>
             <Tabs

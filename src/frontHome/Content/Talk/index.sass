@@ -1,0 +1,50 @@
+.TalkContainer
+  min-height: calc(100vh - 172.4px)
+  width: 100%
+  background: var(--container-background-color)
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding-top: 100px
+  .talkTime
+    position: absolute
+    left: -120px
+    top: 48%
+    font-size: 20px
+    color: #aeaeae
+  h2
+    color:  var(--font-title-color)
+    font-size: 30px
+  .talk
+    position: relative
+    width: 90%
+    max-width: 400px
+    padding: 20px
+    margin-bottom: 10px
+    background-color: rgba(255,255,255,0.66)
+    transition: 0.3s
+    @media only screen and (max-width: 800px)
+      max-width: 300px
+    &:before
+      content: ""
+      position: absolute
+      left: -3.05rem
+      top: -30%
+      bottom: 0
+      border-left: 4px solid #b1cee3
+      border-radius: 2px
+    &:after
+      content: ""
+      left: -3.18rem
+      top: 50%
+      transform: translateY(-50%)
+      height: .5rem
+      width: .5rem
+      border-radius: 50%
+      position: absolute
+      background-color: #7880d1
+    .ant-card-body
+      padding: 10px
+.timeLine
+  color:  var(--font-p-color)
+  cursor: pointer

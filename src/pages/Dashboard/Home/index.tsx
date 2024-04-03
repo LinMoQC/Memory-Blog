@@ -1,6 +1,6 @@
 import {Calendar, Card, ConfigProvider, Progress, Space, Steps, theme} from "antd";
 import './index.sass';
-import {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {Dayjs} from "dayjs";
 import 'dayjs/locale/zh-cn';
@@ -8,11 +8,11 @@ import zhCN from "antd/lib/locale/zh_CN";
 import ArticleRecord from "../../../components/articleRecord";
 import TheYearPass from "../../../components/theYearPass";
 import ArticleAnalytics from "../../../components/articleAnalytics";
-import WordCloud from "../../../components/wordCloud";
 import Typed from 'typed.js';
 import MainContext from "../../../components/conText.tsx";
 import {useSelector} from "react-redux";
 import UserState from "../../../interface/UserState";
+import WordCloud from "../../../components/wordCloud";
 const Home = () => {
     //hooks区域
     const [oneSay, setOneSay] = useState('');
@@ -21,9 +21,7 @@ const Home = () => {
     const avatar = useSelector((state: { user: UserState }) => state.user.avatar);
     //回调函数区域
     const disabledDate = (current: Dayjs) => {
-        // 将current转换为JavaScript的Date对象
         const currentDate = current.toDate();
-        // 返回true表示禁用当前日期
         return currentDate && currentDate.getTime() !== new Date().getTime();
     };
 
@@ -51,9 +49,9 @@ const Home = () => {
             strings: ['"遇事不决,<br>&nbsp;可问春风“','"春风不语,<br>&nbsp;即随本心“'],
             typeSpeed: 50,
             backSpeed: 50,
-            showCursor: false, // Ensure that the cursor is visible
-            cursorChar: '|', // You can customize the cursor character
-            contentType: 'html', // Specify that the input strings contain HTML markup
+            showCursor: false,
+            cursorChar: '|',
+            contentType: 'html',
         };
 
         const typedInstance = new Typed(typedRef.current, options);
@@ -69,13 +67,14 @@ const Home = () => {
             <div className='left' style={{height: '100%',width:'25%',display:'flex',flexDirection:'column'}}>
                <div className="about_logo">
                    <div className="about_me">
-                       <img src={avatar} alt=""  style={{width:75,height:75,borderRadius: '50%',border: '2px solid #b7b7b7'}}/>
+                       <img src={avatar} alt=""  style={{borderRadius: '50%',border: '2px' +
+                               ' solid #b7b7b7'}}/>
                        <div ref={typedRef} className="typed"></div>
                    </div>
                    <Space wrap style={{marginTop: 20}} className='p_hidden'>
-                       <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>CPU</span>}/>
-                       <Progress type="circle" percent={50} size={65} format={() => <span style={{color:isDark?"white":'black'}}>内存</span>} />
-                       <Progress type="circle" percent={70} size={65} format={() => <span style={{color:isDark?"white":'black'}}>磁盘</span>} />
+                       <Progress type="circle" percent={70} size={70} format={() => <span style={{color:isDark?"white":'black'}}>CPU</span>}/>
+                       <Progress type="circle" percent={50} size={70} format={() => <span style={{color:isDark?"white":'black'}}>内存</span>} />
+                       <Progress type="circle" percent={70} size={70} format={() => <span style={{color:isDark?"white":'black'}}>磁盘</span>} />
                    </Space>
                </div>
                <ArticleAnalytics />
@@ -107,7 +106,7 @@ const Home = () => {
                <ConfigProvider locale={zhCN}>
                    <div style={wrapperStyle}>
                        <TheYearPass/>
-                       <Calendar fullscreen={false}  disabledDate={disabledDate} style={{height:'85%'}}/>
+                       <Calendar fullscreen={false}  disabledDate={disabledDate}/>
                    </div>
                </ConfigProvider>
 

@@ -1,0 +1,172 @@
+html
+  scroll-behavior: smooth
+
+.readContainer
+  min-height: calc(100vh - 172.4px)
+  width: 100%
+  background: url("https://cdn.jsdelivr.net/gh/LinMoQC/LinmoBlogCDN@master/readBackground.png")
+  backdrop-filter: blur(10px)
+  display: flex
+  flex-direction: column
+  align-items: center
+  font-size: 1rem
+  .readCover
+    position: relative
+    width: 100%
+    height: 400px
+    border-radius: 0 0 20px 20px
+    overflow: hidden
+    &::before
+      content: ' '
+      position: absolute
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%)
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+      z-index: 99
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
+      position: relative
+    .readInfo
+      width: 880px
+      max-width: 880px
+      position: absolute
+      left: 50%
+      bottom: 45px
+      transform: translate(-50%,-50%)
+      color: #fff1eb
+      display: flex
+      justify-content: space-between
+      align-items: center
+
+  .readDescription
+    padding: 25px
+    max-width: 880px
+    background: rgba(222, 222, 222, 0.5)
+    box-shadow: 0 1px 30px -4px #e8e8e8
+    border-radius: 10px
+    margin: 20px 20px 0
+
+    i
+      display: block
+      width: max-content
+      height: 25px
+      border-bottom: 2px solid #939ad8
+    p
+      color: #505050
+      line-height: 30px
+  .readContent
+    background: transparent
+    max-width: 880px
+    width: 80%
+    height: auto
+    padding: 20px
+    margin: 0 20px 0
+    border-radius: 8px
+    word-wrap: break-word
+    display: flex
+    justify-content: center
+    position: relative
+
+    .markdown-body
+      width: 880px
+      background: transparent
+      @media only screen and (max-width: 1600px)
+        max-width: 100vw
+      pre
+        background-color: transparent
+    .navigation
+      height: 100%
+      position: absolute
+      right: -500px
+      z-index: 99
+      width: 400px
+      @media only screen and (max-width: 1600px)
+        display: none
+      .markdown-navigation
+        position: sticky
+        width: 100%
+        top: 12%
+        overflow-y: auto
+        transition: all .8s
+      .markdown-navigation .title-anchor.active
+        background-color: transparent
+        border-left: 3px solid silver
+        color: #5297b9
+        &:hover
+          transform: scale(1)
+      .title-anchor
+        color: #a4a2a1
+        transition-duration: 0.3s
+        &:hover
+          transform: scale(1.1)
+          background-color: transparent
+
+    article
+      max-width: 880px
+
+    pre
+      padding: 10px
+      border-radius: 10px
+
+    ul
+      list-style: none
+
+    h1
+      font-size: 3.5rem
+      font-weight: 300
+      text-align: center
+      margin-bottom: 20px
+    h2
+      font-size: 2rem
+      margin: 2rem 0 2rem 0
+      &::before
+        content: "##"
+        margin-right: 10px
+        color: #7880d1
+
+    h3
+      font-size: 1.5rem
+      margin: 2rem 0 2rem 0
+      &::before
+        content: "###"
+        margin-right: 10px
+        color: #6eabd7
+
+    h4
+      margin: 2rem 0 2rem 0
+      &::before
+        content: "####"
+        margin-right: 10px
+        color: #6eabd7
+
+    p
+      font-size: 1rem
+      max-width: 90rem
+      color: #3d3d3d
+      line-height: 30px
+      margin: 1rem 0 1rem 0
+      text-indent: 1rem
+      &::after
+        content: ''
+        position: absolute
+        left: 0
+        bottom: 0
+        height: 1px
+        width: 1px
+        background-color: #000
+
+
+    a
+      color: #007bff
+      text-decoration: none
+
+    a:hover
+      text-decoration: underline
+
+    ul, ol
+      margin-bottom: 15px
+

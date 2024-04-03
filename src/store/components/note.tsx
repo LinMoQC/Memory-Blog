@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import http from '../../apis/axios.tsx';
 import { Dispatch } from 'react';
 import {NoteType} from "../../interface/NoteType";
+import {getNotes} from "../../apis/NoteMethods.tsx";
 
 
 interface noteList {
@@ -31,23 +31,15 @@ const NoteSlice = createSlice({
 const fetchNoteList = () => {
     return async (dispatch: Dispatch<PayloadAction<NoteType[]>>) => {
         try {
-            const res = await http({
-                url: '/api/protected/notes',
-                method: 'GET'
-            });
-
-            // 处理响应数据，将 noteTags 转换为数组
+            const res = await getNotes()
             const processedData = res.data.data.map((item: { noteTags: string; }) => ({
                 ...item,
                 noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
             }));
-
-            // 将处理后的数据存入 Redux store 中
             dispatch(setNote(processedData));
             dispatch(setNoteCount(processedData.length));
         } catch (err) {
-            // 处理错误
-            console.error('Error fetching note list:', err);
+            console.error('Error fetching note list:' + err);
         }
     };
 }

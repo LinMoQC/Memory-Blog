@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import http from '../../apis/axios.tsx';
 import { Dispatch } from 'react';
 import {CategoriesType} from "../../interface/CategoriesType";
-
-
+import {getCategories} from "../../apis/CategoryMethods.tsx";
 interface categoryList {
     categories: CategoriesType[],
     categoryCount: number
@@ -30,15 +28,13 @@ const categoriesSlice = createSlice({
 
 const fetchCategories = () => {
     return async (dispatch:Dispatch<PayloadAction<CategoriesType[]>>) => {
-        http({
-            url: '/api/public/category',
-            method: 'GET'
-        }).then((res) => {
+        try {
+            const res = await getCategories()
             dispatch(setCategories(res.data.data))
             dispatch(setCategoryCount(res.data.data.length))
-        }).catch((err)=>{
-            console.log(err)
-        })
+        }catch (error) {
+            console.log(error)
+        }
     }
 }
 
@@ -46,5 +42,6 @@ const {setCategories,setCategoryCount} = categoriesSlice.actions
 const categoriesReducer = categoriesSlice.reducer
 
 
-export {setCategories,fetchCategories}
+export {setCategories, fetchCategories};
+export type { categoryList };
 export default categoriesReducer

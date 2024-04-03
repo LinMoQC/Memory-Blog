@@ -1,10 +1,11 @@
 import './index.sass'
-import {Space, Tag} from "antd";
+import {Space} from "antd";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import http from "../../apis/axios.tsx";
 import {NoteType} from "../../interface/NoteType";
 import dayjs from "dayjs";
+import {renderNoteTags} from "../../apis/TagMethods.tsx";
+import {getNotePage} from "../../apis/NoteMethods.tsx";
 interface ArticleRecordProps {
     isDark: string
 }
@@ -13,10 +14,7 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
     const tagList = useSelector((state: {tags: any}) => state.tags.tag)
 
     useEffect(() => {
-        http({
-           url: '/api/public/notes/page',
-           method: 'GET'
-        }).then((res) => {
+        getNotePage().then((res) => {
             setNewNotes(res.data.data.map((item: { noteTags: string; }) => {
                 return {
                     ...item,
@@ -45,7 +43,6 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
                             marginLeft: 25,
                             marginTop: 8,
                             marginRight: 60,
-                            color: 'rgba(0, 0, 0, 0.66)',
                             textIndent: '2em',
                             whiteSpace: "normal",
                             maxHeight: '2.5em',
@@ -59,32 +56,9 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
 
                         <div className="tags">
                             <Space size={[0, 8]} wrap>
-                            {item.noteTags.map(noteTag => {
-                                let color;
-                                let name;
-                                // Iterate over all tagList items
-                                tagList.forEach((tag: { tagKey: number; color: string; title: string; children: any[]; }) => {
-                                    if (tag.tagKey === noteTag) {
-                                        color = tag.color;
-                                        name = tag.title;
-                                    } else if (tag.children && tag.children.some(child => child.tagKey === noteTag)) {
-                                        // Fix here: Changed child.title to tag.children.find(child => child.tagKey === noteTag).title
-                                        color = tag.color;
-                                        name = tag.children.find(child => child.tagKey === noteTag).title;
-                                    }
-                                });
-
-                                return (
-                                    <Tag color={color} key={noteTag} style={{margin:5}}>
-                                        {name}
-                                    </Tag>
-                                );
-                            })}
+                            {renderNoteTags(item.noteTags,tagList)}
                             </Space>
                         </div>
-
-
-
                     </div>
                 </div>
             ))}

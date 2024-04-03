@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import './index.css';
-import '../../assets/font/iconfont.js';
-import '../../assets/font/iconfont.css';
+// import '../../assets/font/iconfont.js';
+// import '../../assets/font/iconfont.css';
 import {Outlet, useNavigate} from "react-router-dom";
 import deleteToken from "../../apis/deleteToken.tsx";
 import {Button, Space, notification, message, Card, Spin} from "antd";
@@ -30,7 +30,6 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const avatar = useSelector((state: { user: UserState }) => state.user.avatar);
-    const talk = useSelector((state: { user: UserState }) => state.user.talk);
     const name = useSelector((state: { user: UserState }) => state.user.name);
 
     //初始渲染
@@ -105,7 +104,7 @@ const Dashboard = () => {
         {
             index: 2,
             name: '笔记',
-            icon: 'icon-yongyan',
+            icon: 'icon-bianji2',
             to: 'notes',
             active: false,
             children: [
@@ -132,7 +131,7 @@ const Dashboard = () => {
         {
             index: 3,
             name: '说说',
-            icon: 'icon-pinglun4',
+            icon: 'icon-pinglun2',
             to: 'comments',
             active: false
         },
@@ -215,7 +214,6 @@ const Dashboard = () => {
                     </Spin>
                 </div>
             ) : (
-                // 渲染实际的组件
                 <>
 
                     <div className={`content ${isDarkMode ? 'contentDark' : ''}`} ref={fullScreenRef}>
@@ -230,7 +228,6 @@ const Dashboard = () => {
                                             <span className="name">
                                                 {name}
                                             </span>
-                                            <p className="onesay">"{talk}"</p>
                                         </div>
                                     </div>
                                     <i className="iconfont icon-iconfonticonfontarrowright toggle" onClick={handleToggleClick} style={{fontSize: 20}}></i>

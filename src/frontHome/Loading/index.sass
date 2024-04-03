@@ -1,0 +1,47 @@
+.LoadingContainer
+  width: 50vw
+  height: 50vh
+
+  svg
+    height: 100%
+    width: 100%
+    overflow: visible
+
+#bongo-cat
+  fill: var(--bg)
+  stroke-linecap: round
+  stroke-linejoin: round
+  stroke-width: 4
+
+  .laptop-cover,
+  .headphone .band
+    fill: none
+
+  .paw, .head
+    stroke: var(--orange)
+
+  .laptop-keyboard
+    stroke-width: 2
+
+  .terminal-code
+    stroke-width: 5
+
+  .music .note,
+  .laptop-base,
+  .laptop-cover,
+  .paw .pads
+    stroke: var(--pink)
+
+  .table line,
+  .headphone .band,
+  .headphone .speaker path:nth-child(3)
+    stroke: var(--green)
+
+  .terminal-frame,
+  .laptop-keyboard,
+  .headphone .speaker path:nth-child(2)
+    stroke: var(--blue)
+
+  .terminal-code,
+  .headphone .speaker path:first-child
+    stroke: var(--cyan)

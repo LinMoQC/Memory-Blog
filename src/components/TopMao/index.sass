@@ -1,0 +1,25 @@
+@keyframes topMaoShake
+  0%
+    transform: translateY(-900px)
+  50%
+    transition: translateY(-890px)
+  100%
+    transform: translateY(-900px)
+
+.TopMao
+  width: 70px
+  height: 900px
+  position: absolute
+  top: -999px
+  right: 0
+  background: url("https://cdn.jsdelivr.net/gh/LinMoQC/LinmoBlogCDN@master/scroll.gif")
+  z-index: -1
+  cursor: pointer
+  transition: all .5s ease-in-out
+  @media only screen and (max-width: 1200px)
+    display: none
+  @media only screen and (max-height: 900px)
+    display: none
+
+.TopMaoShow
+  top: 0

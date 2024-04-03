@@ -1,0 +1,477 @@
+//全局变量
+$darkMode: true
+// light
+$pic-cover-color: linear-gradient(90deg,hsla(0,0%,98%,0) 0,hsla(0,0%,98%,.013) 8.1%,hsla(0,0%,98%,.049) 15.5%,hsla(0,0%,98%,.104) 22.5%,hsla(0,0%,98%,.175) 29%,hsla(0,0%,98%,.259) 35.3%,hsla(0,0%,98%,.352) 41.2%,hsla(0,0%,98%,.45) 47.1%,hsla(0,0%,98%,.55) 52.9%,hsla(0,0%,98%,.648) 58.8%,hsla(0,0%,98%,.741) 64.7%,hsla(0,0%,98%,.825) 71%,hsla(0,0%,98%,.896) 77.5%,hsla(0,0%,98%,.951) 84.5%,hsla(0,0%,98%,.987) 91.9%,#fff)
+$pic-background-cover: #fafafa
+$pic-cover-color-m: linear-gradient(180deg, hsla(0, 0%, 98%, 0) 0, hsla(0, 0%, 98%, .013) 8.1%, hsla(0, 0%, 98%, .049) 15.5%, hsla(0, 0%, 98%, .104) 22.5%, hsla(0, 0%, 98%, .175) 29%, hsla(0, 0%, 98%, .259) 35.3%, hsla(0, 0%, 98%, .352) 41.2%, hsla(0, 0%, 98%, .45) 47.1%, hsla(0, 0%, 98%, .55) 52.9%, hsla(0, 0%, 98%, .648) 58.8%, hsla(0, 0%, 98%, .741) 64.7%, hsla(0, 0%, 98%, .825) 71%, hsla(0, 0%, 98%, .896) 77.5%, hsla(0, 0%, 98%, .951) 84.5%, hsla(0, 0%, 98%, .987) 91.9%, #fff)
+$font-title-color: black
+$font-p-color: #898989
+$box-shadow-color: 0 1px 35px -8px rgba(26, 26, 26, 0.6)
+$container-background-color: linear-gradient(to left, rgba(255, 255, 255,0.6), rgba(255, 255, 255,0.6))
+// dark
+$pic-cover-color-dark: linear-gradient(90deg, rgba(33, 33, 33, 0) 0, rgba(33, 33, 33, .013) 8.1%, rgba(33, 33, 33, .049) 15.5%, rgba(33, 33, 33, .104) 22.5%, rgba(33, 33, 33, .175) 29%, rgba(33, 33, 33, .259) 35.3%, rgba(33, 33, 33, .352) 41.2%, rgba(33, 33, 33, .45) 47.1%, rgba(33, 33, 33, .55) 52.9%, rgba(33, 33, 33, .648) 58.8%, rgba(33, 33, 33, .741) 64.7%, rgba(33, 33, 33, .825) 71%, rgba(33, 33, 33, .896) 77.5%, rgba(33, 33, 33, .951) 84.5%, rgba(33, 33, 33, .987) 91.9%, #212121)
+$pic-background-cover-dark: #212121
+$font-title-color-dark: white
+$font-p-color-dark: #cccccc
+$pic-cover-color-dark-m: linear-gradient(180deg, rgba(33, 33, 33, 0) 0, rgba(33, 33, 33, .013) 8.1%, rgba(33, 33, 33, .049) 15.5%, rgba(33, 33, 33, .104) 22.5%, rgba(33, 33, 33, .175) 29%, rgba(33, 33, 33, .259) 35.3%, rgba(33, 33, 33, .352) 41.2%, rgba(33, 33, 33, .45) 47.1%, rgba(33, 33, 33, .55) 52.9%, rgba(33, 33, 33, .648) 58.8%, rgba(33, 33, 33, .741) 64.7%, rgba(33, 33, 33, .825) 71%, rgba(33, 33, 33, .896) 77.5%, rgba(33, 33, 33, .951) 84.5%, rgba(33, 33, 33, .987) 91.9%, #212121)
+$box-shadow-color-dark: 0 1px 35px -8px rgba(229, 229, 229, 0.6)
+$container-background-color-dark: linear-gradient(to left, rgba(0, 0, 0,0.6), rgba(0, 0, 0,0.6))
+
+// 动画
+.fade-in-out
+  opacity: 0
+  transition: opacity 0.5s ease-in-out
+.show
+  opacity: 1
+@keyframes up-down
+  0%
+    transform: translateY(0px)
+  50%
+    transform: translateY(-10px)
+  100%
+    transform: translateY(0px)
+
+@keyframes left-in
+  0%
+    transform: translateX(-50%)
+    opacity: 0
+  100%
+    transform: translateX(0)
+    opacity: 1
+
+@keyframes right-in
+  0%
+    transform: translateX(50%)
+    opacity: 0
+  100%
+    transform: translateX(0)
+    opacity: 1
+
+
+.SelfDescription
+  position: relative
+  width: 100%
+  height: 100vh
+  display: flex
+  justify-content: space-evenly
+  align-items: center
+  .homeTyped
+    position: absolute
+    bottom: 100px
+    font-weight: 700
+
+  .SayWords
+    animation: left-in 1s forwards
+    @media only screen and (max-width: 1200px)
+      display: flex
+      flex-direction: column
+      align-items: center
+    h2
+      font-size: 80px
+      font-weight: 900
+    h3
+      font-size: 40px
+    .Social
+      width: 300px
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      margin-top: 20px
+  .frontAvatar
+    border: 5px solid white
+    transition: transform 0.3s ease
+    &:hover
+      transform: rotate(45deg)
+    @media only screen and (max-width: 1200px)
+      display: none
+
+.upAndDown
+  animation-name: up-down
+  animation-duration: 5s
+  animation-iteration-count: infinite
+  cursor: pointer
+
+.ContentContainer
+  overflow-x: hidden
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 80px 0 80px 0
+  background: var(--container-background-color)
+  .TopArticle
+    position: relative
+    cursor: pointer
+    width: 80%
+    height: 600px
+    //background: #212121
+    //background: $pic-background-cover
+    background: var(--pic-background-cover)
+    --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05)
+    border-radius: 15px
+    box-shadow: var(--box-shadow-color)
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    grid-template-rows: none
+    display: grid
+    @media only screen and (max-width: 1200px)
+      display: grid
+      grid-template-rows: repeat(3, minmax(0, 1fr))
+      grid-template-columns: repeat(1, minmax(0, 1fr))
+    @media only screen and (max-width: 800px)
+      width: 90%
+
+    &:hover
+      .Top
+        top: -40px
+
+    .Top
+      position: absolute
+      top: -20px
+      left: 10px
+      margin-bottom: 20px
+      background: linear-gradient(to left, #6E35FF, #EE64C2,#FFCB8E)
+      border-radius: 10px
+      width: 80px
+      height: 30px
+      display: flex
+      justify-content: center
+      align-items: center
+      color: white
+      font-weight: 700
+      transition: 0.3s
+      &:hover
+        top: -40px
+      @media only screen and (max-width: 1200px)
+        top: -40px
+
+    .TopCover
+      width: 100%
+      border-radius: 15px 0 0 15px
+      position: relative
+      height: 100%
+      .topDots
+        position: absolute
+        bottom: 20px
+        left: 50%
+        display: flex
+        transform: translate(-50%,-50%)
+        @media only screen and (max-width: 1200px)
+          display: none
+        .topDot
+          cursor: pointer
+          width: 10px
+          height: 10px
+          background: white
+          border-radius: 50%
+          margin-left: 10px
+        .dotCurrent
+          background: #7880d1
+      img
+        border-radius: 15px 0 0 15px
+        background-repeat: no-repeat
+        background-size: cover
+        display: block
+        object-fit: cover
+        position: absolute
+        max-width: 120%
+        height: 100%
+        width: 120%
+        transition: opacity 0.5s ease-in-out
+        @media only screen and (max-width: 1200px)
+          height: 120%
+          width: 100%
+          border-radius: 15px 15px 0 0
+      span
+        border-radius: 15px 0 0 15px
+        position: absolute
+        max-width: 120%
+        width: 120%
+        height: 100%
+        mix-blend-mode: screen
+      &:after
+        pointer-events: none
+        content: ''
+        background: var(--pic-cover-color)
+        position: absolute
+        z-index: 35
+        left: 71%
+        top: 0
+        height: 100%
+        width: 50%
+        @media only screen and (max-width: 1200px)
+          left: 0
+          top: 13%
+          height: 120%
+          width: 100%
+          background: var(--pic-cover-color-m)
+    .topContent
+      display: flex
+      flex-direction: column
+      justify-content: center
+      padding: 3rem
+      align-items: center
+      position: relative
+      border: none
+      z-index: 99
+      border-radius: 0 15px 15px 0
+      height: 100%
+      width: 100%
+      transition: 0.6s
+      @media only screen and (max-width: 1200px)
+        justify-content: normal
+        height: max-content
+        padding: 2rem
+      h4
+        width: 100%
+        font-size: 20px
+        color: #8ab1ca
+      p
+        display: -webkit-box
+        -webkit-line-clamp: 4
+        -webkit-box-orient: vertical
+        overflow: hidden
+      .contentTitle
+        width: 100%
+        font-weight: 900
+        //color: white
+        color: var(--font-title-color)
+        font-size: 40px
+        margin-bottom: 60px
+        @media only screen and (max-width: 1200px)
+          font-size: 35px
+          margin-bottom: 40px
+      p
+        //color: #cccccc
+        color: var(--font-p-color)
+        text-indent: 1em
+      .topFooter
+        //color: #cccccc
+        color: var(--font-title-color)
+        width: 100%
+        margin-top: 60px
+        @media only screen and (max-width: 1200px)
+          margin-top: 40px
+        .post-date
+          background-color: #1e73be26
+          font-size: 12px
+          width: max-content
+          padding: 4px 10px 4px 10px
+          border-radius: 6px
+          color: #505050
+          white-space: nowrap
+          transition: all 0.8s ease!important
+          line-height: 20px
+  .allContent
+    background: linear-gradient(to left, #6E35FF, #EE64C2,#FFCB8E)
+    border-radius: 10px
+    width: max-content
+    height: max-content
+    width: 80px
+    height: 30px
+    display: flex
+    justify-content: center
+    align-items: center
+    color: white
+    font-weight: 700
+    margin-top: 20px
+    margin-bottom: 20px
+
+  .allArticles
+    width: 80%
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr))
+    grid-gap: 30px
+    @media only screen and (max-width: 500px)
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+    @media only screen and (max-width: 800px)
+      width: 90%
+    .ArticleCard
+      width: 100%
+      height: 600px
+      background: var(--pic-background-cover)
+      --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05)
+      border-radius: 15px
+      box-shadow: var(--box-shadow-color)
+      overflow: hidden
+      position: relative
+      transition: 0.3s
+      display: grid
+      grid-template-rows: repeat(3, minmax(0, 1fr))
+      cursor: pointer
+      &:hover
+        transform: scale(1.03)
+
+      .ArticleCover
+        position: relative
+        &:after
+          pointer-events: none
+          content: ""
+          position: absolute
+          z-index: 35
+          top: 13%
+          left: 0
+          height: 120%
+          width: 100%
+          background: var(--pic-cover-color-m)
+        img
+          background-repeat: no-repeat
+          background-size: cover
+          border-radius: 1rem 1rem 0 0
+          display: block
+          height: 120%
+          -o-object-fit: cover
+          object-fit: cover
+          position: absolute
+          width: 100%
+          z-index: 20
+      .ArticleContent
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        position: relative
+        z-index: 40
+        padding: 3rem
+        align-items: center
+        position: relative
+        border: none
+        z-index: 99
+        border-radius: 0 15px 15px 0
+        height: max-content
+        width: 100%
+        @media only screen and (max-width: 500px)
+          padding: 2rem
+        h4
+          width: 100%
+          font-size: 20px
+        p
+          display: -webkit-box
+          -webkit-line-clamp: 4
+          -webkit-box-orient: vertical
+          overflow: hidden
+        .ArticleTitle
+          width: 100%
+          font-weight: 900
+          color: var(--font-title-color)
+          font-size: 30px
+          margin-bottom: 40px
+
+        p
+          color: var(--font-p-color)
+          text-indent: 1em
+        .ArticleFooter
+          color: var(--font-title-color)
+          width: 100%
+          margin-top: 40px
+          .post-date
+            background-color: #1e73be26
+            font-size: 12px
+            width: max-content
+            padding: 4px 10px 4px 10px
+            border-radius: 6px
+            color: #505050
+            white-space: nowrap
+            transition: all 0.8s ease!important
+            line-height: 20px
+
+  .more
+    transition: 0.3s
+    cursor: pointer
+    &:hover
+      transform: scale(1.2)
+
+
+// 加载动画
+.loadingio-spinner-spinner-69tfms83mg9
+  width: 200px
+  height: 200px
+  display: inline-block
+  overflow: hidden
+  background: transparent
+
+  .ldio-se504dvlmh
+    width: 100%
+    height: 100%
+    position: relative
+    transform: translateZ(0) scale(1)
+    backface-visibility: hidden
+    transform-origin: 0 0
+
+    div
+      box-sizing: content-box
+      left: 94px
+      top: 48px
+      position: absolute
+      animation: ldio-se504dvlmh linear 1s infinite
+      background: #fe718d
+      width: 12px
+      height: 24px
+      border-radius: 6px / 12px
+      transform-origin: 6px 52px
+
+      &:nth-child(1)
+        transform: rotate(0deg)
+        animation-delay: -0.9166666666666666s
+        background: #fe718d
+
+      &:nth-child(2)
+        transform: rotate(30deg)
+        animation-delay: -0.8333333333333334s
+        background: #fe718d
+
+      &:nth-child(3)
+        transform: rotate(60deg)
+        animation-delay: -0.75s
+        background: #fe718d
+
+      &:nth-child(4)
+        transform: rotate(90deg)
+        animation-delay: -0.6666666666666666s
+        background: #fe718d
+
+      &:nth-child(5)
+        transform: rotate(120deg)
+        animation-delay: -0.5833333333333334s
+        background: #fe718d
+
+      &:nth-child(6)
+        transform: rotate(150deg)
+        animation-delay: -0.5s
+        background: #fe718d
+
+      &:nth-child(7)
+        transform: rotate(180deg)
+        animation-delay: -0.4166666666666667s
+        background: #fe718d
+
+      &:nth-child(8)
+        transform: rotate(210deg)
+        animation-delay: -0.3333333333333333s
+        background: #fe718d
+
+      &:nth-child(9)
+        transform: rotate(240deg)
+        animation-delay: -0.25s
+        background: #fe718d
+
+      &:nth-child(10)
+        transform: rotate(270deg)
+        animation-delay: -0.16666666666666666s
+        background: #fe718d
+
+      &:nth-child(11)
+        transform: rotate(300deg)
+        animation-delay: -0.08333333333333333s
+        background: #fe718d
+
+      &:nth-child(12)
+        transform: rotate(330deg)
+        animation-delay: 0s
+        background: #fe718d
+
+@keyframes ldio-se504dvlmh
+  0%
+    opacity: 1
+  100%
+    opacity: 0
+
+
+

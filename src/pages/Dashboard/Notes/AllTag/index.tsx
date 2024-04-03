@@ -11,10 +11,10 @@ import {
 } from "antd";
 import React, {useEffect, useRef, useState} from "react";
 import {TagsOutlined} from '@ant-design/icons'
-import {TagLevelOne,TagLevelTwo,newTag} from "../../../../interface/TagType";
-import http from "../../../../apis/axios.tsx";
+import {TagLevelOne,newTag} from "../../../../interface/TagType";
 import {fetchTags} from "../../../../store/components/tags.tsx";
 import {useDispatch} from "react-redux";
+import {addTagOne, addTagTwo, delTag, initTree} from "../../../../apis/TagMethods.tsx";
 
 const AllTag = () => {
     // hooks区域
@@ -24,54 +24,10 @@ const AllTag = () => {
     const [staticDate,setStaticDate] = useState<TagLevelOne[]>([])
     const dispatch = useDispatch()
     useEffect(() => {
-        buildTree();
+        initTree().then((res) => {
+            setStaticDate(res)
+        })
     }, []);
-
-    const buildTree = async () => {
-        const tagOneData: TagLevelOne[] = await getTagOne();
-        const tagTwoData: TagLevelTwo[] = await getTagTwo();
-        const tree = tagOneData.map(item => {
-            item.children = tagTwoData.filter(child => child.fatherTag === item.title);
-            return item;
-        });
-        setStaticDate(tree)
-    }
-    const getTagOne = async () => {
-        try {
-            const response = await http({
-                url: '/api/public/tagone',
-                method: 'GET'
-            });
-            return response.data.data.map((item: { tagKey: number; title: string; level: number; color: string; }) => ({
-                key: item.tagKey,
-                title: item.title,
-                level: item.level,
-                color: item.color,
-                children: []
-            }));
-        } catch (error) {
-            console.error("Error fetching tag one data:", error);
-            return []; // or handle error as needed
-        }
-    }
-    const getTagTwo = async () => {
-        try {
-            const response = await http({
-                url: '/api/public/tagtwo',
-                method: 'GET'
-            });
-            return response.data.data.map((item: { tagKey: number; title: string; level: number; color: string; fatherTag: string }) => ({
-                key: item.tagKey,
-                title: item.title,
-                level: item.level,
-                color: item.color,
-                fatherTag: item.fatherTag
-            }));
-        } catch (error) {
-            console.error("Error fetching tag two data:", error);
-            return []; // or handle error as needed
-        }
-    }
 
     //回调函数
     const onSelect = (selectedKeysValue: React.Key[]) => {
@@ -84,79 +40,72 @@ const AllTag = () => {
         setLevel(value);
     };
 
-    const Delete = () => {
-        if (selectedKeys.length === 0){
+    const Delete = async () => {
+        if (selectedKeys.length === 0) {
             message.warning('待选中')
             return
         }
-        http({
-            url: '/api/protected/tag',
-            method: 'DELETE',
-            data: selectedKeys
-        }).then((res) => {
-            if(res.status === 200){
-                buildTree()
-                setSelectedKeys([]); // 清空选中的标签
-                if(tree.current)
-                { // @ts-ignore
-                    tree.current.state.selectedKeys = []
-                }
-                dispatch<any>(fetchTags())
-                message.success("删除成功")
+
+        const res = await delTag(selectedKeys)
+        if(res.status === 200){
+            const Tree = await initTree()
+            setStaticDate(Tree)
+            setSelectedKeys([])
+            if(tree.current)
+            { // @ts-ignore
+                tree.current.state.selectedKeys = []
             }
-        })
+            dispatch<any>(fetchTags())
+            message.success("删除成功")
+        }
     };
-    const onfinish = (values: newTag) => {
+    const onfinish = async (values: newTag) => {
         if (values.level === 'level_1') {
-            let color:string
+            let color: string
             if (values.color && values.color.toHexString) {
                 color = values.color.toHexString();
             } else {
                 color = 'black'; // 否则使用默认颜色 #fff
             }
 
-            const newTag  = {
+            const newTag = {
                 title: values.title,
                 color: color,
             };
 
-            http({
-                url: '/api/protected/tagone',
-                method: 'POST',
-                data: newTag
-            }).then(async (res) => {
-                if (res.status === 200) {
-                    await buildTree()
+            try {
+                const res = await addTagOne(newTag)
+                if(res.status === 200){
+                    const Tree = await initTree()
+                    setStaticDate(Tree)
                     dispatch<any>(fetchTags())
                     message.success('添加成功');
                 }
-            }).catch(async () => {
+            } catch (error) {
                 await message.error("添加失败：" + '已存在')
-            })
+            }
         } else {
             const fatherTag = staticDate.find(item => item.key === values.fatherTag);
             if (fatherTag) {
                 const len = fatherTag.children?.length
                 const newTag = {
                     title: values.title,
-                    tagKey: fatherTag?.children.length>0?fatherTag.children[len-1].key+1:fatherTag.key*100+1 ,
+                    tagKey: fatherTag?.children.length > 0 ? fatherTag.children[len - 1].key + 1 : fatherTag.key * 100 + 1,
                     color: fatherTag.color,
                     fatherTag: fatherTag.title,
                 }
-                console.log(newTag)
-                http({
-                    url: '/api/protected/tagtwo',
-                    method: 'POST',
-                    data: newTag
-                }).then((res) => {
+
+                try {
+                    const res = await addTagTwo(newTag)
                     if(res.status === 200){
-                        buildTree()
+                        const Tree = await initTree()
+                        setStaticDate(Tree)
                         dispatch<any>(fetchTags())
-                        message.success("添加成功")
+                        message.success('添加成功');
                     }
-                }).catch(() => {
-                    message.error("添加失败：" + '已存在')
-                })
+                } catch (error) {
+                    await message.error("添加失败：" + '已存在')
+                }
             }
         }
     }

@@ -1,20 +1,3 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
-}
-
-*::-webkit-scrollbar{
-    width: 5px;
-    height: 10px;
-}
-
-*::-webkit-scrollbar-thumb{
-    background: linear-gradient(to bottom right, #4d7fff 0%, #1a56ff 100%);
-    border-radius: 5px;
-}
-
 .contain{
     height: 100vh;
 }
@@ -322,8 +305,8 @@ li.search-box input {
     float: right;
     width: 100%;
     height: 100%;
-    /*background-color: var(--body-color);*/
-    background: url("../../assets/adminBackground.jpg") center center;
+    background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
+    background-image: radial-gradient(ellipse at top left, #2FBDFF 0%, #FF7582 100%);
     background-size: cover;
     /*padding: 50px;*/
     display: flex;
@@ -333,7 +316,7 @@ li.search-box input {
 }
 
 .contentDark{
-    background: url("../../assets/darkBackground.jpg") center center;
+    background: radial-gradient(ellipse at top left, #373434 50%, #321e5d 100%);
     background-size: cover;
 }
 

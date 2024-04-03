@@ -1,0 +1,92 @@
+.CategoriesContainer
+  min-height: calc(100vh - 172.4px)
+  width: 100%
+  background: var(--container-background-color)
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding-top: 100px
+  h1
+    color:  var(--font-title-color)
+    font-size: 35px
+    margin-bottom: 10px
+  h2
+    color:  var(--font-title-color)
+    font-size: 35px
+    margin-bottom: 10px
+
+  h3
+    color:  var(--font-title-color)
+    font-weight: 400
+
+  .ArticleList
+    margin-top: 10px
+    display: flex
+    flex-direction: column
+    list-style: none
+    border-radius: 1rem
+    box-sizing: border-box
+    width: 60%
+    display: flex
+    align-items: center
+    padding-top: 10px
+    padding-bottom: 10px
+    position: relative
+    @media only screen and (max-width: 800px)
+      width: 100%
+      img
+        display: none
+    .coverItem
+      position: absolute
+      width: 754px
+      height: 280px
+      border-radius: 10px
+      background: #ace0f9
+
+    li
+      position: relative
+      display: flex
+      align-items: center
+      position: relative
+      padding: 10px
+      &:hover
+        transition: 1s
+        background: var(--category-hover-color)
+        border-radius: 10px
+    img
+      border-radius: 10px
+      width: 32%
+      max-height: 120px
+    .article
+      width: 784px
+      height: max-content
+      padding: 1rem
+      box-sizing: border-box
+      cursor: pointer
+      transition: 1s
+      border-radius: 10px
+      font-weight: 600
+      @media only screen and (max-width: 800px)
+        width: 100%
+
+      .articleTop
+        width: 100%
+        display: flex
+        justify-content: space-between
+        align-items: center
+        background-color: transparent
+      h2
+        color: var(--font-title-color)
+        font-size: 1.5rem
+        line-height: 2rem
+      p
+        font-weight: 550
+        margin-top: 2rem
+        color: var(--font-p-color)
+      .articleFooter
+        width: 100%
+        height: 20px
+        margin-top: 1rem
+        color: rgba(31, 41, 55, .9)
+
+

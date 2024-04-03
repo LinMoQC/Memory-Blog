@@ -7,7 +7,7 @@ interface SwitchProps {
 const Switch = ({ handleModeSwitch, isDarkMode }: SwitchProps) => {
     return <>
         <label className="theme-switch">
-            <input type="checkbox" className="theme-switch__checkbox" onClick={handleModeSwitch} checked={isDarkMode}/>
+            <input type="checkbox" className="theme-switch__checkbox" onChange={handleModeSwitch} checked={isDarkMode}/>
                 <div className="theme-switch__container">
                     <div className="theme-switch__clouds"></div>
                     <div className="theme-switch__stars-container">

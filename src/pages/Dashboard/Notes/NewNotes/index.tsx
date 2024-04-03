@@ -16,6 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {fetchNoteList} from "../../../../store/components/note.tsx";
 import generateResponse from "../../../../apis/chatgpt.tsx";
+import {createNote, getNoteById, updateNote} from "../../../../apis/NoteMethods.tsx";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -51,11 +52,13 @@ const NewNotes = () => {
     };
 
     useEffect(() => {
+        initNote()
+    },[id])
+
+    async function initNote(){
         if(id){
-            http({
-                url: `/api/public/notes/${id}`,
-                method: 'GET'
-            }).then((res) => {
+            try {
+                const res = await getNoteById(id)
                 form.setFieldsValue({
                     noteTitle: res.data.data.noteTitle,
                     noteCategory: res.data.data.noteCategory,
@@ -66,9 +69,11 @@ const NewNotes = () => {
                 setTitle(res.data.data.noteTitle)
                 setNoteContent(res.data.data.noteContent)
                 setNoteTag(res.data.data.noteTags.split(',').map((tag: string) => parseInt(tag, 10)))
-            })
+            }catch (error){
+                message.error("获取出错")
+            }
         }
-    },[id])
+    }
 
 
     //回调函数区域
@@ -131,10 +136,10 @@ const NewNotes = () => {
         setOpen(false);
     };
 
-    const onFinsh = () => {
+    const onFinsh = async () => {
         const formValues = form.getFieldsValue();
 
-        if(id){
+        if (id) {
             const data = {
                 noteTitle: formValues.noteTitle,
                 noteContent: noteContent,
@@ -147,21 +152,18 @@ const NewNotes = () => {
                 status: formValues.status,
                 updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
             }
-            http({
-                url: `/api/protected/notes/${id}`,
-                method: 'POST',
-                data: data
-            }).then((res) => {
-                if (res.status === 200) {
+            try {
+                const res = await updateNote(id, data)
+                if(res.status === 200){
                     dispatch<any>(fetchNoteList())
                     message.success("文章更新成功")
                     navigate('/dashboard/notes')
                 }
-            }).catch((error) => {
+            } catch (error) {
                 message.error("文章更新失败：" + error)
                 navigate('/dashboard/notes')
-            })
-        }else{
+            }
+        } else {
             const data = {
                 noteTitle: formValues.noteTitle,
                 noteContent: noteContent,
@@ -175,18 +177,15 @@ const NewNotes = () => {
                 createTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss'),
                 updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
             }
-            http({
-                url: '/api/protected/notes',
-                method: 'POST',
-                data: data
-            }).then((res) => {
+            try {
+                const res = await createNote(data)
                 if (res.status === 200) {
                     dispatch<any>(fetchNoteList())
                     message.success("文章创建成功")
                 }
-            }).catch((error) => {
-                message.error("文章创建失败：" + error)
-            })
+            }catch (error){
+                message.error("文章创建失败：")
+            }
         }
 
         //     清除

@@ -1,0 +1,79 @@
+.FriendsContainer
+  min-height: calc(100vh - 172.4px)
+  width: 100%
+  background: var(--container-background-color)
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding-top: 100px
+
+  .FriendList
+    width: 50%
+    margin-top: 20px
+    font-size: 30px
+    h3
+      color:  var(--font-title-color)
+
+  .applyFriend
+    width: 50%
+    height: 700px
+    font-size: 30px
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    .applyForm
+      width: 40rem
+      height: 400px
+      border-radius: 8px
+      display: flex
+      justify-content: center
+      align-items: center
+      @media only screen and (max-width: 1200px)
+        width: 30rem
+      h4
+        color:  var(--font-title-color)
+
+
+
+.input-container
+  --c-text: rgb(50, 50, 80)
+  --c-bg: rgb(252, 252, 252)
+  --c-outline: rgb(55, 45 , 190)
+  display: grid
+  gap: 1ch
+  position: relative
+  width: 400px
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  color: black
+  .input-field
+    padding: 0.5em 0.75em
+    border-radius: 0.2em
+    border: 1px solid var(--c-border, currentColor)
+    color: var(--c-text)
+    font-size: 1rem
+    letter-spacing: 0.1ch
+    width: 100%
+    &:not(:placeholder-shown) + .input-label
+      transform: translateY(-220%)
+      opacity: 1
+    &:invalid
+      --c-border: rgb(230, 85, 60)
+      --c-text: rgb(230, 85, 60)
+      --c-outline: rgb(230, 85, 60)
+    &:is(:disabled, :read-only)
+      --c-border: rgb(150, 150, 150)
+      --c-text: rgb(170, 170, 170)
+    &:is(:focus, :focus-visible)
+      outline: 2px solid var(--c-outline)
+      outline-offset: 2px
+    .input-label
+      --timing: 200ms ease-in
+      position: absolute
+      left: 0
+      top: 50%
+      transition: transform var(--timing),opacity var(--timing)
+      transform: translateY(-50%)
+      opacity: 0
+      color: var(--c-text)
+      font-weight: 500

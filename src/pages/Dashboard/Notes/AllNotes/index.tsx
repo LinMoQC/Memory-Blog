@@ -19,9 +19,8 @@ import zhCN from "antd/lib/locale/zh_CN";
 import {useNavigate} from "react-router-dom";
 import { Table, Tag } from 'antd';
 import type { TableProps, TabsProps } from 'antd';
-import {NoteType} from "../../../../interface/NoteType";
+import {formatNote, NoteType} from "../../../../interface/NoteType";
 import {useDispatch, useSelector} from "react-redux";
-import http from "../../../../apis/axios.tsx";
 import {fetchNoteList} from "../../../../store/components/note.tsx";
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
@@ -31,6 +30,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import {renderNoteTags} from "../../../../apis/TagMethods.tsx";
+import {delAllNotes, delNote, getNotes, searchNotes, updateNoteStatus} from "../../../../apis/NoteMethods.tsx";
 interface AdvancedSearchFormProps {
     setSearchNotes: (value: (((prevState: any[]) => any[]) | any[])) => void,
 }
@@ -44,34 +45,25 @@ const AdvancedSearchForm = ({setSearchNotes}: AdvancedSearchFormProps) => {
     const tagList = useSelector((state: {tags: any}) => state.tags.tag)
 
     //回调函数区域
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
         const data = {
             ...values,
-            tagsLab: values.tagsLab.toString()
+            // tagsLab: values.tagsLab.toString()
         }
-        http({
-            url: '/api/protected/notes/search',
-            method: 'POST',
-            params: data
-        }).then((res) => {
+        try {
+            const res = await searchNotes(data)
             if(res.status === 200){
-                setSearchNotes(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                setSearchNotes(res.data.data.map((item: formatNote) => {
                     return {
+                        ...item,
                         key: item.noteKey,
-                        noteTitle: item.noteTitle,
-                        noteContent: item.noteContent,
-                        description: item.description,
-                        cover: item.cover,
-                        noteCategory: item.noteCategory,
                         noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
-                        isTop: item.isTop,
-                        status: item.status,
-                        createTime: item.createTime,
-                        updateTime: item.updateTime
                     }
                 }))
             }
-        })
+        }catch (error){
+            message.error("搜索失败")
+        }
     };
 
     //表单样式
@@ -189,64 +181,46 @@ const AllNotes = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        getNotes()
+        initNotes()
     },[])
 
-    const getNotes = () => {
-        http({
-            url: '/api/public/notes',
-            method: 'GET'
-        }).then((res) => {
-            setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
-                return {
-                    key: item.noteKey,
-                    noteTitle: item.noteTitle,
-                    noteContent: item.noteContent,
-                    description: item.description,
-                    cover: item.cover,
-                    noteCategory: item.noteCategory,
-                    noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
-                    isTop: item.isTop,
-                    status: item.status,
-                    createTime: item.createTime,
-                    updateTime: item.updateTime
-                }
-            }))
-        })
+    const initNotes = async () => {
+        const res = await getNotes()
+        setStaticDate(res.data.data.map((item: formatNote) => {
+            return {
+                ...item,
+                key: item.noteKey,
+                noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
+            }
+        }))
     }
 
 
-    const DeleteNote = (key:number) => {
-        http({
-            url: '/api/protected/notes',
-            method: 'DELETE',
-            data: [key]
-        }).then((res) => {
+    const DeleteNote = async (key:number) => {
+        try {
+            const res = await delNote(key)
             if(res.status === 200){
-                getNotes()
+                await initNotes()
                 dispatch<any>(fetchNoteList())
                 message.success('删除成功')
             }
-        }).catch((error) => {
+        }catch (error){
             console.log(error)
-        })
+        }
     }
 
-    const deleteAll = () => {
-        http({
-            url: '/api/protected/notes',
-            method: 'DELETE',
-            data: selectedRowKeys
-        }).then((res) => {
-            if(res.status === 200){
-                getNotes()
+    const deleteAll = async () => {
+        try {
+            const res = await delAllNotes(selectedRowKeys)
+            if (res.status === 200) {
+                await initNotes()
                 dispatch<any>(fetchNoteList())
                 setSelectedRowKeys([])
                 message.success('删除成功')
             }
-        }).catch((error) => {
+        } catch (error) {
             console.log(error)
-        })
+        }
     }
 
     const showModal = (value:NoteType) => {
@@ -254,25 +228,21 @@ const AllNotes = () => {
         setEdit(value.key)
     }
 
-    const onOk = () => {
+    const onOk = async () => {
         const data = {
             isTop: Number(form.getFieldsValue().top),
             status: form.getFieldsValue().status,
             updateTime: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         }
-
-        http({
-            url: `/api/protected/notes/${isEdit}`,
-            method: 'POST',
-            data: data
-        }).then((res) => {
+        try{
+            const res = await updateNoteStatus(data,isEdit)
             if(res.status === 200){
-                getNotes()
+                await initNotes()
                 message.success('状态变更成功')
             }
-        }).catch((error) => {
-            message.error("状态更新失败" + error)
-        })
+        }catch (error){
+            message.error("状态更新失败")
+        }
         setEdit('0');
         form.resetFields();
         setOpen(false)
@@ -324,12 +294,12 @@ const AllNotes = () => {
                         .filter((category: { categoryTitle: string; }) => category.categoryTitle === item)
                         .map((category: { color: string | (string & {}) | undefined; key: React.Key | null | undefined; icon: any; categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
                             <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center' }}>
-                                   <Tag color={category.color} key={category.key}>
-                                       <Space align={'center'} size={3}>
-                                       <i className={`iconfont ${category.icon}`} style={{ display: 'block', fontSize: 20}}></i>
-                                       <span style={{ fontSize: 16}}>{category.categoryTitle}</span>
-                                       </Space>
-                                   </Tag>
+                                <Tag color={category.color} key={category.key}>
+                                    <Space align={'center'} size={3}>
+                                        <i className={`iconfont ${category.icon}`} style={{ display: 'block', fontSize: 20}}></i>
+                                        <span style={{ fontSize: 16}}>{category.categoryTitle}</span>
+                                    </Space>
+                                </Tag>
                             </div>
 
                         ))
@@ -345,34 +315,13 @@ const AllNotes = () => {
             render: (_, record) => {
                 return (
                     <>
-                        {record.noteTags.map(noteTag => {
-                            let color;
-                            let name;
-                            // Iterate over all tagList items
-                            tagList.forEach((tag: { tagKey: number; color: string; title: string; children: any[]; }) => {
-                                // If the tag exists in the current tagList item, set color and name
-                                if (tag.tagKey === noteTag) {
-                                    color = tag.color;
-                                    name = tag.title;
-                                } else if (tag.children && tag.children.some(child => child.tagKey === noteTag)) {
-                                    // Fix here: Changed child.title to tag.children.find(child => child.tagKey === noteTag).title
-                                    color = tag.color;
-                                    name = tag.children.find(child => child.tagKey === noteTag).title;
-                                }
-                            });
-
-                            return (
-                                <Tag color={color} key={noteTag} style={{margin:5}}>
-                                    {name}
-                                </Tag>
-                            );
-                        })}
+                        {renderNoteTags(record.noteTags,tagList)}
                     </>
                 );
             }
 
         },
-            {
+        {
             title: '是否置顶',
             key: 'isTop',
             dataIndex: 'isTop',
@@ -414,7 +363,6 @@ const AllNotes = () => {
                             <DeleteIcon />
                         </Fab>
                     </Popconfirm>
-                    {/*    <Button type='primary' style={{background: '#13c2c2'}} onClick={() => showModal(item)}><i className={`iconfont icon-biangeng`} style={{fontSize:16,marginRight:'0.2em'}}></i> 状态变更</Button>*/}
                     <Fab color="secondary" aria-label="edit" size='small' onClick={() => showModal(item)}>
                         <ChangeCircleIcon />
                     </Fab>
@@ -448,58 +396,34 @@ const AllNotes = () => {
     ];
 
 
-    const onChange = (value:string) => {
+    const onChange = async (value:string) => {
         if (parseInt(value) === 1){
-            getNotes()
+            await initNotes()
         }else if (parseInt(value) === 2){
             setStaticDate(staticDate.filter(item => item.status==='private'))
-            http({
-                url: '/api/protected/notes/search',
-                method: 'POST',
-                params: {
-                    status: 'private'
-                }
+            searchNotes({
+                status: 'private'
             }).then((res) => {
                 if(res.status === 200){
-                    setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                    setStaticDate(res.data.data.map((item: formatNote) => {
                         return {
+                            ...item,
                             key: item.noteKey,
-                            noteTitle: item.noteTitle,
-                            noteContent: item.noteContent,
-                            description: item.description,
-                            cover: item.cover,
-                            noteCategory: item.noteCategory,
                             noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
-                            isTop: item.isTop,
-                            status: item.status,
-                            createTime: item.createTime,
-                            updateTime: item.updateTime
                         }
                     }))
                 }
             })
         }else {
-            http({
-                url: '/api/protected/notes/search',
-                method: 'POST',
-                params: {
-                    status: 'draft'
-                }
+            searchNotes({
+                status: 'draft'
             }).then((res) => {
                 if(res.status === 200){
-                    setStaticDate(res.data.data.map((item: { noteKey: number; noteTitle: string; noteContent: string; description: string; cover: string; noteCategory: string; noteTags: string; isTop: number; status: string; createTime: Date; updateTime: Date; }) => {
+                    setStaticDate(res.data.data.map((item: formatNote) => {
                         return {
+                            ...item,
                             key: item.noteKey,
-                            noteTitle: item.noteTitle,
-                            noteContent: item.noteContent,
-                            description: item.description,
-                            cover: item.cover,
-                            noteCategory: item.noteCategory,
                             noteTags: item.noteTags ? item.noteTags.split(',').map(tag => parseInt(tag, 10)) : [],
-                            isTop: item.isTop,
-                            status: item.status,
-                            createTime: item.createTime,
-                            updateTime: item.updateTime
                         }
                     }))
                 }
@@ -507,33 +431,32 @@ const AllNotes = () => {
         }
     }
     return <>
-            <div className="AllCard">
-                <AdvancedSearchForm setSearchNotes={setStaticDate}/>
-                <Fab color="primary" aria-label="add" size='small' onClick={() => navigate('newnote')} style={{marginLeft:15,marginTop:15}}>
-                    <AddIcon />
-                </Fab>
-                {hasSelected&&<Fab variant="extended" color='error' size='medium' style={{marginLeft:15,marginTop:15}} onClick={showdelModal}>
-                    <DeleteForeverIcon sx={{ mr: 1 }} className='allin'/>
-                    批量删除
-                </Fab>}
+        <div className="AllCard">
+            <AdvancedSearchForm setSearchNotes={setStaticDate}/>
+            <Fab color="primary" aria-label="add" size='small' onClick={() => navigate('newnote')} style={{marginLeft:15,marginTop:15}}>
+                <AddIcon />
+            </Fab>
+            {hasSelected&&<Fab variant="extended" color='error' size='medium' style={{marginLeft:15,marginTop:15}} onClick={showdelModal}>
+                <DeleteForeverIcon sx={{ mr: 1 }} className='allin'/>
+                批量删除
+            </Fab>}
 
-                <div className="searchRes">
-                    <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange} />
-                    <div style={{ overflowX: 'hidden' }}>
-                        <ConfigProvider
-                            theme={{
-                                components: {
-                                    Table: {
-                                        // headerBg: '#8dc5f8'
-                                    },
+            <div className="searchRes">
+                <Tabs defaultActiveKey="1" items={items} style={{marginLeft: 10}} onChange={onChange} />
+                <div style={{ overflowX: 'hidden' }}>
+                    <ConfigProvider
+                        theme={{
+                            components: {
+                                Table: {
                                 },
-                            }}
-                        >
-                            <Table columns={columns} dataSource={staticDate} pagination={{ pageSize: 4 }} rowSelection={rowSelection} scroll={{y:290,x:1000}}/>
-                        </ConfigProvider>
-                    </div>
+                            },
+                        }}
+                    >
+                        <Table columns={columns} dataSource={staticDate} pagination={{ pageSize: 8 }} rowSelection={rowSelection} scroll={{y:'40vh',x:1000}}/>
+                    </ConfigProvider>
                 </div>
             </div>
+        </div>
 
         <Modal
             open={open}

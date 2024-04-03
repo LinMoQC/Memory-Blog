@@ -7,7 +7,9 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import React, {useEffect, useState} from "react";
 import { webInfo } from "../../../interface/Setting";
 import http from "../../../apis/axios.tsx";
+import {useNavigate} from "react-router-dom";
 const UserControl = () => {
+    const navigate = useNavigate()
     const [webInfo, setWebInfo] = useState<webInfo>({
         blogTitle: '',
         blogAuthor: '',
@@ -19,13 +21,13 @@ const UserControl = () => {
         userAvatar: '',
         userTalk: '',
         socialGithub: '',
-        socialCsdn: '',
+        socialEmail: '',
         socialBilibili: '',
         socialQQ: '',
         socialNeteaseCloud: '',
         openAiToken: '',
         neteaseCookies: '',
-        githubToken: '',
+        githubToken: ''
     });
 
     useEffect(() => {
@@ -44,13 +46,8 @@ const UserControl = () => {
         })
     }
 
-    //回调函数区域
-    // const onChange = (key: string) => {
-    //     console.log(key);
-    // };
-
     const comeBack = () => {
-        window.history.back();
+        navigate(-1)
     }
 
     const handleChange = (event: { target: { id: string; value: string; }; }) => {
@@ -73,8 +70,6 @@ const UserControl = () => {
         })
     }
 
-    console.log(webInfo)
-    //Tabs数据
     const items: TabsProps['items'] = [
         {
             key: '1',
@@ -227,15 +222,15 @@ const UserControl = () => {
                         value={webInfo.socialBilibili}
                     />
                     <TextField
-                        id="socialCsdn"
-                        label="CSDN"
+                        id="socialEmail"
+                        label="Email"
                         variant="outlined"
                         size='medium'
                         color='primary'
                         focused
                         style={{ width: '70%', marginBottom: 20 }}
                         onChange={handleChange}
-                        value={webInfo.socialCsdn}
+                        value={webInfo.socialEmail}
                     />
                     <TextField
                         id="socialQQ"
@@ -311,11 +306,10 @@ const UserControl = () => {
         },
     ];
 
-
     return (
         <div style={{ padding: 20,overflowY:'scroll' }} className='allin'>
             <Fab variant="circular" size='small' style={{ position: 'absolute', cursor: 'pointer' }} onClick={comeBack}>
-                <ArrowBackIosIcon fontSize='small' />
+                <ArrowBackIosIcon fontSize='small' style={{cursor:'pointer'}}/>
             </Fab>
             <Tabs defaultActiveKey="1" items={items} centered={true} />
         </div>

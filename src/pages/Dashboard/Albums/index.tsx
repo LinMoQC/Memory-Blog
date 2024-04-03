@@ -9,11 +9,12 @@ import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import CheckButton from "../../../components/Buttons/CheckButton";
 import {ImgUrl} from "../../../interface/ImgTypes";
-import http from "../../../apis/axios.tsx";
+import {delImages, getImageList, uploadImages} from "../../../apis/ImageMethods.tsx";
+
 
 const Albums = () => {
     //状态变量区
-    const [uploadedFiles, setUploadedFiles] = useState<UploadFile<any>[]>([]);
+    const [uploadedFiles, setUploadedFiles] = useState<UploadFile[]>([]);
     const [SelectDelete,setSelectDelete] = useState(0)
     const [checkStatus, setCheckStatus] = useState<Record<string, boolean>>({});
     const [staticDate, setStaticDate] = useState<ImgUrl[]>([]);
@@ -22,16 +23,13 @@ const Albums = () => {
 
 
     useEffect(() => {
-        getImageList()
+        initImageList()
     },[])
 
 
     // 获取图片列表
-    const getImageList = () => {
-        http({
-            url: '/api/protect/images',
-            method: 'GET'
-        }).then((res) => {
+    const initImageList = () => {
+        getImageList().then((res) => {
             setStaticDate(res.data.data)
         }).catch((error) => {
             throw error
@@ -40,7 +38,7 @@ const Albums = () => {
 
     //回调函数区域
     const fetchData = async () => {
-        // Implement your logic to fetch more data
+
     };
 
     const Delete = useCallback(() => {
@@ -48,13 +46,9 @@ const Albums = () => {
         //拿出所有的键
         const keysToDelete = Object.keys(checkStatus).filter(key => checkStatus[key]);
 
-        http({
-            url: '/api/protect/delImg',
-            method: 'DELETE',
-            data: keysToDelete
-        }).then((res) => {
+        delImages(keysToDelete).then((res) => {
             if(res.status === 200){
-                getImageList()
+                initImageList()
                 message.success("删除成功");
                 // 删除完毕后清空 checkStatus
                 setCheckStatus({});
@@ -104,26 +98,18 @@ const Albums = () => {
         fileList: uploadedFiles,
         multiple: true,
         customRequest: async (req) => {
-            console.log(req)
             const formData = new FormData();
             formData.append('file', req.file);
-            try {
-                 http({
-                    url: "/api/protect/upload",
-                    data: formData,
-                    method: 'post',
-                }).then((res) => {
-                     if(res.status === 200){
-                         getImageList()
-                         // @ts-ignore
-                         message.success(`${req.file.name} 图片上传成功`);
-                     }
-                 }).catch((error) => {
-                     throw error
-                 })
-            } catch (error) {
-                message.error('Error uploading file');
-            }
+            uploadImages(formData).then((res) => {
+                if (res.status === 200) {
+                    initImageList();
+                    // @ts-ignore
+                    message.success(`${req.file.name} 图片上传成功`);
+                }
+            }).catch((error) => {
+                message.error('上传失败' + error);
+            });
+
         },
         onDrop(e) {
             console.log('Dropped files', e.dataTransfer.files);

@@ -1,0 +1,250 @@
+$animation-duration: 0.6s
+$body-color: linear-gradient(to left, rgba(243, 243, 243, 0.33), rgba(255, 255, 255, 0.33))
+$darkMode-mode-color: linear-gradient(to left, rgba(7, 7, 7, 0.33), rgba(7, 7, 7, 0.33))
+
+@keyframes cardIn
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+.NoTop
+  margin: 0
+
+.phoneSide
+  display: none
+  @media only screen and (max-width: 1200px)
+    position: fixed
+    width: 290px
+    height: 100%
+    display: flex
+    align-items: flex-start
+    transform: translateX(-250px)
+    transition: 0.5s
+
+    .phoneBarContainer
+      width: 250px
+      height: 100vh
+      background: var(--phoneBar-bg)
+      position: absolute
+      transition: 0.5s
+      display: flex
+      flex-direction: column
+      align-items: center
+      overflow-y: scroll
+      &::-webkit-scrollbar
+        width: 0
+
+
+      .mSearchInput
+        border: 0
+        border-radius: 10px
+        padding: 10px 20px 10px 20px
+        margin-bottom: 20px
+        background: rgba(0,0,0,0.33)
+        color: #fff1eb
+        max-width: 90%
+        &:focus
+          outline: none
+
+      .barLogo
+        margin-top: 30px
+        margin-bottom: 30px
+
+      .barContent
+        height: 100%
+        .oneBar
+          height: 88%
+          display: flex
+          flex-direction: column
+          gap: 15px
+          list-style: none
+          li
+            &:hover
+              background: #b7c8da
+          .twoBar
+            gap: 5px
+            display: flex
+            flex-direction: column
+            list-style: none
+            li
+              margin-left: 10px
+        li
+          position: relative
+          font-size: 20px
+          color: var(--phoneBar-font-color)
+          cursor: pointer
+          display: flex
+          justify-content: center
+          align-items: center
+          border-radius: 10px
+          padding: 10px
+        i
+          margin-right: 10px
+
+
+.openBar
+  transform: translateX(0)
+
+.headContainer
+  z-index: -1
+  position: absolute
+  width: 98%
+  height: 60px
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  border-radius: 20px
+  margin: 1% 1% 1% 1%
+  font-size: 18px
+  font-weight: 600
+  transition: 0.6s
+  &:hover
+    background: rgba(0,0,0,0.66)
+  @media only screen and (max-width: 1200px)
+    border-radius: 0
+    border-radius: 10px
+    background: transparent
+    justify-content: space-between
+    &:hover
+      background: transparent
+  @media only screen and (max-width: 1200px)
+    display: block
+  .phoneBar
+    color: var(--phoneBar-font-color)
+    display: none
+    @media only screen and (max-width: 1200px)
+      height: 100%
+      display: flex
+      flex-direction: row
+      justify-content: center
+      align-items: center
+      position: absolute
+  .webTitle
+    cursor: pointer
+    margin-left: 20px
+    color: white
+    @media only screen and (max-width: 1200px)
+      margin-right: 10px
+      height: 100%
+      display: flex
+      align-items: center
+      float: right
+
+    .firstTitle
+      background: #ace0f9
+      padding: 2px 6px
+      border-radius: 10px
+      margin-right: 5px
+
+  .headBar
+    width: max-content
+    margin-right: 30px
+    height: 100%
+    @media only screen and (max-width: 1200px)
+      display: none
+    .Category
+      &:hover
+        .CategoryList
+          display: flex
+    .CategoryList
+      width: 100%
+      top: 50px
+      background: rgba(0, 0, 0, 0.33)
+      border-radius: 5px
+      position: absolute
+      display: flex
+      zIndex: 999
+      display: none
+      animation: cardIn 0.5s forwards
+      ul
+        display: flex
+        flex-direction: column
+        height: auto
+        gap: 10px
+        padding: 5px 0 5px 5px
+      li
+        text-align: center
+        font-size: 15px
+    ul
+      width: max-content
+      height: 100%
+      list-style: none
+      display: flex
+      flex-direction: row
+      justify-content: space-evenly
+      align-items: center
+      gap: 40px
+
+    li
+      color: #eeeeee
+      display: flex
+      justify-content: center
+      align-items: center
+      height: 30px
+      width: max-content
+      padding: 10px
+      border-radius: 8px
+      cursor: pointer
+
+      i
+        margin-right: 5px
+
+      &:hover
+        background: #517498
+
+  .homeRight
+    display: flex
+    justify-content: center
+    align-items: center
+    @media only screen and (max-width: 1200px)
+      display: none
+    .homeLogo
+      margin-left: 20px
+      margin-right: 20px
+      border: 3px solid rgba(255,255,255,0.66)
+      border-radius: 50%
+      cursor: pointer
+      position: relative
+      transition: 0.3s
+      @media only screen and (max-width: 1200px)
+        display: none
+
+      &.BigAvatar
+        transform: scale(2) translateY(15px) translateX(-10px)
+
+  .loginCard
+    width: 60px
+    height: 80px
+    background: #fff1eb
+    position: absolute
+    right: -9px
+    top: 20px
+    z-index: -1
+    border-radius: 9px
+    transition: 0.6s
+    animation: cardIn 0.6s
+    animation-fill-mode: forwards
+    justify-content: center
+    align-items: center
+
+.searchModal
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 50px
+  .searchModalInput
+    background: rgba(255, 255, 255, 0.7)
+    width: 80%
+    padding: 12px 24px
+    margin-bottom: 20px
+    border-radius: 50px
+    outline: 0
+    font-size: 1.5rem
+  .ant-card
+    .ant-card-head
+      text-align: center
+    .ant-card-body
+      height: 90%
+

@@ -12,7 +12,6 @@ import {
 import React, {useEffect, useState} from "react";
 import {FolderOpenOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import {CategoriesType} from "../../../../interface/CategoriesType";
-import http from "../../../../apis/axios.tsx";
 import {fetchCategories} from "../../../../store/components/categories.tsx";
 import {useDispatch} from "react-redux";
 import {Fab} from "@mui/material";
@@ -20,6 +19,13 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import {
+    addCategory,
+    delAllCategory,
+    delCategory,
+    getCategories,
+    updateCategory
+} from "../../../../apis/CategoryMethods.tsx";
 const  AllCategorize = () => {
     //hooks区域
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -32,62 +38,51 @@ const  AllCategorize = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-       getCategories()
+       initCategoryList()
     },[])
 
-    const getCategories = () => {
-        http({
-            url: '/api/public/category',
-            method: 'GET'
-        }).then((res) => {
-            setStaticDate(res.data.data.map((item: { categoryKey: number; categoryTitle: string; color: string; icon: string; introduce: string; noteCount: number; }) => {
+    async function initCategoryList(){
+        const res = await getCategories()
+        if(res.status===200){
+            setStaticDate(res.data.data.map((item: { categoryKey: number; categoryTitle: string; color: string; icon: string; introduce: string; noteCount: number; pathName:string}) => {
                 return {
                     key: item.categoryKey,
                     categoryTitle: item.categoryTitle,
+                    pathName: item.pathName,
                     color: item.color,
                     icon: item.icon,
                     introduce: item.introduce,
                     noteCount: item.noteCount
                 }
             }))
-        })
+        }
     }
 
     //回调函数区域
     //删除逻辑
-    const Delete = (key:number) => {
-        http({
-            url: '/api/protected/category',
-            method: 'DELETE',
-            data: [key]
-        }).then((res)=>{
-            if(res.status === 200){
-                getCategories();
-                dispatch<any>(fetchCategories())
-                message.success('删除成功')
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
+    const Delete = async (key:number) => {
+        const res = await delCategory(key)
+        if(res.status === 200){
+            await initCategoryList()
+            dispatch<any>(fetchCategories())
+            message.success('删除成功')
+        }
     }
 
-    const DeleteAll = () => {
-        if(selectedRowKeys.length === 0){
+    const DeleteAll = async () => {
+        if (selectedRowKeys.length === 0) {
             message.warning('待选中')
-        }else{
-            http({
-                url: '/api/protected/category',
-                method: 'DELETE',
-                data: selectedRowKeys
-            }).then((res)=>{
-                if(res.status === 200){
-                    getCategories();
+        } else {
+            const res = await delAllCategory(selectedRowKeys)
+            try {
+                if (res.status === 200) {
+                    await initCategoryList()
                     dispatch<any>(fetchCategories())
                     message.success('删除成功')
                 }
-            }).catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
             setSelectedRowKeys([])
         }
     }
@@ -100,55 +95,52 @@ const  AllCategorize = () => {
             categorie: value.categoryTitle,
             introduce: value.introduce,
             categorie_icon: value.icon,
-            categorie_color: value.color
+            categorie_color: value.color,
+            pathName: value.pathName
         });
     }
 
     //表单提交
-    const onfinish = () => {
+    const onfinish = async () => {
         // 获取整个表单的值
         const {categorie,introduce,categorie_icon,categorie_color} = form.getFieldsValue();
-        const date:{ color: any; introduce: any;categoryTitle: string; icon: string } = {
+        const data:{ color: string; introduce: string;categoryTitle: string; icon: string,pathName:string } = {
             categoryTitle: categorie,
             icon:categorie_icon,
             color:form.getFieldsValue().categorie?'#000000':categorie_color.toHexString(),
             introduce:introduce,
+            pathName: form.getFieldsValue().pathName
         }
-        http({
-            url: '/api/protected/category',
-            method: 'POST',
-            data: date
-        }).then((res) => {
+        try {
+            const res = await addCategory(data)
             if(res.status === 200){
-                getCategories();
+                await initCategoryList()
                 dispatch<any>(fetchCategories())
                 message.success('添加成功')
             }
-        }).catch((error) => {
+        }catch (error){
             console.log(error)
-        })
+        }
     }
 
-    const handleOk = () => {
+    const handleOk = async () => {
         if (isEdit !== 0) {
             const update = {
                 categoryTitle: form.getFieldsValue().categorie,
                 introduce: form.getFieldsValue().introduce,
                 icon: form.getFieldsValue().categorie_icon,
-                color: form.getFieldsValue().categorie_color
+                color: form.getFieldsValue().categorie_color,
+                pathName: form.getFieldsValue().pathName
             }
-            http({
-                url: `/api/protected/category/${isEdit}`,
-                method: 'POST',
-                data: update
-            }).then((res) => {
-                if(res.status === 200){
-                    getCategories();
+            try {
+                const res = await updateCategory(update, isEdit)
+                if (res.status === 200) {
+                    await initCategoryList()
                     message.success('更新成功')
                 }
-            }).catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
             setEdit(0);
             form.resetFields();
             setOpen(false);
@@ -324,6 +316,10 @@ const  AllCategorize = () => {
                     <Input/>
                 </Form.Item>
 
+                <Form.Item label="路径名称" name="pathName" >
+                    <Input/>
+                </Form.Item>
+
                 <Form.Item
                     label="分类介绍"
                     name="introduce"
@@ -331,6 +327,7 @@ const  AllCategorize = () => {
                 >
                     <Input.TextArea autoSize={{ minRows: 4, maxRows: 8 }}/>
                 </Form.Item>
+
 
                 <Form.Item label="分类图标" name="categorie_icon"
                            rules={[{ required: true, message: 'Please input!' }]}

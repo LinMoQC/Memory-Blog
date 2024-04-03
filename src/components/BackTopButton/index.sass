@@ -1,0 +1,28 @@
+.backTopButton
+  width: 45px
+  height: 45px
+  background: #212121
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 50%
+  cursor: pointer
+  position: relative
+  border: none
+
+  .arrow
+    path
+      fill: white
+    transition-duration: 0.7s
+
+    .arrow
+      animation: slide-in-bottom 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+
+@keyframes slide-in-bottom
+  0%
+    transform: translateY(10px)
+    opacity: 0
+
+  100%
+    transform: translateY(0)
+    opacity: 1

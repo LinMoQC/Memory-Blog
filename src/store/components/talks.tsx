@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import http from '../../apis/axios.tsx';
 import {Talk} from "../../interface/TalkType";
 import { Dispatch } from 'react';
+import {getTalkList} from "../../apis/TalkMethods.tsx";
 
 const talkSlice = createSlice({
     name: "talks",
@@ -20,11 +20,7 @@ const talksReducer = talkSlice.reducer
 
 const fetchTalks = () => {
     return async (dispatch:Dispatch<PayloadAction<Talk>>) => {
-        http({
-            url: '/api/protect/talk',
-            method: "GET"
-        }).then((res) => {
-            console.log(res.data.data)
+        getTalkList().then((res) => {
             dispatch(res.data.data)
         }).catch((err)=>{
             console.log(err)

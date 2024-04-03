@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchToken } from '../../store/components/user'; // 请根据实际路径修改
+import {fetchToken} from "../../store/components/user.tsx";
 import { useNavigate } from 'react-router-dom';
 import getToken from '../../apis/getToken';
 import UserData from "../../interface/UserData";
@@ -59,41 +59,39 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="body">
-            <div className="container">
-                <div className="back">
-                    <div className="BackFilter"></div>
+        <div className="login-box">
+            <h2>Login</h2>
+            <form action="" onSubmit={handleSubmit}>
+                <div className="user-box">
+                    <input type="text" name="account"
+                           value={account}
+                           required
+                           onChange={handleChange}
+                           onInvalid={handleInvalid}
+                           autoComplete='off'
+                    />
+                    <label>Username</label>
                 </div>
-                <div className="LoginForm">
-                    <div className="LoginContainer">
-                        <div className="heading">Sign In</div>
-                        <form action="" onSubmit={handleSubmit} className="form">
-                            <input
-                                required
-                                className="input"
-                                type="text"
-                                name="account"
-                                value={account}
-                                placeholder="账号"
-                                onChange={handleChange}
-                                onInvalid={handleInvalid}
-                            />
-                            <input
-                                required
-                                className="input"
-                                type="password"
-                                name="password"
-                                value={password}
-                                placeholder="密码"
-                                onChange={handleChange}
-                                onInvalid={handleInvalid}
-                            />
-                            <input className="login-button" type="submit" value="登录" />
-                        </form>
-                    </div>
+                <div className="user-box">
+                    <input type="password" name="password"
+                           required
+                           value={password}
+                           onChange={handleChange}
+                           onInvalid={handleInvalid}
+                           autoComplete='off'
+                           />
+                    <label>Password</label>
                 </div>
-            </div>
+                <a>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <input type="submit" value="Submit" />
+                </a>
+            </form>
         </div>
+
     );
 };
 

@@ -1,0 +1,30 @@
+.Comments_Body
+  padding: 20px
+  overflow-y: scroll
+  height: 100vh
+
+  .action
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    &::before
+      content: ''
+      position: absolute
+      width: 98%
+      height: 3px
+      background-color: #3a3a48
+      top: 90px
+      z-index: 3
+      border-radius: 5px
+      left: 50%
+      transform: translateX(-50%)
+
+  .talkCard
+    margin-bottom: 10px
+    background-color: rgba(255,255,255,0.66)
+    transition: 0.3s
+    &:hover
+      transform: scale(1.1)
+    .ant-card-body
+      padding: 10px
