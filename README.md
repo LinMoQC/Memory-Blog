@@ -1,37 +1,16 @@
-# ☀️ LinMo Blog
+# Memory 
+  
+ 一个风格可爱的个人主题博客 
+  
+ 本仓库为 [Memory](https://github.com/LinMoQC/Memory-Blog) 的前端仓库，后端核心仓库在 [Memory Core](https://github.com/LinMoQC/Memory-Core)  
 
-A developing blog framework, based on `React` + `TypeScript` + `SpringBoot`
-
-## 🗺 Roadmap
-
-- [x] Backstage UI
-- [x] Frontend UI
-- [x] API
-- [x] Login System
-- [x] Axios Encapsulation
-
-## 👌 Tech Stacks
-
-### Front end
-
-- React + TypeScript
-- React Router
-- Reducer
-- Sass
-- Axios
-- Vite
-
-### Behind end
-
-- SpringBoot
-- Mybatis
-
-## Structure
+  
+ 欢迎你来体验 **Memory** 的魅力！ 
+  
+ ## :sparkles: 项目结构
 
 ```text
-Blog/
-|-- server/
-|   |-- db.json      // json-server startup file
+Memory Blog/
 |-- src/
 |   |-- apis
 |   |-- assets
@@ -43,73 +22,59 @@ Blog/
 |-- package.json
 |-- README.md
 ```
-
-## Development
-
-```shell
-// Prepare source code
-git clone https://github.com/LinMoQC/LinMoBlog.git
-cd LinMoBlog
-
-// Run front end
-npm install # If failed please append `--force`
+  
+ ## :wrench: 技术栈 
+  
+ - React
+ - TypeScript
+ - React Router
+ - Reducer
+ - Sass
+ - Axios
+ - Vite
+ - Framer motion
+  
+ ## 📄 使用文档 
+  
+ ```bash
+cd Memory-Blog
+npm install
 npm run dev
 
-// Run behind end:
-mvn spring-boot:run
+// 修改你的配置
+/* .env  */
+VITE_HTTP_BASEURL = 'http://127.0.0.1:8080'
+VITE_CHAT_GPT_TOKEN = 'XXXXX'
 
-account:admin
-password:123456
-
-If you want to change the username or password, please generate the SHA256 encrypted ciphertext by yourself temporarily, and then replace it in the user table of the database.
-```
-
-## Where You Should Change
- #### server/src/main/resources/application.yml
- ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/3eddce3e-dd4b-476e-b1b8-d8cd67ac8324)
- ### server/src/main/java/com/linmoblog/server/Config/ImageConfig.java
- ![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/8931931f-89ed-4927-94c0-cc499d302a94)
-
-## Which interfaces are not yet completed?
-  - Article conditional search
-  - Word cloud and hotspot map on the homepage
-  - Statistics page
-  - Translate the settings page into English
-
-## 😉 Preview
-
-### Login Page
-![](./screenshots/login.png)
-
-### Backstage Home Page
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/439c575c-1bba-4655-b5d6-7cfba347b008)
+npm run builld  //打包
+ ```
+  
+ ## :camera: 截图 
+  
+### Home
+![image](https://github.com/LinMoQC/Memory-Blog/assets/59323207/aa059596-aef0-496b-8003-4832cbd56ffa)
 
 ### Dark Mode
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/d20f73f7-ea13-474f-acf5-7846b1520b30)
+![image](https://github.com/LinMoQC/Memory-Blog/assets/59323207/9a3406d1-c5dd-492c-86ee-06ced76a50bb)
+
+### Read
+![image](https://github.com/LinMoQC/Memory-Blog/assets/59323207/161a71ab-6e47-4afd-a3eb-3669ee4a787a)
 
 
-### Notes
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/cdab595f-4a7f-4612-a17b-bd4c889d0725)
-![825e53fc859297c29cd0891f50f0164](https://github.com/LinMoQC/LinMoBlog/assets/59323207/578863ed-dcf9-4863-b1d1-25d4f38ea3cb)
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/fd2dd783-264f-4d0a-a3f2-a8fd3ca1d706)
-![2563eab5a1964e16a0e59f958a7f652](https://github.com/LinMoQC/LinMoBlog/assets/59323207/5ae3a88b-e0fa-435f-af1b-580b2d4141e6)
+  
+ <details> 
+ <summary> 
+ 点击查看部分完整页面截图 
+ </summary> 
 
-### Use OpenAI To Description Your Note
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/1a1560a1-758a-4837-89f0-6cb1c877f5ec)
+### Login
+![image](https://github.com/LinMoQC/Memory-Blog/assets/59323207/90c17b57-a5d5-46aa-80d5-e5103d2c9728)
 
+### Admin
+![image](https://github.com/LinMoQC/Memory-Blog/assets/59323207/7cddfac9-0ea2-4691-93dd-2a29640149ad)
 
-### TalkTalk
-![0e87026ca10e8eea0bccc3eb7bc91e3](https://github.com/LinMoQC/LinMoBlog/assets/59323207/5d9af682-9230-4d66-bb07-00a5963dc96e)
-
-### Gallery
-![a258afefc28d0cee24e21b864b7cabb](https://github.com/LinMoQC/LinMoBlog/assets/59323207/ba0f15f7-cb83-4bb9-a25e-09d46960a8c6)
-
-### Friend Links
-![ad6eb864bc573c8b9996ddf3ddfe978](https://github.com/LinMoQC/LinMoBlog/assets/59323207/d525fcdd-0bd5-4a3b-9ff9-433e24f414ec)
-
-### Site Analyse
-![3f5340f422f1a501cf675c70b401980](https://github.com/LinMoQC/LinMoBlog/assets/59323207/78e6268c-dad3-4404-8c85-b7ff80f1a5db)
-
-### Site Management
-![image](https://github.com/LinMoQC/LinMoBlog/assets/59323207/75bf6836-3e1f-4c53-9952-b9aa544d0f88)
-
+</details>
+  
+  
+## :heart: 鸣谢 & 许可   
+© 2024 林陌青川。本软件使用 GNU General Public License Version 2 许可。请参阅许可证文本以了解详细信息。
