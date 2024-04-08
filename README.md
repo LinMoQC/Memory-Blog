@@ -46,7 +46,7 @@ npm run dev
 VITE_HTTP_BASEURL = 'http://127.0.0.1:8080'
 VITE_CHAT_GPT_TOKEN = 'XXXXX'
 
-npm run builld  //打包
+npm run build  //打包
  ```
   
  ## :camera: 截图 

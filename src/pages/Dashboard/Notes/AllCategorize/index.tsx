@@ -129,7 +129,7 @@ const  AllCategorize = () => {
                 categoryTitle: form.getFieldsValue().categorie,
                 introduce: form.getFieldsValue().introduce,
                 icon: form.getFieldsValue().categorie_icon,
-                color: form.getFieldsValue().categorie_color,
+                color: form.getFieldsValue().categorie_color.toHexString(),
                 pathName: form.getFieldsValue().pathName
             }
             try {
@@ -336,7 +336,7 @@ const  AllCategorize = () => {
                 </Form.Item>
 
                 <Form.Item label="颜色" name="categorie_color" >
-                    <ColorPicker defaultValue="black" showText format={'hex'}/>
+                    <ColorPicker defaultValue="black" showText  disabledAlpha/>
                 </Form.Item>
             </Form>
         </Modal>
