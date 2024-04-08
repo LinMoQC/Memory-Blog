@@ -241,8 +241,8 @@ const NewNotes = () => {
 
                     <Form.Item label="文章分类" name="noteCategory" rules={[{ required: true, message: 'Please input!'}]}>
                         <Select>
-                            {categories.map((item: { categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
-                                <Select.Option value={item.categoryTitle}>{item.categoryTitle}</Select.Option>
+                            {categories.map((item: { categoryTitle: string | number | boolean; categoryKey: number }) => (
+                                <Select.Option value={item.categoryKey}>{item.categoryTitle}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>

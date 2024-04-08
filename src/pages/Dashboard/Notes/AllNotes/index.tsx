@@ -291,7 +291,7 @@ const AllNotes = () => {
             render: (item) => (
                 <>
                     {categories
-                        .filter((category: { categoryTitle: string; }) => category.categoryTitle === item)
+                        .filter((category: { categoryTitle: string;categoryKey:number }) => category.categoryKey === item)
                         .map((category: { color: string | (string & {}) | undefined; key: React.Key | null | undefined; icon: any; categoryTitle: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
                             <div style={{ display: 'flex', alignItems: 'center',justifyContent:'center' }}>
                                 <Tag color={category.color} key={category.key}>

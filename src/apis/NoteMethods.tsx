@@ -89,7 +89,7 @@ function searchNotes(data:any){
     return http({
         url: '/api/public/notes/search',
         method: 'POST',
-        params: data
+        data: data
     })
 }
 

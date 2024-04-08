@@ -91,7 +91,8 @@ const Notes = () => {
                         </Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
-                        {currentHashCode === '#/dashboard/notes' ? (
+                        {
+                            currentHashCode === '#/dashboard/notes' ? (
                             '全部文章'
                         ) : currentHashCode === '#/dashboard/notes/' ? (
                             '全部文章'
@@ -100,9 +101,9 @@ const Notes = () => {
                         ) : currentHashCode === '#/dashboard/notes/allcategorize' ? (
                             '全部分类'
                         ) : currentHashCode === '#/dashboard/notes/alltags' ? (
-                            '全部标签'
+                                '全部标签'
                         ) : (
-                            '未知页面'
+                                '未知页面'
                         )}
                     </Breadcrumb.Item>
                 </Breadcrumb>
