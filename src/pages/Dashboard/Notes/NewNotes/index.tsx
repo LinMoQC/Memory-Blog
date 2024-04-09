@@ -11,12 +11,13 @@ import {
 import {PlusOutlined} from "@ant-design/icons";
 import React, {useEffect,  useState} from "react";
 import dayjs from "dayjs";
-import http from "../../../../apis/axios.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {fetchNoteList} from "../../../../store/components/note.tsx";
 import generateResponse from "../../../../apis/chatgpt.tsx";
 import {createNote, getNoteById, updateNote} from "../../../../apis/NoteMethods.tsx";
+import ImageCompression from "../../../../apis/ImageCompression.tsx";
+import {uploadImages} from "../../../../apis/ImageMethods.tsx";
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -83,14 +84,10 @@ const NewNotes = () => {
     }
 
     const upload = async (file: UploadFile) => {
+        const compressedFile = await ImageCompression(file);
         const formData = new FormData();
-        // @ts-ignore
-        formData.append('file', file);
-        const response = await http({
-            url: '/api/protect/upload',
-            method: 'POST',
-            data: formData
-        });
+        formData.append('file', compressedFile);
+        const response = await uploadImages(formData)
 
         if(response.status ===200){
             setCoverImg(response.data.data)

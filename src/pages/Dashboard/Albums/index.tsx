@@ -10,6 +10,7 @@ import { message, Upload } from 'antd';
 import CheckButton from "../../../components/Buttons/CheckButton";
 import {ImgUrl} from "../../../interface/ImgTypes";
 import {delImages, getImageList, uploadImages} from "../../../apis/ImageMethods.tsx";
+import ImageCompression from "../../../apis/ImageCompression.tsx";
 
 
 const Albums = () => {
@@ -98,8 +99,10 @@ const Albums = () => {
         fileList: uploadedFiles,
         multiple: true,
         customRequest: async (req) => {
+            // @ts-ignore
+            const compressedFile = await ImageCompression(req.file);
             const formData = new FormData();
-            formData.append('file', req.file);
+            formData.append('file', compressedFile);
             uploadImages(formData).then((res) => {
                 if (res.status === 200) {
                     initImageList();

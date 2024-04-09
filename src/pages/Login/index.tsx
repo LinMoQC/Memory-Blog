@@ -47,7 +47,6 @@ const Login: React.FC = () => {
                 navigate('/dashboard');
             }
         } catch (error) {
-            console.error('登录失败', error);
             message.error('登录失败，账号或密码错误！');
         }
     };
@@ -60,7 +59,7 @@ const Login: React.FC = () => {
 
     return (
         <div className="login-box">
-            <h2>Login</h2>
+            <h2>Memory</h2>
             <form action="" onSubmit={handleSubmit}>
                 <div className="user-box">
                     <input type="text" name="account"

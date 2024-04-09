@@ -30,6 +30,7 @@ const Head = ({ setDark, isDark, scrollHeight }: HeadProps) => {
     const navigate = useNavigate();
     const categoryList = useSelector((state: any) => state.categories.categories)
     const avatar = useSelector((state:{user:UserState}) => state.user.avatar)
+    const blogTitle = useSelector((state:{user:{blogTitle: string}}) => state.user.blogTitle)
 
     useEffect(() => {
         dispatch<any>(fetchCategories())
@@ -136,7 +137,7 @@ const Head = ({ setDark, isDark, scrollHeight }: HeadProps) => {
                            onClick={() => setPhoneBarShow(true)}></i>}
                 </div>
                 <div className="webTitle" onClick={()=>navigate('/')}>
-                    <h2><span className="firstTitle">Memory</span>Blog</h2>
+                    <h2><span className="firstTitle">{blogTitle}</span>Blog</h2>
                 </div>
                 <div className="headBar">
                     <ul>

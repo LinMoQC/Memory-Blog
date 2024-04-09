@@ -5,5 +5,7 @@ export default interface UserState{
     avatar: string;
     talk: string;
     name: string;
-    social: SocialType | null
+    social: SocialType | null;
+    blogTitle: string;
+    blogIcp: string;
 }

@@ -5,8 +5,10 @@ import dayjs from "dayjs";
 import { motion } from 'framer-motion';
 import scrollToTop from "../../../utils/scrollToTop.tsx";
 import {getNotes} from "../../../apis/NoteMethods.tsx";
+import {useNavigate} from "react-router-dom";
 const Times = () => {
     const [timeList, setTimeList] = useState([]);
+    const navigate = useNavigate()
     const [todayInfo, setTodayInfo] = useState({
         year: '',
         dayOfYear: 0,
@@ -17,9 +19,9 @@ const Times = () => {
     useEffect(() => {
         scrollToTop();
         getNotes().then((res) => {
-            setTimeList(res.data.data.map((item: { createTime: Date; noteTitle: string; }) => {
+            setTimeList(res.data.data.map((item: { createTime: Date; noteTitle: string; noteKey:string}) => {
                 return {
-                    children:<p style={{width:400,display:'flex',justifyContent:'space-between'}}>{item.noteTitle}<span>{dayjs(item.createTime).format('YYYY-MM-DD')}</span></p>
+                    children:<p style={{width:400,display:'flex',justifyContent:'space-between'}} className='Link' onClick={() => navigate(`/article/${item.noteKey}`)}>{item.noteTitle}<span>{dayjs(item.createTime).format('YYYY-MM-DD')}</span></p>
                 }
             }))
         })

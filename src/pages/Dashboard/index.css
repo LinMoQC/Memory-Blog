@@ -306,7 +306,7 @@ li.search-box input {
     width: 100%;
     height: 100%;
     background-position: 0px 0px,0px 0px,0px 0px,0px 0px,0px 0px;
-    background-image: radial-gradient(ellipse at top left, #2FBDFF 0%, #FF7582 100%);
+    background-image: radial-gradient(ellipse at top left, #65DAFF 0%, #8b91c7 50%, #FF9089 100%);
     background-size: cover;
     /*padding: 50px;*/
     display: flex;

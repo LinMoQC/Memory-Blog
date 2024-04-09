@@ -80,8 +80,7 @@ const ApplyForm = () => {
     };
 
     const apply = (value:Friend) => {
-        console.log(value)
-        if(formData.siteUrl===''||formData.siteName||formData.avatar||formData.description){
+        if(!formData.siteUrl||!formData.siteName||!formData.avatar||!formData.description){
             message.warning('请填写完整')
         }else{
             applyFor(value).then((res) => {

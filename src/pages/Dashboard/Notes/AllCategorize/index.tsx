@@ -13,7 +13,7 @@ import React, {useEffect, useState} from "react";
 import {FolderOpenOutlined, QuestionCircleOutlined} from '@ant-design/icons';
 import {CategoriesType} from "../../../../interface/CategoriesType";
 import {fetchCategories} from "../../../../store/components/categories.tsx";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Fab} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -35,6 +35,7 @@ const  AllCategorize = () => {
     const [isEdit,setEdit] = useState(0)
     const [form] = Form.useForm();
     const dispatch = useDispatch()
+    const noteList = useSelector((state: any) => state.notes.Notes)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -45,6 +46,7 @@ const  AllCategorize = () => {
         const res = await getCategories()
         if(res.status===200){
             setStaticDate(res.data.data.map((item: { categoryKey: number; categoryTitle: string; color: string; icon: string; introduce: string; noteCount: number; pathName:string}) => {
+                const matchedNotes = noteList.filter((note: { noteCategory: string; }) => note.noteCategory === item.categoryTitle);
                 return {
                     key: item.categoryKey,
                     categoryTitle: item.categoryTitle,
@@ -52,7 +54,7 @@ const  AllCategorize = () => {
                     color: item.color,
                     icon: item.icon,
                     introduce: item.introduce,
-                    noteCount: item.noteCount
+                    noteCount: matchedNotes.length
                 }
             }))
         }

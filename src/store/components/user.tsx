@@ -11,7 +11,9 @@ const initialState: UserState = {
     avatar: '',
     talk: '',
     name: '',
-    social: null
+    social: null,
+    blogTitle: '',
+    blogIcp: ''
 };
 
 const userSlice = createSlice({
@@ -22,10 +24,12 @@ const userSlice = createSlice({
             state.token = action.payload.token;
             localStorage.setItem('tokenKey', action.payload.token);
         },
-        setUserInfo: (state: UserState,action: PayloadAction<{avatar:string,talk:string,name:string}>) => {
+        setUserInfo: (state: UserState,action: PayloadAction<{avatar:string,talk:string,name:string,blogTitle: string,blogIcp: string}>) => {
             state.avatar = action.payload.avatar;
             state.talk = action.payload.talk;
-            state.name = action.payload.name
+            state.name = action.payload.name;
+            state.blogIcp = action.payload.blogIcp;
+            state.blogTitle = action.payload.blogTitle
         },
         setSocial: (state: UserState,action: PayloadAction<SocialType>) => {
             state.social = action.payload
@@ -45,6 +49,7 @@ const fetchToken = (data: UserData) => {
                 data: data
             });
                 const token = res.data.data;
+                console.log(token)
                 dispatch(setToken({ token: token}));
             return res.status;
         } catch (error) {
@@ -63,11 +68,12 @@ const fetchUserInfo = () => {
             const res = {
                 avatar: userinfo.data.data.userAvatar,
                 talk: userinfo.data.data.userTalk,
-                name: userinfo.data.data.blogAuthor
+                name: userinfo.data.data.blogAuthor,
+                blogTitle: userinfo.data.data.blogTitle,
+                blogIcp: userinfo.data.data.blogIcp
             }
             dispatch(setUserInfo(res))
         }catch (error){
-            console.error('Failed to fetch userinfo:', error);
             deleteToken()
         }
     }
