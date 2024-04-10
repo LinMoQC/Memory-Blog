@@ -74,6 +74,16 @@ npm run build  //打包
 ![image](https://github.com/LinMoQC/Memory-Blog/assets/59323207/7cddfac9-0ea2-4691-93dd-2a29640149ad)
 
 </details>
+
+## Star History 
+  
+ <a href="https://star-history.com/#aifuxi/fuxiaochen&Date"> 
+  <picture> 
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=LinMoQC/Memory-Blog&type=Date&theme=dark" /> 
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=LinMoQC/Memory-Blog&type=Date" /> 
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=LinMoQC/Memory-Blog&type=Date" /> 
+  </picture> 
+ </a>
   
   
 ## :heart: 鸣谢 & 许可   
