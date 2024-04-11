@@ -1,18 +1,23 @@
-# 选择一个带有Node.js的轻量级基础镜像，使用 as 多阶段构建
+# 阶段1：构建
 FROM node:20.12.1-slim as build-stage
 
 # 设置工作目录
 WORKDIR /memory
 
-# 复制package.json和package-lock.json（如果存在）
+# 复制 package.json 和 package-lock.json（如果存在）
 COPY package*.json ./
 
-# 安装项目生产依赖
-# 利用 Docker 缓存层，如果 package.json 没有变化，则不会重新安装node modules
-RUN npm install --only=production
+# 升级 npm 到最新版本
+RUN npm install -g npm@latest
+
+# 安装项目依赖
+RUN npm install 
 
 # 复制项目文件到工作目录
 COPY . .
+
+# 设置 NODE_OPTIONS 来增加 Node.js 内存限制
+ENV NODE_OPTIONS="--max_old_space_size=4096"
 
 # 构建应用
 RUN npm run build
@@ -21,20 +26,17 @@ RUN npm run build
 # 使用 Nginx 镜像作为基础来提供前端静态文件服务
 FROM nginx:stable-alpine as production-stage
 
-# 定义环境变量，例如NODE_ENV
-# ARG NODE_ENV=production
-# ENV NODE_ENV=${NODE_ENV}
+# 设置工作目录
+WORKDIR /memory
 
-WORKDIR /app
+# 从构建阶段拷贝构建出的文件到 Nginx 目录
+COPY --from=build-stage /memory/dist /user/share/nginx/html
 
-# 从构建阶段拷贝构建出的文件到Nginx目录
-COPY --from=build-stage /app/build /usr/share/nginx/html
-
-# 配置nginx，如果有自定义的nginx配置可以取消注释并修改下面的行
+# 可选：如果有自定义的 nginx 配置文件，取消注释下面一行并复制配置文件
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 暴露80端口
 EXPOSE 80
 
-# 启动Nginx服务器
+# 启动 Nginx 服务器
 CMD ["nginx", "-g", "daemon off;"]

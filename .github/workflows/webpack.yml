@@ -20,19 +20,33 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # 使用合适的 Node.js 版本，这里是 14.x，你也可以根据项目需要修改
+          node-version: '20'  
 
       - name: Install Dependencies
-        run: npm install --force
+        run: npm install 
 
       - name: Build project
         run: npm run build
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/memory_blog:latest .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/memory_blog:latest
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
         with:
           name: production-files
-          path: ./dist  # 根据你的 Vite 配置，这里可能是 ./build，或者其他目录
+          path: ./dist  # 根据你的 Vite 配置，这里可能是 ./build，或其他目录
 
   deploy:
     name: Deploy
