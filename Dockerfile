@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install -g npm@latest
 
 # 安装项目依赖
-RUN npm install 
+RUN npm install
 
 # 复制项目文件到工作目录
 COPY . .
@@ -27,13 +27,13 @@ RUN npm run build
 FROM nginx:stable-alpine as production-stage
 
 # 设置工作目录
-WORKDIR /memory
+WORKDIR /usr/share/nginx/html
 
 # 从构建阶段拷贝构建出的文件到 Nginx 目录
-COPY --from=build-stage /memory/dist /user/share/nginx/html
+COPY --from=build-stage /memory/dist .
 
 # 可选：如果有自定义的 nginx 配置文件，取消注释下面一行并复制配置文件
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 暴露80端口
 EXPOSE 80
