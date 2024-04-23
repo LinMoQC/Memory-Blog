@@ -1,4 +1,4 @@
-<h3 align="center"><img width="443" alt="memorylogo" src="https://github.com/LinMoQC/Memory-Blog/assets/59323207/ad05bea8-0807-4ff0-8db0-0d4d2673fdd8"></h3>
+<h3 align="center"><img width="455" alt="Group 1 (6)" src="https://github.com/LinMoQC/Memory-Blog/assets/59323207/36d220c4-0d55-475f-abab-b25bad2ef6f1"></h3>
 
 <p align="center"><strong>一个风格可爱的个人主题博客</strong></p>
 
@@ -19,6 +19,7 @@ Memory Blog/
 |   |-- interface
 |   |-- pages
 |   |-- router
+
 |   |-- store        // Redux States Management
 |-- package.json
 |-- README.md
