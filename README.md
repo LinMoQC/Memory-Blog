@@ -1,11 +1,12 @@
-# Memory 
-  
- 一个风格可爱的个人主题博客 
-  
- 本仓库为 [Memory](https://github.com/LinMoQC/Memory-Blog) 的前端仓库，后端核心仓库在 [Memory Core](https://github.com/LinMoQC/Memory-Core)  
+<h3 align="center"><img width="443" alt="memorylogo" src="https://github.com/LinMoQC/Memory-Blog/assets/59323207/ad05bea8-0807-4ff0-8db0-0d4d2673fdd8"></h3>
 
-  
- 欢迎你来体验 **Memory** 的魅力！ 
+<p align="center"><strong>一个风格可爱的个人主题博客</strong></p>
+
+<p align="center">本仓库为 <strong><a href="https://github.com/LinMoQC/Memory-Blog">Memory</a></strong> 的前端仓库，后端核心仓库在 <strong><a href="https://github.com/LinMoQC/Memory-Core">Memory Core</a></strong>  
+</p>
+
+<p align="center">欢迎你来体验 <strong>Memory</strong> 的魅力！ </p>
+
   
  ## :sparkles: 项目结构
 
@@ -24,7 +25,7 @@ Memory Blog/
 ```
   
  ## :wrench: 技术栈 
-  
+
  - React
  - TypeScript
  - React Router
