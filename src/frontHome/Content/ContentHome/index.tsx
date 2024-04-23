@@ -93,6 +93,7 @@ const ContentHome = () => {
         });
     };
 
+    console.log(Categories)
     return <>
         <div className="SelfDescription">
             <div className="SayWords">

@@ -21,13 +21,13 @@ interface HeadProps {
 }
 
 const Head = ({ setDark, isDark, scrollHeight }: HeadProps) => {
-    const [status, setStatus] = useState('');
     const [showStatus, setShowStatus] = useState(false);
     const [phoneBarShow, setPhoneBarShow] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [isLogin, setLogin] = useState(0)
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const [animation,setAnimation] = useState('');
     const categoryList = useSelector((state: any) => state.categories.categories)
     const avatar = useSelector((state:{user:UserState}) => state.user.avatar)
     const blogTitle = useSelector((state:{user:{blogTitle: string}}) => state.user.blogTitle)
@@ -73,7 +73,7 @@ const Head = ({ setDark, isDark, scrollHeight }: HeadProps) => {
 
     const handleModeSwitch = () => {
         setDark(!isDark)
-        setStatus(status === "moon" ? "sun" : "moon");
+        setAnimation(isDark === true ? "sun" : "moon");
         localStorage.setItem("isDarkMode", JSON.stringify(!isDark));
     };
 
@@ -202,7 +202,7 @@ const Head = ({ setDark, isDark, scrollHeight }: HeadProps) => {
                     </div>
                 </Modal>
             </ConfigProvider>
-            {status !== '' && <MoonToSun status={status} />}
+            {animation !== '' && <MoonToSun status={animation} />}
         </header>
     );
 };

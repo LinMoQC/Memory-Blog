@@ -64,7 +64,7 @@ const Article:React.FC<ArticleOption> = ({ item, index, Categories, avatar, name
 
                 <div className="ArticleContent">
                     <h4 style={{ color: Categories.find(category => category.categoryTitle === item.noteCategory)?.color }}>
-                        # {item.noteCategory}
+                        # {Categories.filter(category => category.categoryKey === item.noteCategory).map(item => item.categoryTitle)}
                     </h4>
                     <h3 className='ArticleTitle'>{item.noteTitle}</h3>
                     <p>{item.description}</p>
