@@ -22,6 +22,8 @@ ENV NODE_OPTIONS="--max_old_space_size=4096"
 # 构建应用
 RUN npm run build
 
+# 设置环境变量
+ENV VITE_HTTP_BASEURL=http://your-api-url
 # 阶段2：运行
 # 使用 Nginx 镜像作为基础来提供前端静态文件服务
 FROM nginx:stable-alpine as production-stage
