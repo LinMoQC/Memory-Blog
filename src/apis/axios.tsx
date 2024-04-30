@@ -1,7 +1,7 @@
 import axios from "axios";
 import getToken from "./getToken.tsx"
 
-const baseURL = 'http://127.0.0.1:8080';
+const baseURL = 'http://127.0.0.1';
 
 const http = axios.create({
     baseURL: baseURL,
