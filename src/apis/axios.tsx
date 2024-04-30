@@ -1,10 +1,10 @@
 import axios from "axios";
 import getToken from "./getToken.tsx"
 
-const baseURL = 'http://127.0.0.1';
+// const baseURL = "127.0.0.1";
 
 const http = axios.create({
-    baseURL: baseURL,
+    // baseURL: baseURL,
     timeout: 5000
 })
 
