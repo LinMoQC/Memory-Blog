@@ -10,7 +10,6 @@ function App() {
     const [isDark, setDark] = useState(false);
     const [scrollHeight, setScrollHeight] = useState(0);
     useEffect(() => {
-        console.log(process.env.API_URL)
         setDark(localStorage.getItem('isDarkMode') === 'true');
         const handleScroll = () => {
             const currentScrollHeight = window.scrollY || document.documentElement.scrollTop;
