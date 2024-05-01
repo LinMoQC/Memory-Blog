@@ -52,7 +52,7 @@ npm run build  //打包
  ```
 ## ☀️ Docker
 ```bash
-docker run -p 82:80 -e BACK_API=   //后端地址 karensky/memory_blog:latest
+docker run -d -p 82:80 -e BACK_API=<backend_address> --name memory karensky/memory_blog:latest
 ```
   
  ## :camera: 截图 
