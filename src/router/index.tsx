@@ -1,4 +1,4 @@
-import {createHashRouter} from "react-router-dom";
+import {createBrowserRouter} from "react-router-dom";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import {AuthRouter} from "../components/AuthRouter.tsx";
@@ -23,7 +23,7 @@ import Times from "../frontHome/Content/Times";
 import NotFound from "../components/NotFound";
 import ReadArticle from "../frontHome/Content/ReadArticle";
 
-const router = createHashRouter([
+const router = createBrowserRouter([
     {
       path: '/',
       element: <App />,
