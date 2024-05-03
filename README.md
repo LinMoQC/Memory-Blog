@@ -50,6 +50,10 @@ VITE_CHAT_GPT_TOKEN = 'XXXXX'
 
 npm run build  //打包
  ```
+## ☀️ Docker
+```bash
+docker run -d -p 82:80 -e BACK_API=<backend_address> --name memory karensky/memory_blog:latest
+```
   
  ## :camera: 截图 
   
