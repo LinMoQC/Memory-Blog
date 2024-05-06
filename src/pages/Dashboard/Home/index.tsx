@@ -96,7 +96,7 @@ const Home = () => {
                        <span className="dot"></span>
                        每日箴言
                    </div>
-               } style={{minWidth: 350, height: '30%',margin: 0}}>
+               } style={{minWidth: 350, height: '30%',margin: 0,boxShadow:'0 1px 22px -8px rgba(26, 26, 26, .6)'}}>
                    <div className="oneSay">
                        <span className="stick">🎯</span>
                        <p className="onesay_content">{oneSay}</p>
@@ -106,7 +106,7 @@ const Home = () => {
                <ConfigProvider locale={zhCN}>
                    <div style={wrapperStyle}>
                        <TheYearPass/>
-                       <Calendar fullscreen={false}  disabledDate={disabledDate}/>
+                       <Calendar fullscreen={false}  disabledDate={disabledDate} style={{boxShadow:'0 1px 22px -8px rgba(26, 26, 26, .6)'}}/>
                    </div>
                </ConfigProvider>
 

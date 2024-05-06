@@ -1,10 +1,9 @@
 import axios from "axios";
 import getToken from "./getToken.tsx"
 
-// const baseURL = "127.0.0.1";
-
+const baseURL = "http://localhost:8080";
 const http = axios.create({
-    // baseURL: baseURL,
+    baseURL: baseURL,
     timeout: 5000
 })
 
@@ -12,7 +11,6 @@ const http = axios.create({
 http.interceptors.request.use(
     function (config) {
         const token = getToken();
-        console.log(token)
         if (token) {
             config.headers.Authorization = token;
         }

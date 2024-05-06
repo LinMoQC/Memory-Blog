@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {NoteType} from "../../interface/NoteType";
 import dayjs from "dayjs";
 import {renderNoteTags} from "../../apis/TagMethods.tsx";
-import {getNotePage} from "../../apis/NoteMethods.tsx";
+import {getAllNotes} from "../../apis/NoteMethods.tsx";
 interface ArticleRecordProps {
     isDark: string
 }
@@ -14,7 +14,7 @@ const ArticleRecord = ({isDark}: ArticleRecordProps) => {
     const tagList = useSelector((state: {tags: any}) => state.tags.tag)
 
     useEffect(() => {
-        getNotePage().then((res) => {
+        getAllNotes().then((res) => {
             setNewNotes(res.data.data.map((item: { noteTags: string; }) => {
                 return {
                     ...item,

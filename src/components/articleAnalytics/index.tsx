@@ -14,17 +14,20 @@ const ArticleAnalytics = () => {
         {
             index: 1,
             name: <p><span className="logo2" style={{ backgroundColor: 'rgba(230,240,0,0.3)'}}>✨️</span>文章总数</p>,
-            value: noteCount
+            value: noteCount,
+            bgColor: '#f1dfba'
         },
         {
             index: 2,
             name: <p><span className="logo2" style={{ backgroundColor: 'rgba(255,0,0,0.3)'}}>❤️️</span>分类总数</p>,
-            value: categoryCount
+            value: categoryCount,
+            bgColor: '#fbcbd5'
         },
         {
             index: 3,
             name: <p><span className="logo2" style={{ backgroundColor: 'rgb(147,154,216,0.3)'}}>🎯</span>标签总数</p>,
-            value: tagCount
+            value: tagCount,
+            bgColor: '#91ccef'
         },
     ]
     const formatter = (value: React.ReactText): React.ReactNode => (
@@ -34,7 +37,7 @@ const ArticleAnalytics = () => {
     return <>
         <div className="analyticsCard">
             {list.map(item => (
-                <Card className='akCard' key={item.index}>
+                <Card className='akCard' key={item.index} style={{backgroundColor:item.bgColor}}>
                     <Row gutter={16}>
                         <Col span={12}>
                             <Statistic title={item.name} value={item.value} formatter={formatter}/>

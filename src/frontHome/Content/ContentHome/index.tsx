@@ -25,6 +25,7 @@ const ContentHome = () => {
     const Categories = useSelector((state: { categories: categoryList }) => state.categories.categories);
     const tagList = useSelector((state: {tags: any}) => state.tags.tag)
     const social = useSelector((state:{user:{social: SocialType}}) => state.user.social)
+    const author =  useSelector((state: { user: UserState }) => state.user.name);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -93,13 +94,12 @@ const ContentHome = () => {
         });
     };
 
-    console.log(Categories)
     return <>
         <div className="SelfDescription">
             <div className="SayWords">
                <div>
                    <h2>Hi!👋</h2>
-                   <h2>I'm <span style={{color: '#7880d1'}}>LinMo</span></h2>
+                   <h2>I'm <span style={{color: '#7880d1'}}>{author}</span></h2>
                </div>
                 <h3>A Web Developer</h3>
                 <div className="Social">
@@ -137,7 +137,7 @@ const ContentHome = () => {
                     </div>
                 </div>
                 <div className="topContent">
-                    <h4># {topArticles[currentTop]?.noteCategory}</h4>
+                    <h4># {Categories.find(item => item.categoryKey === topArticles[currentTop]?.noteCategory)?.categoryTitle}</h4>
                     <h3 className="contentTitle">{topArticles[currentTop]?.noteTitle}</h3>
                     <p> {topArticles[currentTop]?.description}</p>
                     <div className='tags' style={{ width: '100%', marginTop: '10px' }}>

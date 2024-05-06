@@ -101,7 +101,7 @@ const Head = ({ setDark, isDark, scrollHeight }: HeadProps) => {
                             </li>
                             <ul className='twoBar'>
                                 {categoryList.map((item: { categoryKey: Key | null | undefined; pathName: any; icon: any; categoryTitle: string | number | boolean | ReactElement | Iterable<ReactNode> | ReactPortal | null | undefined; }) =>
-                                    <li key={item.categoryKey} onClick={() => navigate(`category/${item.pathName}`)} style={{fontSize: 15}}><i className={`iconfont ${item.icon}`} style={{verticalAlign: 'middle'}}></i>{item.categoryTitle}</li>
+                                    <li key={item.categoryKey} onClick={() => navigate(`category/${item.pathName}`)} style={{fontSize: 15}}><i className={`fa ${item.icon}`} aria-hidden="true" style={{verticalAlign: 'middle'}}></i>{item.categoryTitle}</li>
                                 )}
                             </ul>
                             <li onClick={() => navigate('talk')}><i className="iconfont icon-riji"

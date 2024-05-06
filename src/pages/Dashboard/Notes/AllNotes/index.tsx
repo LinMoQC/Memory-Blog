@@ -72,7 +72,7 @@ const AdvancedSearchForm = ({setSearchNotes}: AdvancedSearchFormProps) => {
         borderRadius: token.borderRadiusLG,
         padding: 24,
         margin: 'auto',
-        background: 'white',
+        background: 'transparent',
         height: '140px'
     };
 

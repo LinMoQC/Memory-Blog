@@ -174,7 +174,6 @@ const  AllCategorize = () => {
     const hasSelected = selectedRowKeys.length > 0;
     //添加框打开
     const showModal = () => {
-        // form.setFieldValue("categorie_color","white")
         setOpen(true);
     };
 
@@ -203,7 +202,7 @@ const  AllCategorize = () => {
             dataIndex: 'icon',
             key: 'key',
             align: "center",
-            render: (icon) => <i className={`iconfont ${icon} icon`}></i>
+            render: (icon) => <i className={`fa ${icon}`} aria-hidden="true"></i>
         },
         {
             title: '文章数量',

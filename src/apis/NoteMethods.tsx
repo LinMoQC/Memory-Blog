@@ -112,4 +112,11 @@ function getTopNotes(){
     })
 }
 
-export {getNotes,delNote,delAllNotes,updateNoteStatus,getNoteById,updateNote,createNote,searchNotes,getNotePage,getTopNotes}
+function getAllNotes(){
+    return http({
+        url: '/api/public/notes',
+        method: 'GET',
+    })
+}
+
+export {getNotes,delNote,delAllNotes,updateNoteStatus,getNoteById,updateNote,createNote,searchNotes,getNotePage,getTopNotes,getAllNotes}
