@@ -1,9 +1,9 @@
 import axios from "axios";
 import getToken from "./getToken.tsx"
 
-const baseURL = "http://localhost:8080";
+// const baseURL = "http://localhost:8080";
 const http = axios.create({
-    baseURL: baseURL,
+    // baseURL: baseURL,
     timeout: 5000
 })
 
