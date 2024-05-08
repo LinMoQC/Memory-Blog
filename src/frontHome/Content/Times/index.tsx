@@ -21,7 +21,7 @@ const Times = () => {
         getNotes().then((res) => {
             setTimeList(res.data.data.map((item: { createTime: Date; noteTitle: string; noteKey:string}) => {
                 return {
-                    children:<p style={{width:400,display:'flex',justifyContent:'space-between'}} className='Link' onClick={() => navigate(`/article/${item.noteKey}`)}>{item.noteTitle}<span>{dayjs(item.createTime).format('YYYY-MM-DD')}</span></p>
+                    children:<p style={{width:'90%',display:'flex',justifyContent:'space-between'}} className='Link' onClick={() => navigate(`/article/${item.noteKey}`)}>{item.noteTitle}<span>{dayjs(item.createTime).format('YYYY-MM-DD')}</span></p>
                 }
             }))
         })

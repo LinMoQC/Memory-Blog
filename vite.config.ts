@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 import compressionPlugin from 'vite-plugin-compression';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
     base: '/',
@@ -25,12 +26,22 @@ export default defineConfig({
         sourcemap: false, // 是否生成map文件
         reportCompressedSize: true, //  gzip 压缩大小报告。
         rollupOptions: {
+            plugins: [
+                visualizer({
+                    open: true, // 直接在浏览器中打开分析报告
+                    filename: 'stats.html', // 输出文件的名称
+                    gzipSize: true, // 显示gzip后的大小
+                    brotliSize: true, // 显示brotli压缩后的大小
+                })
+            ],
             output: {
-                chunkFileNames: 'js/[name]-[hash].js', // 引入文件名的名称
-                entryFileNames: 'js/[name]-[hash].js', // 包的入口文件名称
-                assetFileNames: '[ext]/[name]-[hash].[ext]', // 资源文件像 字体，图片等
+                chunkFileNames: 'vendor/[name]-[hash].js',
+                entryFileNames: 'js/[name]-[hash].js',
+                assetFileNames: '[ext]/[name]-[hash].[ext]',
                 manualChunks: {
-                    'react-dom': ['react-dom'],
+                    'react-vendor': ['react', 'react-dom'],
+                    'lodash': ['lodash-es'],
+                    'library': ['antd', '@arco-design/web-react'],
                 },
             },
         }
