@@ -1,9 +1,8 @@
 import axios from "axios";
 import getToken from "./getToken.tsx"
 
-// const baseURL = "http://localhost:8080";
 const http = axios.create({
-    // baseURL: baseURL,
+    baseURL: process.env["VITE_HTTP_BASEURL"],
     timeout: 5000
 })
 

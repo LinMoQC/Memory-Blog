@@ -1,7 +1,7 @@
-import {createBrowserRouter} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
-import {AuthRouter} from "../components/AuthRouter.tsx";
+import { AuthRouter } from "../components/AuthRouter.tsx";
 import Home from "../pages/Dashboard/Home";
 import Notes from "../pages/Dashboard/Notes";
 import Comments from "../pages/Dashboard/Talks";
@@ -25,38 +25,38 @@ import ReadArticle from "../frontHome/Content/ReadArticle";
 
 const router = createBrowserRouter([
     {
-      path: '/',
-      element: <App />,
-      children: [
-          {
-              index: true,
-              element: <ContentHome />
-          },
-          {
-              path: 'about',
-              element: <AboutMe />
-          },
-          {
-              path: 'friends',
-              element: <FriendList />
-          },
-          {
-              path: "talk",
-              element: <Talk />
-          },
-          {
-              path: 'category/:id',
-              element: <Categories />
-          },
-          {
-              path: 'times',
-              element: <Times />
-          },
-          {
-              path: 'article/:id',
-              element: <ReadArticle />
-          }
-      ]
+        path: '/',
+        element: <App />,
+        children: [
+            {
+                index: true,
+                element: <ContentHome />
+            },
+            {
+                path: 'about',
+                element: <AboutMe />
+            },
+            {
+                path: 'friends',
+                element: <FriendList />
+            },
+            {
+                path: "talk",
+                element: <Talk />
+            },
+            {
+                path: 'category/:id',
+                element: <Categories />
+            },
+            {
+                path: 'times',
+                element: <Times />
+            },
+            {
+                path: 'article/:id',
+                element: <ReadArticle />
+            }
+        ]
     },
     {
         path: 'login',
