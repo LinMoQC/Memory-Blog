@@ -43,7 +43,7 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/memory_blog:latest
 
       - name: Upload production-ready build files
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3  # 更新为 v3
         with:
           name: production-files
           path: ./dist  # 根据你的 Vite 配置，这里可能是 ./build，或其他目录
@@ -56,7 +56,7 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3  # 更新为 v3
         with:
           name: production-files
           path: ./dist  # 与上传时的目录保持一致
